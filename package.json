@@ -1,0 +1,23 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Educational project: Slack-like chat",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx start-server -s ./frontend/build",
+    "test": "echo \"no test\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamIvan-ark/dom-react-redux-project-lvl4.git"
+  },
+  "author": "Ivan Samozhenov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SamIvan-ark/dom-react-redux-project-lvl4/issues"
+  },
+  "homepage": "https://github.com/SamIvan-ark/dom-react-redux-project-lvl4#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
+}
