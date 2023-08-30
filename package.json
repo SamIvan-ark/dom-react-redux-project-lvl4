@@ -2,10 +2,11 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Educational project: Slack-like chat",
-  "main": "index.js",
+  "main": "frontend/src/index.js",
   "scripts": {
     "start": "npx start-server -s ./frontend/build",
-    "postinstall": "npm ci --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "postinstall": "cd frontend && npm ci",
     "test": "echo \"no test\" && exit 1"
   },
   "repository": {
