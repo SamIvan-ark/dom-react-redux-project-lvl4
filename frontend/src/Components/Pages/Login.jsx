@@ -16,6 +16,7 @@ function BuildPage() {
   const formik = useFormik({
     initialValues: { nickname: '', password: '' },
     onSubmit: (values, { setSubmitting }) => {
+      // eslint-disable-next-line no-console
       console.log(JSON.stringify(values, null, 2));
       setSubmitting(false);
       // resetForm();
