@@ -12,7 +12,7 @@ const validationSchema = yup.object().shape({
   password: yup.string().min(3, 'минимум 3 символа').required(),
 });
 
-function BuildPage() {
+const BuildPage = () => {
   const formik = useFormik({
     initialValues: { nickname: '', password: '' },
     onSubmit: (values, { setSubmitting }) => {
@@ -73,6 +73,6 @@ function BuildPage() {
       </Formik>
     </div>
   );
-}
+};
 
 export default () => BuildPage();
