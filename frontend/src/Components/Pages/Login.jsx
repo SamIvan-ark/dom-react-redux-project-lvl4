@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Formik,
-  Field,
-  Form,
   useFormik,
 } from 'formik';
 import * as yup from 'yup';
@@ -15,10 +12,11 @@ const validationSchema = yup.object().shape({
 const BuildPage = () => {
   const formik = useFormik({
     initialValues: { nickname: '', password: '' },
+    validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       // eslint-disable-next-line no-console
       console.log(JSON.stringify(values, null, 2));
-      setSubmitting(false);
+      setSubmitting(true);
       // resetForm();
     },
   });
@@ -26,53 +24,45 @@ const BuildPage = () => {
   return (
     <div>
       <h1>Войти</h1>
-      <Formik
-        initialValies={{ nickname: '', password: '' }}
-        validationSchema={validationSchema}
-        onSubmit={formik.onSubmit}
+      <form
+        onSubmit={formik.handleSubmit}
       >
-        {({ errors, touched }) => (
-          <Form
-            onSubmit={formik.handleSubmit}
-          >
-            <div className="form-group">
-              <label htmlFor="nickname">
-                Ваш ник
-                <Field
-                  type="text"
-                  name="nickname"
-                  id="nickname"
-                  placeholder="Ваш никнейм"
-                  onChange={formik.handleChange}
-                  value={formik.values.nickname}
-                />
-                {errors.nickname
-                  ? <div>{errors.nickname}</div>
-                  : null}
-              </label>
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">
-                Пароль
-                <Field
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Пароль"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                />
-                {touched.password && errors.password
-                  ? <div>{errors.password}</div>
-                  : null}
-              </label>
-            </div>
-            <button type="submit">Войти</button>
-          </Form>
-        )}
-      </Formik>
+        <div className="form-group">
+          <label htmlFor="nickname">
+            Ваш ник
+            <input
+              type="text"
+              name="nickname"
+              id="nickname"
+              placeholder="Ваш никнейм"
+              onChange={formik.handleChange}
+              value={formik.values.nickname}
+            />
+            {formik.errors.nickname && formik.touched.nickname
+              ? <div>{formik.errors.nickname}</div>
+              : null}
+          </label>
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">
+            Пароль
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Пароль"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            {formik.touched.password && formik.errors.password
+              ? <div>{formik.errors.password}</div>
+              : null}
+          </label>
+        </div>
+        <button type="submit">Войти</button>
+      </form>
     </div>
   );
 };
 
-export default () => BuildPage();
+export default BuildPage;

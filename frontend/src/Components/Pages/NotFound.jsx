@@ -6,4 +6,4 @@ const BuildPage = () => (
   </div>
 );
 
-export default () => BuildPage();
+export default BuildPage;
