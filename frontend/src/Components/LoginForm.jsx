@@ -1,15 +1,14 @@
-import React from 'react';
 import {
   useFormik,
 } from 'formik';
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
-  nickname: yup.string().min(3, 'Минимум 3 буквы').required(),
-  password: yup.string().min(3, 'минимум 3 символа').required(),
+  nickname: yup.string().min(3, 'Минимум 3 буквы').required('Поле не должно быть пустым'),
+  password: yup.string().min(3, 'минимум 3 символа').required('Поле не должно быть пустым'),
 });
 
-const BuildPage = () => {
+const LoginForm = () => {
   const formik = useFormik({
     initialValues: { nickname: '', password: '' },
     validationSchema,
@@ -65,4 +64,4 @@ const BuildPage = () => {
   );
 };
 
-export default BuildPage;
+export default LoginForm;
