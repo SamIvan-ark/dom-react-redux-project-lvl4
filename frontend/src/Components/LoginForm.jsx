@@ -1,3 +1,4 @@
+import { Form, Button } from 'react-bootstrap';
 import {
   useFormik,
 } from 'formik';
@@ -21,46 +22,40 @@ const LoginForm = () => {
   });
 
   return (
-    <div>
+    <Form
+      className="col-12 col-md-6 mt-3 mt-mb-0"
+      onSubmit={formik.handleSubmit}
+    >
       <h1>Войти</h1>
-      <form
-        onSubmit={formik.handleSubmit}
-      >
-        <div className="form-group">
-          <label htmlFor="nickname">
-            Ваш ник
-            <input
-              type="text"
-              name="nickname"
-              id="nickname"
-              placeholder="Ваш никнейм"
-              onChange={formik.handleChange}
-              value={formik.values.nickname}
-            />
-            {formik.errors.nickname && formik.touched.nickname
-              ? <div>{formik.errors.nickname}</div>
-              : null}
-          </label>
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">
-            Пароль
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Пароль"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-            />
-            {formik.touched.password && formik.errors.password
-              ? <div>{formik.errors.password}</div>
-              : null}
-          </label>
-        </div>
-        <button type="submit">Войти</button>
-      </form>
-    </div>
+      <Form.Group>
+        <Form.Control
+          type="text"
+          autoComplete="username"
+          name="nickname"
+          id="nickname"
+          placeholder="Ваш никнейм"
+          onChange={formik.handleChange}
+          value={formik.values.nickname}
+        />
+        {formik.errors.nickname && formik.touched.nickname
+          ? <div>{formik.errors.nickname}</div>
+          : null}
+      </Form.Group>
+      <Form.Group className="form-group">
+        <Form.Control
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Пароль"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password
+          ? <div>{formik.errors.password}</div>
+          : null}
+      </Form.Group>
+      <Button type="submit">Войти</Button>
+    </Form>
   );
 };
 
