@@ -1,11 +1,12 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
 import LoginForm from '../Components/LoginForm';
+import Navbar from '../Components/Navbar';
 import totaImg from '../img/Tota-with-flag.jpg';
 
 const Login = () => (
   <div className="d-flex flex-column h-100">
-    <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">навбар</nav>
+    <Navbar />
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
