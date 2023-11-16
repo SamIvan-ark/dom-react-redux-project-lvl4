@@ -1,7 +1,5 @@
 import { Form, Button } from 'react-bootstrap';
-import {
-  useFormik,
-} from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
