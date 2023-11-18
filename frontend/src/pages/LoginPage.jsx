@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
-import LoginForm from '../Components/LoginForm';
-import Navbar from '../Components/Navbar';
+import LoginForm from '../components/LoginForm';
+import Navbar from '../components/Navbar';
 import totaImg from '../img/Tota-with-flag.jpg';
 
 const Login = () => (
