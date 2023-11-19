@@ -23,18 +23,10 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const MainRoute = ({ children }) => {
+const ConditionalRoute = ({ children, redirectWhenAuthIsExist, redirectTo }) => {
   const auth = useAuth();
-  return (
-    auth.loggedIn ? children : <Navigate to="/login" />
-  );
-};
 
-const LoginRoute = ({ children }) => {
-  const auth = useAuth();
-  return (
-    !auth.loggedIn ? children : <Navigate to="/" />
-  );
+  return redirectWhenAuthIsExist === auth.loggedIn ? <Navigate to={redirectTo} /> : children;
 };
 
 const App = () => (
@@ -45,17 +37,17 @@ const App = () => (
         <Route
           path="/"
           element={(
-            <MainRoute>
+            <ConditionalRoute redirectWhenAuthIsExist={false} redirectTo="/login">
               <MainPage />
-            </MainRoute>
+            </ConditionalRoute>
           )}
         />
         <Route
           path="/login"
           element={(
-            <LoginRoute>
+            <ConditionalRoute redirectWhenAuthIsExist redirectTo="/">
               <LoginPage />
-            </LoginRoute>
+            </ConditionalRoute>
           )}
         />
       </Routes>
