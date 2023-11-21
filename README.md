@@ -3,4 +3,4 @@
 
 ### Deployed app: 
 
-[Link](https://ivan-samozhenov-project-lvl4.up.railway.app/)
+[Link](https://hexlet-chat2-x9ij.onrender.com/login)
