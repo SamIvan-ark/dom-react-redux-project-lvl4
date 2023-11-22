@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Chat from '../components/Chat';
 
 const MainPage = () => (
-  <div className="p-0">
+  <div className="p-0">         
     <Navbar />
     <Chat />
     <div className="d-flex flex-column h-100 p-5">
