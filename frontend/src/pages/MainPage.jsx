@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import Chat from '../components/Chat';
+import Chat from '../components/chat/Chat';
 
 const MainPage = () => (
   <div className="d-flex flex-column h-100">
