@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
   ButtonGroup,
@@ -6,7 +7,9 @@ import {
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 
-const generateChannelButton = (name, removable, variant) => {
+import { removeChannel } from '../../slices/channelsSlice'; // and other actions
+
+const generateChannelButton = (name, removable, variant, handleRemove) => {
   const ChannelButton = (
     <Button variant={variant} className="w-100 rounded-0 text-start text-truncate">
       <span className="me-1">#</span>
@@ -23,15 +26,17 @@ const generateChannelButton = (name, removable, variant) => {
       {ChannelButton}
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
+        <Dropdown.Item onClick={handleRemove}>Удалить</Dropdown.Item>
         <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
 };
 
-const ChatChannels = ({ channels }) => {
-  const handleChannelSelect = () => console.log('handleChannelSelect');
+const ChatChannels = () => {
+  const channels = useSelector((state) => state.channels.entities);
+  const dispatch = useDispatch();
+  const handleChannelRemove = (id) => () => dispatch(removeChannel({ id }));
 
   return (
     <>
@@ -42,8 +47,8 @@ const ChatChannels = ({ channels }) => {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <Nav as="ul" className="flex-column nav-pills px-2 mb-3 overflow-auto h-100 d-block" fill defaultActiveKey="1" onClick={handleChannelSelect}>
-        {channels.map(({
+      <Nav as="ul" className="flex-column nav-pills px-2 mb-3 overflow-auto h-100 d-block" fill defaultActiveKey="1">
+        {Object.values(channels).map(({
           id,
           name,
           removable,
@@ -51,8 +56,13 @@ const ChatChannels = ({ channels }) => {
         }) => {
           const variant = active ? 'secondary' : 'light';
           return (
-            <Nav.Item as="li" key={id}>
-              {generateChannelButton(name, removable, variant)}
+            <Nav.Item key={id} as="li">
+              {generateChannelButton(
+                name,
+                removable,
+                variant,
+                handleChannelRemove(id),
+              )}
             </Nav.Item>
           );
         })}

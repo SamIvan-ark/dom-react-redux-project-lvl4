@@ -2,21 +2,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  channels: {
-    entities: {
-      1: {
-        id: 1,
-        name: 'general',
-        removable: false,
-      },
-      2: {
-        id: 2,
-        name: 'random',
-        removable: false,
-      },
+  entities: {
+    1: {
+      id: 1,
+      name: 'general',
+      removable: false,
     },
-    ids: ['1', '2'],
+    2: {
+      id: 2,
+      name: 'random',
+      removable: false,
+    },
+    3: {
+      id: 3,
+      name: 'lalala',
+      removable: true,
+    },
   },
+  ids: [1, 2, 3],
 };
 
 const channelsSlice = createSlice({
