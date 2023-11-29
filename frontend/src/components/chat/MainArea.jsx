@@ -21,7 +21,7 @@ const MainArea = ({ channel }) => {
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {channel.messages.map((message) => (
-          <div key={message.id} className="text-break mb-2">
+          <div key={message.author} className="text-break mb-2">
             <b>{message.author}</b>
             {`: ${message.text}`}
           </div>
