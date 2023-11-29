@@ -7,9 +7,10 @@ import {
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 
-import { removeChannel } from '../../slices/channelsSlice'; // and other actions
+import { openModal, closeModal } from '../../slices/modalsSlice';
+import getModal from '../modals/index';
 
-const generateChannelButton = (name, removable, variant, handleRemove) => {
+const generateChannelButton = (name, removable, variant, handleOpen) => {
   const ChannelButton = (
     <Button variant={variant} className="w-100 rounded-0 text-start text-truncate">
       <span className="me-1">#</span>
@@ -26,23 +27,43 @@ const generateChannelButton = (name, removable, variant, handleRemove) => {
       {ChannelButton}
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
       <Dropdown.Menu>
-        <Dropdown.Item onClick={handleRemove}>Удалить</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpen('removing')}>Удалить</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpen('renaming')}>Переименовать</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
 };
 
-const ChatChannels = () => {
+const renderModal = (handleCloseModal, { type }) => {
+  if (!type) {
+    return null;
+  }
+
+  const CurrentModal = getModal(type);
+  return <CurrentModal onHide={handleCloseModal} />;
+};
+
+const ChannelsListArea = () => {
   const channels = useSelector((state) => state.channels.entities);
+  const modalState = useSelector((state) => state.modals);
   const dispatch = useDispatch();
-  const handleChannelRemove = (id) => () => dispatch(removeChannel({ id }));
+  const handleOpenModal = (type, invokedOn = null) => () => dispatch(
+    openModal(
+      { type, invokedOn },
+    ),
+  );
+  const handleCloseModal = () => dispatch(closeModal());
 
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <Button type="button" variant="group-vertical" className="p-0 text-primary">
+        <Button
+          type="button"
+          variant="group-vertical"
+          className="p-0 text-primary"
+          onClick={handleOpenModal('adding')}
+        >
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </Button>
@@ -61,14 +82,15 @@ const ChatChannels = () => {
                 name,
                 removable,
                 variant,
-                handleChannelRemove(id),
+                (action) => handleOpenModal(action, id),
               )}
             </Nav.Item>
           );
         })}
       </Nav>
+      {renderModal(handleCloseModal, modalState)}
     </>
   );
 };
 
-export default ChatChannels;
+export default ChannelsListArea;
