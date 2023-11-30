@@ -7,26 +7,26 @@ import { addChannel } from '../../slices/channelsSlice';
 import uniqueIdGenerator from '../../utils/uniqueIdGenerator';
 
 const generateUniqueId = uniqueIdGenerator();
-const handleClose = (dispatch) => dispatch(closeModal());
-const handleSubmit = (name, dispatch) => dispatch(addChannel({
-  id: generateUniqueId(),
-  name,
-}));
 
 const AddChannel = () => {
   const dispatch = useDispatch();
+  const handleClose = () => dispatch(closeModal());
+  const handleSubmit = (name) => dispatch(addChannel({
+    id: generateUniqueId(),
+    name,
+  }));
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
     onSubmit: ({ channelName }) => {
-      handleSubmit(channelName, dispatch);
+      handleSubmit(channelName);
       formik.values.channelName = '';
-      handleClose(dispatch);
+      handleClose();
     },
   });
   return (
-    <Modal show onHide={() => handleClose(dispatch)}>
+    <Modal show onHide={() => handleClose()}>
       <Modal.Header closeButton>
         <Modal.Title>Добавить канал</Modal.Title>
       </Modal.Header>
@@ -47,7 +47,7 @@ const AddChannel = () => {
               Имя канала
             </Form.Label>
             <div className="d-flex justify-content-end">
-              <Form.Control onClick={() => handleClose(dispatch)} className="me-2 btn btn-secondary" type="button" value="Отменить" />
+              <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
               <Form.Control className="btn btn-primary" type="submit" value="Отправить" />
             </div>
           </Form.Group>

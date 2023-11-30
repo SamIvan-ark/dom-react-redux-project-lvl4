@@ -6,12 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../slices/modalsSlice';
 import { renameChannel } from '../../slices/channelsSlice';
 
-const handleClose = (dispatch) => dispatch(closeModal());
-const handleSubmit = (channelData, dispatch) => {
-  dispatch(renameChannel(channelData));
-  handleClose(dispatch);
-};
-
 const RenameChannelModal = () => {
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
@@ -19,12 +13,18 @@ const RenameChannelModal = () => {
     .channels
     .entities[invokedOn]);
 
+  const handleClose = () => dispatch(closeModal());
+  const handleSubmit = (channelData) => {
+    dispatch(renameChannel(channelData));
+    handleClose();
+  };
+
   const formik = useFormik({
     initialValues: {
       channelName: name,
     },
     onSubmit: ({ channelName }) => {
-      handleSubmit({ name: channelName, id: invokedOn }, dispatch);
+      handleSubmit({ name: channelName, id: invokedOn });
     },
   });
 
@@ -34,7 +34,7 @@ const RenameChannelModal = () => {
     inputRef.current.select();
   }, []);
   return (
-    <Modal show onHide={() => handleClose(dispatch)}>
+    <Modal show onHide={() => handleClose()}>
       <Modal.Header closeButton>
         <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
@@ -56,7 +56,7 @@ const RenameChannelModal = () => {
               Имя канала
             </Form.Label>
             <div className="d-flex justify-content-end">
-              <Form.Control onClick={() => handleClose(dispatch)} className="me-2 btn btn-secondary" type="button" value="Отменить" />
+              <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
               <Form.Control className="btn btn-primary" type="submit" value="Отправить" />
             </div>
           </Form.Group>

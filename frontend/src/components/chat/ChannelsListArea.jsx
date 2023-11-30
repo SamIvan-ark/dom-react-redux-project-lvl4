@@ -7,10 +7,10 @@ import {
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 
-import { openModal, closeModal } from '../../slices/modalsSlice';
+import { openModal } from '../../slices/modalsSlice';
 import getModal from '../modals/index';
 
-const generateChannelButton = (name, removable, variant, handleOpen) => {
+const generateChannelButton = (name, removable, variant, handleOpenOnCurrentElement) => {
   const ChannelButton = (
     <Button variant={variant} className="w-100 rounded-0 text-start text-truncate">
       <span className="me-1">#</span>
@@ -27,20 +27,20 @@ const generateChannelButton = (name, removable, variant, handleOpen) => {
       {ChannelButton}
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
       <Dropdown.Menu>
-        <Dropdown.Item onClick={handleOpen('removing')}>Удалить</Dropdown.Item>
-        <Dropdown.Item onClick={handleOpen('renaming')}>Переименовать</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpenOnCurrentElement('removing')}>Удалить</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpenOnCurrentElement('renaming')}>Переименовать</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
 };
 
-const renderModal = (handleCloseModal, { type }) => {
+const renderModal = ({ type }) => {
   if (!type) {
     return null;
   }
 
   const CurrentModal = getModal(type);
-  return <CurrentModal onHide={handleCloseModal} />;
+  return <CurrentModal />;
 };
 
 const ChannelsListArea = () => {
@@ -52,7 +52,6 @@ const ChannelsListArea = () => {
       { type, invokedOn },
     ),
   );
-  const handleCloseModal = () => dispatch(closeModal());
 
   return (
     <>
@@ -88,7 +87,7 @@ const ChannelsListArea = () => {
           );
         })}
       </Nav>
-      {renderModal(handleCloseModal, modalState)}
+      {renderModal(modalState)}
     </>
   );
 };
