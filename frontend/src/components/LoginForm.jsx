@@ -4,7 +4,9 @@ import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import * as yup from 'yup';
+
 import useAuth from '../hooks/index.jsx';
+import getRoute from '../routes.js';
 
 const validationSchema = yup.object().shape({
   username: yup.string().min(3, 'Минимум 3 буквы').required('Поле не должно быть пустым'),
@@ -23,7 +25,7 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const { data } = await axios.post('/api/v1/login', values);
+        const { data } = await axios.post(getRoute('login'), values);
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
         navigate('/');
