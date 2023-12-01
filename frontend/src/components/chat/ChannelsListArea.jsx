@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
@@ -9,6 +10,7 @@ import { PlusSquare } from 'react-bootstrap-icons';
 
 import { openModal } from '../../slices/modalsSlice';
 import getModal from '../modals/index';
+import { fetchChannels } from '../../slices/channelsSlice';
 
 const generateChannelButton = (name, removable, variant, handleOpenOnCurrentElement) => {
   const ChannelButton = (
@@ -52,6 +54,9 @@ const ChannelsListArea = () => {
       { type, invokedOn },
     ),
   );
+  useEffect(() => {
+    dispatch(fetchChannels());
+  }, []);
 
   return (
     <>

@@ -1,21 +1,22 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import getRoute from '../routes';
+import getAuthHeader from '../utils/getAuthHeader';
 
 const initialState = {
-  entities: {
-    0: {
-      id: 0,
-      name: 'general',
-      removable: false,
-    },
-    1: {
-      id: 1,
-      name: 'random',
-      removable: false,
-    },
-  },
-  ids: [0, 1],
+  entities: {},
+  ids: [],
 };
+
+export const fetchChannels = createAsyncThunk(
+  'channels/fetchChannelsStatus',
+  async () => {
+    const { data } = await axios.get(getRoute('data'), { headers: getAuthHeader() });
+    return data;
+  },
+);
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -35,6 +36,23 @@ const channelsSlice = createSlice({
       const { id, name } = action.payload;
       state.entities[id].name = name;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChannels.pending, (state) => {
+        state.loadingStatus = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchChannels.fulfilled, (state, action) => {
+        const { channels } = action.payload; // еще там messages и currentChannelId
+        channels.map((channel) => {
+          state.entities[channel.id] = channel;
+          state.ids.push(channel.id);
+          return null;
+        });
+        state.loadingStatus = 'idle';
+        state.error = null;
+      });
   },
 });
 
