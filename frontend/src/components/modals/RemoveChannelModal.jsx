@@ -9,7 +9,7 @@ const RemoveChannelModal = () => {
   const { invokedOn } = useSelector((state) => state.modals);
   const handleClose = () => dispatch(closeModal());
   const handleChannelRemove = (id) => {
-    dispatch(removeChannel({ id }));
+    dispatch(removeChannel(id));
     handleClose(dispatch);
   };
   return (

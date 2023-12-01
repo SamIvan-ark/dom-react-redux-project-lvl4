@@ -1,14 +1,11 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 
 import getRoute from '../routes';
 import getAuthHeader from '../utils/getAuthHeader';
 
-const initialState = {
-  entities: {},
-  ids: [],
-};
+const channelsAdapter = createEntityAdapter();
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannelsStatus',
@@ -20,22 +17,12 @@ export const fetchChannels = createAsyncThunk(
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState,
+  initialState: channelsAdapter.getInitialState(),
   reducers: {
-    addChannel: (state, action) => {
-      const { id, name } = action.payload;
-      state.entities[id] = { id, name, removable: true };
-      state.ids.push(id);
-    },
-    removeChannel: (state, action) => {
-      const { id } = action.payload;
-      delete state.entities[id];
-      state.ids = state.ids.filter((i) => i !== id);
-    },
-    renameChannel: (state, action) => {
-      const { id, name } = action.payload;
-      state.entities[id].name = name;
-    },
+    addChannel: channelsAdapter.addOne,
+    addChannels: channelsAdapter.addMany,
+    removeChannel: channelsAdapter.removeOne,
+    renameChannel: channelsAdapter.updateOne,
   },
   extraReducers: (builder) => {
     builder
@@ -45,11 +32,7 @@ const channelsSlice = createSlice({
       })
       .addCase(fetchChannels.fulfilled, (state, action) => {
         const { channels } = action.payload; // еще там messages и currentChannelId
-        channels.map((channel) => {
-          state.entities[channel.id] = channel;
-          state.ids.push(channel.id);
-          return null;
-        });
+        channelsAdapter.setAll(state, channels);
         state.loadingStatus = 'idle';
         state.error = null;
       });

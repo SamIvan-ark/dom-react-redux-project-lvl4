@@ -14,8 +14,13 @@ const RenameChannelModal = () => {
     .entities[invokedOn]);
 
   const handleClose = () => dispatch(closeModal());
-  const handleSubmit = (channelData) => {
-    dispatch(renameChannel(channelData));
+  const handleSubmit = ({ name: newName, id }) => {
+    dispatch(renameChannel({
+      id,
+      changes: {
+        name: newName,
+      },
+    }));
     handleClose();
   };
 

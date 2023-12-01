@@ -14,6 +14,7 @@ const AddChannel = () => {
   const handleSubmit = (name) => dispatch(addChannel({
     id: generateUniqueId(),
     name,
+    removable: true,
   }));
   const formik = useFormik({
     initialValues: {
