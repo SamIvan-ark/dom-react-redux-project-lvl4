@@ -4,5 +4,3 @@
 .pnp.js
 # production
 /build
-# GH workflows
-/.github

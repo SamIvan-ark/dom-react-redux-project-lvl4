@@ -1,10 +1,18 @@
-### Tests and linter status:
 [![Actions Status](https://github.com/SamIvan-ark/dom-react-redux-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/SamIvan-ark/dom-react-redux-project-lvl4/actions)
 [![Check install, build and lint](https://github.com/SamIvan-ark/dom-react-redux-project-lvl4/actions/workflows/app-check.yml/badge.svg)](https://github.com/SamIvan-ark/dom-react-redux-project-lvl4/actions/workflows/app-check.yml)
 
-### Deployed app: 
+# Hexlet chat
 
-[Link](https://hexlet-chat2-x9ij.onrender.com/login)
+## Educational frontend project
+
+### Description
+In progress..
+
+### Deployed app: [click me](https://hexlet-chat2-x9ij.onrender.com/login)
+
+### System requirements
+* node >= 18.12.0
+* make >= 4.3 (optional)
 
 ### Launch in dev-mode
 
