@@ -32,7 +32,7 @@ const channelsSlice = createSlice({
       })
       .addCase(fetchChannels.fulfilled, (state, action) => {
         const { channels } = action.payload; // еще там messages и currentChannelId
-        channelsAdapter.setAll(state, channels);
+        channelsAdapter.setMany(state, channels);
         state.loadingStatus = 'idle';
         state.error = null;
       });
