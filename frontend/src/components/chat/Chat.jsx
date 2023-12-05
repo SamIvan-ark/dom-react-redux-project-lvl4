@@ -1,19 +1,6 @@
 import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
 
-const channels = [
-  {
-    id: 1,
-    name: 'General',
-    messages: [
-      { author: 'aboba', text: 'lalala' },
-      { author: 'bobi', text: 'alalala' },
-      { author: 'goga', text: 'olololo' },
-    ],
-    removable: false,
-    active: true,
-  },
-];
 const Chat = () => {
   const a = '';
   return (
@@ -24,7 +11,7 @@ const Chat = () => {
           {a}
         </div>
         <div className="col p-0 h-100">
-          <MainArea channel={channels[0]} />
+          <MainArea />
         </div>
       </div>
     </div>
