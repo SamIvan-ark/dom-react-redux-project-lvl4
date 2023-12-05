@@ -48,6 +48,7 @@ const renderModal = ({ type }) => {
 const ChannelsListArea = () => {
   const channels = useSelector((state) => state.channels.entities);
   const modalState = useSelector((state) => state.modals);
+  const activeChannelId = useSelector((state) => state.channels.active);
   const dispatch = useDispatch();
   const handleOpenModal = (type, invokedOn = null) => () => dispatch(
     openModal(
@@ -77,9 +78,8 @@ const ChannelsListArea = () => {
           id,
           name,
           removable,
-          active,
         }) => {
-          const variant = active ? 'secondary' : 'light';
+          const variant = id === activeChannelId ? 'secondary' : 'light';
           return (
             <Nav.Item key={id} as="li">
               {generateChannelButton(

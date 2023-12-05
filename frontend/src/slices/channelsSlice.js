@@ -5,6 +5,8 @@ import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/too
 import getRoute from '../routes';
 import getAuthHeader from '../utils/getAuthHeader';
 
+const ID_OF_DEFAULT_CHANNEL = 1;
+
 const channelsAdapter = createEntityAdapter();
 
 export const fetchChannels = createAsyncThunk(
@@ -15,14 +17,19 @@ export const fetchChannels = createAsyncThunk(
   },
 );
 
+const initialState = channelsAdapter.getInitialState({ active: ID_OF_DEFAULT_CHANNEL });
+
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: channelsAdapter.getInitialState(),
+  initialState,
   reducers: {
     addChannel: channelsAdapter.addOne,
     addChannels: channelsAdapter.addMany,
     removeChannel: channelsAdapter.removeOne,
     renameChannel: channelsAdapter.updateOne,
+    setActive: (state, action) => {
+      state.active = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
