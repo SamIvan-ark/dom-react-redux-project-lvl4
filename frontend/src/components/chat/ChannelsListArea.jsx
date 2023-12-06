@@ -10,11 +10,17 @@ import { PlusSquare } from 'react-bootstrap-icons';
 
 import { openModal } from '../../slices/modalsSlice';
 import getModal from '../modals/index';
-import { fetchChannels } from '../../slices/channelsSlice';
+import { fetchChannels, setActive } from '../../slices/channelsSlice';
 
-const generateChannelButton = (name, removable, variant, handleOpenOnCurrentElement) => {
+const generateChannelButton = (
+  name,
+  removable,
+  variant,
+  handleOpenOnCurrentElement,
+  handleSetActive,
+) => {
   const ChannelButton = (
-    <Button variant={variant} className="w-100 rounded-0 text-start text-truncate">
+    <Button onClick={handleSetActive} variant={variant} className="w-100 rounded-0 text-start text-truncate">
       <span className="me-1">#</span>
       {name}
     </Button>
@@ -55,6 +61,7 @@ const ChannelsListArea = () => {
       { type, invokedOn },
     ),
   );
+
   useEffect(() => {
     dispatch(fetchChannels());
   }, []);
@@ -79,7 +86,11 @@ const ChannelsListArea = () => {
           name,
           removable,
         }) => {
-          const variant = id === activeChannelId ? 'secondary' : 'light';
+          const isCurrentChannelActive = id === activeChannelId;
+          const variant = isCurrentChannelActive ? 'secondary' : 'light';
+          const handleSetChannelActive = isCurrentChannelActive
+            ? () => null
+            : () => dispatch(setActive(id));
           return (
             <Nav.Item key={id} as="li">
               {generateChannelButton(
@@ -87,6 +98,7 @@ const ChannelsListArea = () => {
                 removable,
                 variant,
                 (action) => handleOpenModal(action, id),
+                handleSetChannelActive,
               )}
             </Nav.Item>
           );
