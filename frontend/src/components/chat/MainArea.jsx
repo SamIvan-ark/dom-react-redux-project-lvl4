@@ -1,16 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
-// import socket from '../../socket';
-import { addMessage } from '../../slices/messagesSlice';
-import uniqueIdGenerator from '../../utils/uniqueIdGenerator';
-
-const generateUniqueId = uniqueIdGenerator();
+import socket from '../../socket';
 
 const MainArea = () => {
-  const dispatch = useDispatch();
   const messages = useSelector((state) => state.messages.entities);
   const currentChannelId = useSelector((state) => state.channels.active);
   const currentChannelInfo = useSelector((state) => state.channels.entities[currentChannelId]);
@@ -26,12 +21,11 @@ const MainArea = () => {
       const userData = localStorage.getItem('userId');
       const { username } = JSON.parse(userData);
       const { message } = values;
-      dispatch(addMessage({
-        id: generateUniqueId(),
+      socket.emit('newMessage', {
         text: message,
         author: username,
         channelId: currentChannelId,
-      }));
+      });
       formik.resetForm();
     },
   });
