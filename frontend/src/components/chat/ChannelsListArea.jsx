@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
@@ -10,7 +10,7 @@ import { PlusSquare } from 'react-bootstrap-icons';
 
 import { openModal } from '../../slices/modalsSlice';
 import getModal from '../modals/index';
-import { fetchChannels, setActive } from '../../slices/channelsSlice';
+import { setActive } from '../../slices/channelsSlice';
 
 const generateChannelButton = (
   name,
@@ -62,9 +62,9 @@ const ChannelsListArea = () => {
     ),
   );
 
-  useEffect(() => {
-    dispatch(fetchChannels());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchChannels());
+  // }, []);
 
   return (
     <>
