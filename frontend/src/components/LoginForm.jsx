@@ -10,7 +10,7 @@ import getRoute from '../routes.js';
 
 const validationSchema = yup.object().shape({
   username: yup.string().min(3, 'Минимум 3 буквы').required('Поле не должно быть пустым'),
-  password: yup.string().min(3, 'минимум 3 символа').required('Поле не должно быть пустым'),
+  password: yup.string().min(3, 'Минимум 3 символа').required('Поле не должно быть пустым'),
 });
 
 const LoginForm = () => {
