@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -6,6 +7,8 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import socket from '../../socket';
 
 const MainArea = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const inputRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
   const currentChannelId = useSelector((state) => state.channels.active);
   const currentChannelInfo = useSelector((state) => state.channels.entities[currentChannelId]);
@@ -21,14 +24,23 @@ const MainArea = () => {
       const userData = localStorage.getItem('userId');
       const { username } = JSON.parse(userData);
       const { message } = values;
+      setIsSubmitting(true);
       socket.emit('newMessage', {
         text: message,
         author: username,
         channelId: currentChannelId,
+      }, (responce) => {
+        if (responce.status === 'ok') {
+          formik.resetForm();
+        }
+        setIsSubmitting(false);
       });
-      formik.resetForm();
     },
   });
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -50,7 +62,9 @@ const MainArea = () => {
         <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
           <InputGroup hasValidation>
             <Form.Control
-              autoFocus
+              className="border-0 p-0 ps-2"
+              ref={inputRef}
+              disabled={isSubmitting}
               type="text"
               name="message"
               id="message"
@@ -59,7 +73,7 @@ const MainArea = () => {
               onChange={formik.handleChange}
               value={formik.values.message}
             />
-            <Button type="submit" variant="group-vertical">
+            <Button className="border-0 p-0 ps-2" disabled={formik.values.message === ''} type="submit" variant="group-vertical">
               <ArrowRightSquare size={20} />
               <span className="visually-hidden">+</span>
             </Button>
