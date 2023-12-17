@@ -8,6 +8,7 @@ import socket from '../../socket';
 
 const MainArea = () => {
   const inputRef = useRef();
+  const lastItemRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
   const currentChannelId = useSelector((state) => state.channels.active);
   const currentChannelInfo = useSelector((state) => state.channels.entities[currentChannelId]);
@@ -39,7 +40,8 @@ const MainArea = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+    lastItemRef.current.scrollIntoView();
+  }, [currentMessages]);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -56,6 +58,7 @@ const MainArea = () => {
             {`: ${message.text}`}
           </div>
         ))}
+        <div ref={lastItemRef} />
       </div>
       <div className="mt-auto px-5 py-3">
         <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
