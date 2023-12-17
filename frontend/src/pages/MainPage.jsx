@@ -10,23 +10,20 @@ import socket from '../socket';
 const MainPage = () => {
   const dispatch = useDispatch();
   const fetchStatus = useSelector((state) => state.channels.loadingStatus);
-  const isntFetched = fetchStatus === 'loading' || fetchStatus === undefined;
+  const isLoadingInProgress = fetchStatus === 'loading' || fetchStatus === undefined;
 
   useEffect(() => {
     socket.connect();
     dispatch(fetchChannels());
   }, []);
 
-  if (isntFetched) {
-    return (
-      <div className="d-flex justify-content-center align-items-center h-100">
-        <Spinner animation="border" variant="primary">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    );
-  }
-  return (
+  return (isLoadingInProgress) ? (
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <Spinner animation="border" variant="primary">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </div>
+  ) : (
     <div className="d-flex flex-column h-100">
       <Navbar />
       <Chat />

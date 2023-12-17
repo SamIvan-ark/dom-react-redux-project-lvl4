@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -7,7 +7,6 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import socket from '../../socket';
 
 const MainArea = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
   const currentChannelId = useSelector((state) => state.channels.active);
@@ -24,23 +23,23 @@ const MainArea = () => {
       const userData = localStorage.getItem('userId');
       const { username } = JSON.parse(userData);
       const { message } = values;
-      setIsSubmitting(true);
+      formik.setSubmitting(true);
       socket.emit('newMessage', {
         text: message,
         author: username,
         channelId: currentChannelId,
-      }, (responce) => {
-        if (responce.status === 'ok') {
+      }, ({ status }) => {
+        if (status === 'ok') {
           formik.resetForm();
         }
-        setIsSubmitting(false);
+        formik.setSubmitting(false);
       });
     },
   });
 
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  });
 
   return (
     <div className="d-flex flex-column h-100">
@@ -64,7 +63,7 @@ const MainArea = () => {
             <Form.Control
               className="border-0 p-0 ps-2"
               ref={inputRef}
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               type="text"
               name="message"
               id="message"
@@ -73,7 +72,12 @@ const MainArea = () => {
               onChange={formik.handleChange}
               value={formik.values.message}
             />
-            <Button className="border-0 p-0 ps-2" disabled={formik.values.message === ''} type="submit" variant="group-vertical">
+            <Button
+              className="border-0 p-0 ps-2"
+              disabled={formik.isSubmitting || formik.values.message === ''}
+              type="submit"
+              variant="group-vertical"
+            >
               <ArrowRightSquare size={20} />
               <span className="visually-hidden">+</span>
             </Button>
