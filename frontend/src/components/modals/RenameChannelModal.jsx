@@ -26,10 +26,10 @@ const RenameChannelModal = () => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: name,
+      newNameOfChannel: name,
     },
-    onSubmit: ({ channelName }) => {
-      handleSubmit({ name: channelName, id: invokedOn });
+    onSubmit: ({ newNameOfChannel }) => {
+      handleSubmit({ name: newNameOfChannel, id: invokedOn });
     },
   });
 
@@ -38,6 +38,7 @@ const RenameChannelModal = () => {
   useEffect(() => {
     inputRef.current.select();
   }, []);
+
   return (
     <Modal show onHide={() => handleClose()}>
       <Modal.Header closeButton>
@@ -46,20 +47,20 @@ const RenameChannelModal = () => {
       <Modal.Body className="modal-body">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="form-group">
+            <Form.Label className="visually-hidden" htmlFor="newNameOfChannel">
+              Новое имя канала:
+            </Form.Label>
             <Form.Control
               ref={inputRef}
               className="form-control"
               selected
               required
-              id="channelName"
-              name="channelName"
+              id="newNameOfChannel"
+              name="newNameOfChannel"
               type="text"
               onChange={formik.handleChange}
-              value={formik.values.channelName}
+              value={formik.values.newNameOfChannel}
             />
-            <Form.Label className="visually-hidden" htmlFor="channelName">
-              Имя канала
-            </Form.Label>
             <div className="d-flex justify-content-end">
               <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
               <Form.Control className="btn btn-primary" type="submit" value="Отправить" />

@@ -5,15 +5,19 @@ import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
 import socket from '../../socket';
 import { addMessage } from '../../slices/messagesSlice';
+import { addChannel } from '../../slices/channelsSlice';
 
 const Chat = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const onNewMessage = (message) => dispatch(addMessage(message));
+    const onNewChannel = (newChannel) => dispatch(addChannel(newChannel));
     socket.on('newMessage', onNewMessage);
+    socket.on('newChannel', onNewChannel);
     return () => {
       socket.off('newMessage', onNewMessage);
+      socket.off('newChannel', onNewChannel);
     };
   }, []);
 

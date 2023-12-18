@@ -1,31 +1,37 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
-import { addChannel } from '../../slices/channelsSlice';
-import uniqueIdGenerator from '../../utils/uniqueIdGenerator';
-
-const generateUniqueId = uniqueIdGenerator();
+import { addChannel } from '../../socket';
 
 const AddChannel = () => {
+  const allChannels = useSelector((state) => state.channels.entities);
+  const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeModal());
-  const handleSubmit = (name) => dispatch(addChannel({
-    id: generateUniqueId(),
-    name,
-    removable: true,
-  }));
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
     onSubmit: ({ channelName }) => {
-      handleSubmit(channelName);
-      formik.values.channelName = '';
-      handleClose();
+      if (takenNames.includes(channelName)) {
+        formik.setErrors({ channelName: 'Канал с таким именем уже существует' });
+        formik.setSubmitting(false);
+        return;
+      }
+      formik.setErrors({});
+      addChannel(
+        { name: channelName },
+        ({ status }) => {
+          if (status === 'ok') {
+            handleClose();
+          }
+        },
+      );
     },
   });
+
   return (
     <Modal show onHide={() => handleClose()}>
       <Modal.Header closeButton>
@@ -34,7 +40,11 @@ const AddChannel = () => {
       <Modal.Body className="modal-body">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="form-group">
+            <Form.Label className="visually-hidden" htmlFor="channelName">
+              Имя канала
+            </Form.Label>
             <Form.Control
+              disabled={formik.isSubmitting}
               className="form-control"
               autoFocus
               required
@@ -44,12 +54,10 @@ const AddChannel = () => {
               onChange={formik.handleChange}
               value={formik.values.channelName}
             />
-            <Form.Label className="visually-hidden" htmlFor="channelName">
-              Имя канала
-            </Form.Label>
+            {formik.errors.channelName ? <div className="text-danger">{formik.errors.channelName}</div> : null}
             <div className="d-flex justify-content-end">
               <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
-              <Form.Control className="btn btn-primary" type="submit" value="Отправить" />
+              <Form.Control disabled={formik.isSubmitting} className="btn btn-primary" type="submit" value="Отправить" />
             </div>
           </Form.Group>
         </Form>

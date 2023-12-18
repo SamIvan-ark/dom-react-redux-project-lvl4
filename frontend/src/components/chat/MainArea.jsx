@@ -4,7 +4,8 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
-import socket from '../../socket';
+import { sendMessage } from '../../socket';
+import MessageInput from './MessageInput';
 
 const MainArea = () => {
   const inputRef = useRef();
@@ -24,8 +25,7 @@ const MainArea = () => {
       const userData = localStorage.getItem('userId');
       const { username } = JSON.parse(userData);
       const { message } = values;
-      formik.setSubmitting(true);
-      socket.emit('newMessage', {
+      sendMessage({
         text: message,
         author: username,
         channelId: currentChannelId,
@@ -33,7 +33,6 @@ const MainArea = () => {
         if (status === 'ok') {
           formik.resetForm();
         }
-        formik.setSubmitting(false);
       });
     },
   });
