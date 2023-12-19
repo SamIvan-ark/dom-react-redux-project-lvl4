@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
 import { sendMessage } from '../../socket';
-import MessageInput from './MessageInput';
+// import MessageInput from './MessageInput';
 
 const MainArea = () => {
   const inputRef = useRef();
