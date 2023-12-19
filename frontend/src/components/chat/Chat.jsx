@@ -1,25 +1,37 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
 import socket from '../../socket';
 import { addMessage } from '../../slices/messagesSlice';
-import { addChannel } from '../../slices/channelsSlice';
+import { addChannel, setNeedToMove, setActive } from '../../slices/channelsSlice';
 
 const Chat = () => {
   const dispatch = useDispatch();
+  const needToMoveOnNewChannel = useSelector((state) => state.channels.ui.needToMove);
 
   useEffect(() => {
     const onNewMessage = (message) => dispatch(addMessage(message));
-    const onNewChannel = (newChannel) => dispatch(addChannel(newChannel));
     socket.on('newMessage', onNewMessage);
-    socket.on('newChannel', onNewChannel);
     return () => {
       socket.off('newMessage', onNewMessage);
-      socket.off('newChannel', onNewChannel);
     };
   }, []);
+
+  useEffect(() => {
+    const onNewChannel = (newChannel) => {
+      if (needToMoveOnNewChannel) {
+        dispatch(setActive(newChannel.id));
+        dispatch(setNeedToMove(false));
+      }
+      dispatch(addChannel(newChannel));
+    };
+    socket.on('newChannel', onNewChannel);
+    return () => {
+      socket.off('newChannel', onNewChannel);
+    };
+  }, [needToMoveOnNewChannel]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

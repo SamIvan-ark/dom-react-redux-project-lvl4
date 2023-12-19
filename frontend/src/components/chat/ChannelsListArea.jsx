@@ -1,4 +1,3 @@
-// import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
@@ -54,7 +53,7 @@ const renderModal = ({ type }) => {
 const ChannelsListArea = () => {
   const channels = useSelector((state) => state.channels.entities);
   const modalState = useSelector((state) => state.modals);
-  const activeChannelId = useSelector((state) => state.channels.active);
+  const activeChannelId = useSelector((state) => state.channels.ui.active);
   const dispatch = useDispatch();
   const handleOpenModal = (type, invokedOn = null) => () => dispatch(
     openModal(

@@ -3,6 +3,7 @@ import { Modal, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 
 import { closeModal } from '../../slices/modalsSlice';
+import { setNeedToMove } from '../../slices/channelsSlice';
 import { addChannel } from '../../socket';
 
 const AddChannel = () => {
@@ -25,6 +26,7 @@ const AddChannel = () => {
         { name: channelName },
         ({ status }) => {
           if (status === 'ok') {
+            dispatch(setNeedToMove(true));
             handleClose();
           }
         },

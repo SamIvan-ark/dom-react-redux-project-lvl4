@@ -15,7 +15,12 @@ export const fetchChannels = createAsyncThunk(
   },
 );
 
-const initialState = channelsAdapter.getInitialState({});
+const initialState = channelsAdapter.getInitialState({
+  ui: {
+    active: null,
+    needToMove: false,
+  },
+});
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -26,7 +31,10 @@ const channelsSlice = createSlice({
     removeChannel: channelsAdapter.removeOne,
     renameChannel: channelsAdapter.updateOne,
     setActive: (state, action) => {
-      state.active = action.payload;
+      state.ui.active = action.payload;
+    },
+    setNeedToMove: (state, action) => {
+      state.ui.needToMove = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -38,7 +46,7 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.fulfilled, (state, action) => {
         const { channels, currentChannelId } = action.payload;
         channelsAdapter.setMany(state, channels);
-        state.active = currentChannelId;
+        state.ui.active = currentChannelId;
         state.loadingStatus = 'idle';
         state.error = null;
       });
@@ -50,6 +58,7 @@ export const {
   removeChannel,
   renameChannel,
   setActive,
+  setNeedToMove,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

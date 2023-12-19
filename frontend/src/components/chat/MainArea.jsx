@@ -11,7 +11,7 @@ const MainArea = () => {
   const inputRef = useRef();
   const lastItemRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
-  const currentChannelId = useSelector((state) => state.channels.active);
+  const currentChannelId = useSelector((state) => state.channels.ui.active);
   const currentChannelInfo = useSelector((state) => state.channels.entities[currentChannelId]);
   const currentMessages = Object
     .values(messages)
