@@ -2,15 +2,21 @@ import { Button, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
-import { removeChannel } from '../../slices/channelsSlice';
+import { removeChannel } from '../../socket';
 
 const RemoveChannelModal = () => {
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
   const handleClose = () => dispatch(closeModal());
   const handleChannelRemove = (id) => {
-    dispatch(removeChannel(id));
-    handleClose(dispatch);
+    removeChannel(
+      { id },
+      ({ status }) => {
+        if (status === 'ok') {
+          handleClose();
+        }
+      },
+    );
   };
   return (
     <Modal show onHide={() => handleClose()}>

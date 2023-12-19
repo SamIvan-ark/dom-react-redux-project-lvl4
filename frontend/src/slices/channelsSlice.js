@@ -19,6 +19,7 @@ const initialState = channelsAdapter.getInitialState({
   ui: {
     active: null,
     needToMove: false,
+    defaultChannel: null,
   },
 });
 
@@ -36,6 +37,9 @@ const channelsSlice = createSlice({
     setNeedToMove: (state, action) => {
       state.ui.needToMove = action.payload;
     },
+    setDefaultChannel: (state, action) => {
+      state.ui.defaultChannel = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -46,6 +50,7 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.fulfilled, (state, action) => {
         const { channels, currentChannelId } = action.payload;
         channelsAdapter.setMany(state, channels);
+        state.ui.defaultChannel = currentChannelId;
         state.ui.active = currentChannelId;
         state.loadingStatus = 'idle';
         state.error = null;
@@ -59,6 +64,7 @@ export const {
   renameChannel,
   setActive,
   setNeedToMove,
+  setDefaultChannel,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

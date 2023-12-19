@@ -5,11 +5,17 @@ import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
 import socket from '../../socket';
 import { addMessage } from '../../slices/messagesSlice';
-import { addChannel, setNeedToMove, setActive } from '../../slices/channelsSlice';
+import {
+  addChannel,
+  removeChannel,
+  setNeedToMove,
+  setActive,
+} from '../../slices/channelsSlice';
 
 const Chat = () => {
   const dispatch = useDispatch();
   const needToMoveOnNewChannel = useSelector((state) => state.channels.ui.needToMove);
+  const { active: activeChannelId, defaultChannel } = useSelector((state) => state.channels.ui);
 
   useEffect(() => {
     const onNewMessage = (message) => dispatch(addMessage(message));
@@ -18,6 +24,19 @@ const Chat = () => {
       socket.off('newMessage', onNewMessage);
     };
   }, []);
+
+  useEffect(() => {
+    const onRemovingChannel = ({ id }) => {
+      if (activeChannelId === id) {
+        dispatch(setActive(defaultChannel));
+      }
+      dispatch(removeChannel(id));
+    };
+    socket.on('removeChannel', onRemovingChannel);
+    return () => {
+      socket.off('removeChannel', onRemovingChannel);
+    };
+  }, [activeChannelId]);
 
   useEffect(() => {
     const onNewChannel = (newChannel) => {
