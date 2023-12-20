@@ -1,7 +1,7 @@
+import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-
 import { closeModal } from '../../slices/modalsSlice';
 import { setNeedToMove } from '../../slices/channelsSlice';
 import { addChannel } from '../../socket';
@@ -34,6 +34,12 @@ const AddChannel = () => {
     },
   });
 
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [formik.errors.channelName]);
+
   return (
     <Modal show onHide={() => handleClose()}>
       <Modal.Header closeButton>
@@ -46,9 +52,10 @@ const AddChannel = () => {
               Имя канала
             </Form.Label>
             <Form.Control
+              ref={inputRef}
+              isInvalid={formik.errors.channelName && formik.touched.channelName}
               disabled={formik.isSubmitting}
               className="form-control"
-              autoFocus
               required
               id="channelName"
               name="channelName"

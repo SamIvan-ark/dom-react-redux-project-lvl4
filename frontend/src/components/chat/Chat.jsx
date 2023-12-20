@@ -8,6 +8,7 @@ import { addMessage } from '../../slices/messagesSlice';
 import {
   addChannel,
   removeChannel,
+  renameChannel,
   setNeedToMove,
   setActive,
 } from '../../slices/channelsSlice';
@@ -19,9 +20,19 @@ const Chat = () => {
 
   useEffect(() => {
     const onNewMessage = (message) => dispatch(addMessage(message));
+    const onRenamingChannel = ({ id, name }) => {
+      dispatch(renameChannel({
+        id,
+        changes: {
+          name,
+        },
+      }));
+    };
     socket.on('newMessage', onNewMessage);
+    socket.on('renameChannel', onRenamingChannel);
     return () => {
       socket.off('newMessage', onNewMessage);
+      socket.off('renameChannel', onRenamingChannel);
     };
   }, []);
 

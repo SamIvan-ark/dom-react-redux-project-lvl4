@@ -4,9 +4,11 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
-import { renameChannel } from '../../slices/channelsSlice';
+import { renameChannel } from '../../socket';
 
 const RenameChannelModal = () => {
+  const allChannels = useSelector((state) => state.channels.entities);
+  const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
   const { name } = useSelector((state) => state
@@ -14,22 +16,26 @@ const RenameChannelModal = () => {
     .entities[invokedOn]);
 
   const handleClose = () => dispatch(closeModal());
-  const handleSubmit = ({ name: newName, id }) => {
-    dispatch(renameChannel({
-      id,
-      changes: {
-        name: newName,
-      },
-    }));
-    handleClose();
-  };
 
   const formik = useFormik({
     initialValues: {
       newNameOfChannel: name,
     },
     onSubmit: ({ newNameOfChannel }) => {
-      handleSubmit({ name: newNameOfChannel, id: invokedOn });
+      if (takenNames.includes(newNameOfChannel)) {
+        formik.setErrors({ newNameOfChannel: 'Канал с таким именем уже существует' });
+        formik.setSubmitting(false);
+        return;
+      }
+      formik.setErrors({});
+      renameChannel(
+        { name: newNameOfChannel, id: invokedOn },
+        ({ status }) => {
+          if (status === 'ok') {
+            handleClose();
+          }
+        },
+      );
     },
   });
 
@@ -38,6 +44,10 @@ const RenameChannelModal = () => {
   useEffect(() => {
     inputRef.current.select();
   }, []);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [formik.errors.newNameOfChannel]);
 
   return (
     <Modal show onHide={() => handleClose()}>
@@ -51,6 +61,8 @@ const RenameChannelModal = () => {
               Новое имя канала:
             </Form.Label>
             <Form.Control
+              isInvalid={formik.errors.newNameOfChannel && formik.touched.newNameOfChannel}
+              disabled={formik.isSubmitting}
               ref={inputRef}
               className="form-control"
               selected
@@ -61,9 +73,10 @@ const RenameChannelModal = () => {
               onChange={formik.handleChange}
               value={formik.values.newNameOfChannel}
             />
+            {formik.errors.newNameOfChannel ? <div className="text-danger">{formik.errors.newNameOfChannel}</div> : null}
             <div className="d-flex justify-content-end">
               <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
-              <Form.Control className="btn btn-primary" type="submit" value="Отправить" />
+              <Form.Control disabled={formik.isSubmitting} className="btn btn-primary" type="submit" value="Отправить" />
             </div>
           </Form.Group>
         </Form>
