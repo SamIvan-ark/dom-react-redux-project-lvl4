@@ -1,13 +1,9 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+import init from './init';
 
-import App from './App';
-import store from './slices/index';
+const app = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(await init());
+};
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-);
+app();
