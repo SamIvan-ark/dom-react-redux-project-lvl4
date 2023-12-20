@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Modal, Form } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -50,7 +50,7 @@ const RenameChannelModal = () => {
   }, [formik.errors.newNameOfChannel]);
 
   return (
-    <Modal show onHide={() => handleClose()}>
+    <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
         <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
@@ -64,7 +64,7 @@ const RenameChannelModal = () => {
               isInvalid={formik.errors.newNameOfChannel && formik.touched.newNameOfChannel}
               disabled={formik.isSubmitting}
               ref={inputRef}
-              className="form-control"
+              className="mb-2"
               selected
               required
               id="newNameOfChannel"
@@ -75,8 +75,8 @@ const RenameChannelModal = () => {
             />
             {formik.errors.newNameOfChannel ? <div className="text-danger">{formik.errors.newNameOfChannel}</div> : null}
             <div className="d-flex justify-content-end">
-              <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
-              <Form.Control disabled={formik.isSubmitting} className="btn btn-primary" type="submit" value="Отправить" />
+              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">Отменить</Button>
+              <Button disabled={formik.isSubmitting} variant="primary" type="submit">Отправить</Button>
             </div>
           </Form.Group>
         </Form>

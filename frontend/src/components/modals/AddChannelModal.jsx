@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Form } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { closeModal } from '../../slices/modalsSlice';
 import { setNeedToMove } from '../../slices/channelsSlice';
@@ -41,7 +41,7 @@ const AddChannel = () => {
   }, [formik.errors.channelName]);
 
   return (
-    <Modal show onHide={() => handleClose()}>
+    <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
         <Modal.Title>Добавить канал</Modal.Title>
       </Modal.Header>
@@ -55,7 +55,7 @@ const AddChannel = () => {
               ref={inputRef}
               isInvalid={formik.errors.channelName && formik.touched.channelName}
               disabled={formik.isSubmitting}
-              className="form-control"
+              className="mb-2"
               required
               id="channelName"
               name="channelName"
@@ -65,8 +65,8 @@ const AddChannel = () => {
             />
             {formik.errors.channelName ? <div className="text-danger">{formik.errors.channelName}</div> : null}
             <div className="d-flex justify-content-end">
-              <Form.Control onClick={() => handleClose()} className="me-2 btn btn-secondary" type="button" value="Отменить" />
-              <Form.Control disabled={formik.isSubmitting} className="btn btn-primary" type="submit" value="Отправить" />
+              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">Отменить</Button>
+              <Button disabled={formik.isSubmitting} variant="primary" type="submit">Отправить</Button>
             </div>
           </Form.Group>
         </Form>

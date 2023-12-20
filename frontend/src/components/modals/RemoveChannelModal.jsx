@@ -19,14 +19,14 @@ const RemoveChannelModal = () => {
     );
   };
   return (
-    <Modal show onHide={() => handleClose()}>
+    <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
         <Modal.Title>Удалить канал</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
         <p className="lead">Уверены?</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => handleClose()} className="me-2 btn btn-secondary">Отменить</Button>
+          <Button onClick={() => handleClose()} variant="secondary" className="me-2">Отменить</Button>
           <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">Удалить</Button>
         </div>
       </Modal.Body>
