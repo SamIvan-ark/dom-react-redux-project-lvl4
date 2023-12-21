@@ -4,7 +4,7 @@ import LoginForm from '../components/LoginForm';
 import Navbar from '../components/Navbar';
 import totaImg from '../img/Tota-with-flag.jpg';
 
-const Login = () => (
+const LoginPage = () => (
   <div className="d-flex flex-column h-100">
     <Navbar />
     <div className="container-fluid h-100">
@@ -30,4 +30,4 @@ const Login = () => (
   </div>
 );
 
-export default Login;
+export default LoginPage;

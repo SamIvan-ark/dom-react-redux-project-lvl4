@@ -7,6 +7,7 @@ import AuthContext from './contexts/index';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
+import SignupPage from './pages/SignupPage';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(() => !!localStorage.getItem('userId'));
@@ -50,6 +51,7 @@ const App = () => (
             </ConditionalRoute>
           )}
         />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </Router>
   </AuthProvider>
