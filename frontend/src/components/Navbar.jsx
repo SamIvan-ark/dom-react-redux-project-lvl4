@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
   const auth = useAuth();

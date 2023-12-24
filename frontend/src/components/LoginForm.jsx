@@ -5,8 +5,8 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as yup from 'yup';
 
-import useAuth from '../hooks/index.jsx';
-import getRoute from '../routes.js';
+import useAuth from '../hooks/useAuth';
+import getRoute from '../routes';
 
 const validationSchema = yup.object().shape({
   username: yup.string().min(3, 'Минимум 3 буквы').required('Поле не должно быть пустым'),

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
 } from 'react-router-dom';
-import useAuth from './hooks/index';
-import AuthContext from './contexts/index';
+import useAuth from './hooks/useAuth';
+import AuthContext from './contexts/AuthContext';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';

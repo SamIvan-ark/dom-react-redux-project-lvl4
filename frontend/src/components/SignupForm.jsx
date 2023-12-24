@@ -5,8 +5,8 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as yup from 'yup';
 
-import useAuth from '../hooks/index.jsx';
-import getRoute from '../routes.js';
+import useAuth from '../hooks/useAuth';
+import getRoute from '../routes';
 
 const validationSchema = yup.object().shape({
   username: yup.string().min(3, 'Минимум 3 буквы').max(20, 'Максимум 20 букв').required('Обязательное поле'),
@@ -53,6 +53,7 @@ const LoginForm = () => {
       <h1 className="text-center mb-4">Регистрация</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control
+          disabled={formik.isSubmitting}
           ref={inputRef}
           autoFocus
           type="text"
@@ -71,6 +72,7 @@ const LoginForm = () => {
       </Form.Group>
       <Form.Group className="form-floating mb-3">
         <Form.Control
+          disabled={formik.isSubmitting}
           type="password"
           name="password"
           id="password"
@@ -87,7 +89,7 @@ const LoginForm = () => {
       </Form.Group>
       <Form.Group className="form-floating mb-4">
         <Form.Control
-          ref={inputRef}
+          disabled={formik.isSubmitting}
           autoFocus
           type="password"
           autoComplete="username"
@@ -102,9 +104,18 @@ const LoginForm = () => {
         {formik.errors.passwordConfirmation && formik.touched.passwordConfirmation
           ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.passwordConfirmation}</Form.Control.Feedback>
           : null}
-        <h1>{authFailed}</h1>
+        {authFailed
+          ? <Form.Control.Feedback type="invalid" tooltip>Такой пользователь уже существует</Form.Control.Feedback>
+          : null}
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100 mb-3">Зарегистрироваться</Button>
+      <Button
+        disabled={formik.isSubmitting}
+        type="submit"
+        variant="outline-primary"
+        className="w-100 mb-3"
+      >
+        Зарегистрироваться
+      </Button>
     </Form>
   );
 };

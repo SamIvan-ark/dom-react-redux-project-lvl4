@@ -12,10 +12,6 @@ const socket = io({
 });
 
 socket.on('connect', () => console.log('connected'));
-// TODO: а как лучше — оставить так, что на каждое событие своя функция,
-// или сделать одну функцию на все события сразу?
-// Если одна абстракция лучше, где хранить все эти красивые имена событий?
-// С одной стороны, сейчас достаточно удобно сделано, с другой — много дублирования
 export const sendMessage = (data, cb = null) => {
   socket.emit(socketEventsNames.NEW_MESSAGE, data, cb);
 };
