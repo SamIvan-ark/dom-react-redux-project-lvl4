@@ -11,8 +11,8 @@ In progress..
 ### Deployed app: [click me](https://hexlet-chat2-x9ij.onrender.com/login)
 
 ### System requirements
-* node >= 18.12.0
-* make >= 4.3 (optional)
+* node >= 18
+* make >= 4 (optional)
 
 ### Launch in dev-mode
 
