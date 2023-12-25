@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
-import socket from '../../socket';
+import useApi from '../../hooks/useApi';
 import { addMessage } from '../../slices/messagesSlice';
 import {
   addChannel,
@@ -14,6 +14,7 @@ import {
 } from '../../slices/channelsSlice';
 
 const Chat = () => {
+  const { socket } = useApi();
   const dispatch = useDispatch();
   const needToMoveOnNewChannel = useSelector((state) => state.channels.ui.needToMove);
   const { active: activeChannelId, defaultChannel } = useSelector((state) => state.channels.ui);

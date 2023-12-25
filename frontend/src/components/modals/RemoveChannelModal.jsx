@@ -2,9 +2,10 @@ import { Button, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
-import { removeChannel } from '../../socket';
+import useApi from '../../hooks/useApi';
 
 const RemoveChannelModal = () => {
+  const { removeChannel } = useApi();
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
   const handleClose = () => dispatch(closeModal());

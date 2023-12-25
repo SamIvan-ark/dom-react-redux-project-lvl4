@@ -4,10 +4,10 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
-import { sendMessage } from '../../socket';
-// import MessageInput from './MessageInput';
+import useApi from '../../hooks/useApi';
 
 const MainArea = () => {
+  const { newMessage } = useApi();
   const inputRef = useRef();
   const lastItemRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
@@ -25,7 +25,7 @@ const MainArea = () => {
       const userData = localStorage.getItem('userId');
       const { username } = JSON.parse(userData);
       const { message } = values;
-      sendMessage({
+      newMessage({
         text: message,
         author: username,
         channelId: currentChannelId,

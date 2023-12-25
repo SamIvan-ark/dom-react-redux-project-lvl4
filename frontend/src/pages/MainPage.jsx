@@ -5,16 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navbar from '../components/Navbar';
 import { fetchChannels } from '../slices/channelsSlice';
 import Chat from '../components/chat/Chat';
-import socket from '../socket';
+import useApi from '../hooks/useApi';
 
 const MainPage = () => {
+  const { socket } = useApi();
   const dispatch = useDispatch();
   const fetchStatus = useSelector((state) => state.channels.loadingStatus);
   const isLoadingInProgress = fetchStatus === 'loading' || fetchStatus === undefined;
 
   useEffect(() => {
-    socket.connect();
     dispatch(fetchChannels());
+    socket.connect();
   }, []);
 
   return (isLoadingInProgress) ? (

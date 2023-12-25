@@ -4,9 +4,10 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { closeModal } from '../../slices/modalsSlice';
 import { setNeedToMove } from '../../slices/channelsSlice';
-import { addChannel } from '../../socket';
+import useApi from '../../hooks/useApi';
 
 const AddChannel = () => {
+  const { newChannel } = useApi();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const AddChannel = () => {
         return;
       }
       formik.setErrors({});
-      addChannel(
+      newChannel(
         { name: channelName },
         ({ status }) => {
           if (status === 'ok') {

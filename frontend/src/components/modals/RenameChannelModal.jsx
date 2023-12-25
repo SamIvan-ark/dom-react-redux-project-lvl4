@@ -4,9 +4,10 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
-import { renameChannel } from '../../socket';
+import useApi from '../../hooks/useApi';
 
 const RenameChannelModal = () => {
+  const { renameChannel } = useApi();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
