@@ -1,12 +1,14 @@
 import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import axios from 'axios';
 import * as yup from 'yup';
 
 import useAuth from '../hooks/useAuth';
-import getRoute from '../routes';
+import { serverRoutes } from '../utils/routes';
+import { sendData } from '../api/serverApi';
+import { setUsername } from '../slices/userSliсe';
 
 const validationSchema = yup.object().shape({
   username: yup.string().min(3, 'Минимум 3 буквы').required('Поле не должно быть пустым'),
@@ -15,6 +17,7 @@ const validationSchema = yup.object().shape({
 
 const LoginForm = () => {
   const auth = useAuth();
+  const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -25,7 +28,8 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const { data } = await axios.post(getRoute('login'), values);
+        const { data } = await sendData(serverRoutes.loginPath(), values);
+        dispatch(setUsername(data.username));
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
         navigate('/');
@@ -34,7 +38,6 @@ const LoginForm = () => {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
-          return;
         }
         throw err;
       }

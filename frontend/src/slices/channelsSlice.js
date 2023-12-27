@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import axios from 'axios';
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 
-import getRoute from '../routes';
+import { serverRoutes } from '../utils/routes';
+import { fetchData } from '../api/serverApi';
 import getAuthHeader from '../utils/getAuthHeader';
 
 const channelsAdapter = createEntityAdapter();
@@ -10,7 +10,7 @@ const channelsAdapter = createEntityAdapter();
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannelsStatus',
   async () => {
-    const { data } = await axios.get(getRoute('data'), { headers: getAuthHeader() });
+    const data = await fetchData(serverRoutes.dataPath(), { headers: getAuthHeader() });
     return data;
   },
 );
@@ -46,6 +46,13 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.pending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
+      })
+      .addCase(fetchChannels.rejected, (state, { error }) => {
+        console.log(JSON.stringify(error, null, 2));
+        if (error.name === 'AxiosError' && error.message.endsWith('401')) {
+          state.error = 'unauthorized';
+        }
+        state.loadingStatus = 'idle';
       })
       .addCase(fetchChannels.fulfilled, (state, action) => {
         const { channels, currentChannelId } = action.payload;

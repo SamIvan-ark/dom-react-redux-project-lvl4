@@ -2,11 +2,11 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import axios from 'axios';
 import * as yup from 'yup';
 
 import useAuth from '../hooks/useAuth';
-import getRoute from '../routes';
+import { sendData } from '../api/serverApi';
+import { serverRoutes } from '../utils/routes';
 
 const validationSchema = yup.object().shape({
   username: yup.string().min(3, 'Минимум 3 буквы').max(20, 'Максимум 20 букв').required('Обязательное поле'),
@@ -24,16 +24,13 @@ const LoginForm = () => {
     initialValues: { username: '', password: '', passwordConfirmation: '' },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       setAuthFailed(false);
       try {
-        const { data } = await axios.post(getRoute('signup'), values);
-        console.log(data);
+        const { data } = await sendData(serverRoutes.signupPath(), values);
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
         navigate('/');
       } catch (err) {
-        console.log(err);
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 409) {
           setAuthFailed(true);
