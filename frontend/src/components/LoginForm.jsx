@@ -4,23 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth';
 import { serverRoutes } from '../utils/routes';
 import { sendData } from '../api/serverApi';
 import { setUsername } from '../slices/userSliсe';
 
-const validationSchema = yup.object().shape({
-  username: yup.string().min(3, 'Минимум 3 буквы').required('Поле не должно быть пустым'),
-  password: yup.string().min(3, 'Минимум 3 символа').required('Поле не должно быть пустым'),
-});
-
 const LoginForm = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
+
+  const validationSchema = yup.object().shape({
+    username: yup.string().required(),
+    password: yup.string().required(),
+  });
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
@@ -49,7 +51,7 @@ const LoginForm = () => {
       className="col-12 col-md-6 mt-3 mt-mb-0"
       onSubmit={formik.handleSubmit}
     >
-      <h1 className="text-center mb-4">Войти</h1>
+      <h1 className="text-center mb-4">{t('loginForm.submit')}</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control
           ref={inputRef}
@@ -58,37 +60,31 @@ const LoginForm = () => {
           autoComplete="username"
           name="username"
           id="username"
-          placeholder="Ваш ник"
+          placeholder={t('loginForm.username')}
           required
           onChange={formik.handleChange}
           value={formik.values.username}
           isInvalid={authFailed}
         />
-        <Form.Label htmlFor="username">Ваш ник</Form.Label>
-        {formik.errors.username && formik.touched.username
-          ? <div>{formik.errors.username}</div>
-          : null}
+        <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
       </Form.Group>
       <Form.Group className="form-floating mb-4">
         <Form.Control
           type="password"
           name="password"
           id="password"
-          placeholder="Пароль"
+          placeholder={t('loginForm.password')}
           required
           onChange={formik.handleChange}
           value={formik.values.password}
           isInvalid={authFailed}
         />
-        <Form.Label htmlFor="password">Пароль</Form.Label>
+        <Form.Label htmlFor="password">{t('loginForm.password')}</Form.Label>
         <Form.Control.Feedback type="invalid" tooltip>
-          Неверные имя пользователя или пароль
+          {t('loginForm.errors.invalidCredentials')}
         </Form.Control.Feedback>
-        {formik.touched.password && formik.errors.password
-          ? <div>{formik.errors.password}</div>
-          : null}
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
+      <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('loginForm.submit')}</Button>
     </Form>
   );
 };

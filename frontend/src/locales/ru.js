@@ -10,5 +10,9 @@ export default {
         invalidCredentials: 'Неверные имя пользователя или пароль',
       },
     },
+    loginPage: {
+      noAcc: 'Нет аккаунта?',
+      registration: 'Регистрация',
+    },
   },
 };
