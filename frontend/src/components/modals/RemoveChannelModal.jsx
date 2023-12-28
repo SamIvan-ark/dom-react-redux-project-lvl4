@@ -1,10 +1,12 @@
 import { Button, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
 import useApi from '../../hooks/useApi';
 
 const RemoveChannelModal = () => {
+  const { t } = useTranslation();
   const { removeChannel } = useApi();
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
@@ -22,13 +24,13 @@ const RemoveChannelModal = () => {
   return (
     <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel.header')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('modals.removeChannel.confirm')}</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => handleClose()} variant="secondary" className="me-2">Отменить</Button>
-          <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">Удалить</Button>
+          <Button onClick={() => handleClose()} variant="secondary" className="me-2">{t('modals.buttons.cancel')}</Button>
+          <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('modals.buttons.remove')}</Button>
         </div>
       </Modal.Body>
     </Modal>

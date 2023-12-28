@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
@@ -7,6 +8,7 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import useApi from '../../hooks/useApi';
 
 const MainArea = () => {
+  const { t } = useTranslation();
   const { newMessage } = useApi();
   const inputRef = useRef();
   const lastItemRef = useRef();
@@ -48,7 +50,7 @@ const MainArea = () => {
         <p className="m-0">
           <b>{`# ${currentChannelInfo.name}`}</b>
         </p>
-        <span className="text-muted">{`${currentMessages.length} сообщений`}</span>
+        <span className="text-muted">{t('chat.messages.count', { count: currentMessages.length })}</span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {currentMessages.map((message) => (
@@ -69,7 +71,7 @@ const MainArea = () => {
               type="text"
               name="message"
               id="message"
-              placeholder="Введите сообщение..."
+              placeholder={t('chat.inputPlaceholder')}
               required
               onChange={formik.handleChange}
               value={formik.values.message}

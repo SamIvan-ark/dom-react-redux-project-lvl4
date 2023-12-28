@@ -1,12 +1,15 @@
 import { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+
 import { closeModal } from '../../slices/modalsSlice';
 import { setNeedToMove } from '../../slices/channelsSlice';
 import useApi from '../../hooks/useApi';
 
 const AddChannel = () => {
+  const { t } = useTranslation();
   const { newChannel } = useApi();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
@@ -18,7 +21,7 @@ const AddChannel = () => {
     },
     onSubmit: ({ channelName }) => {
       if (takenNames.includes(channelName)) {
-        formik.setErrors({ channelName: 'Канал с таким именем уже существует' });
+        formik.setErrors({ channelName: t('modals.errors.existing') });
         formik.setSubmitting(false);
         return;
       }
@@ -44,13 +47,13 @@ const AddChannel = () => {
   return (
     <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('modals.addChannel.header')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="form-group">
             <Form.Label className="visually-hidden" htmlFor="channelName">
-              Имя канала
+              {t('modals.addChannel.label')}
             </Form.Label>
             <Form.Control
               ref={inputRef}
@@ -66,8 +69,8 @@ const AddChannel = () => {
             />
             {formik.errors.channelName ? <div className="text-danger">{formik.errors.channelName}</div> : null}
             <div className="d-flex justify-content-end">
-              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">Отменить</Button>
-              <Button disabled={formik.isSubmitting} variant="primary" type="submit">Отправить</Button>
+              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('modals.buttons.cancel')}</Button>
+              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('modals.buttons.submit')}</Button>
             </div>
           </Form.Group>
         </Form>

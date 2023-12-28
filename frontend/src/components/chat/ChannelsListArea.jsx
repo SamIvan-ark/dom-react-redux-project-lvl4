@@ -5,19 +5,21 @@ import {
   Nav,
   Dropdown,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 
 import { openModal } from '../../slices/modalsSlice';
 import getModal from '../modals/index';
 import { setActive } from '../../slices/channelsSlice';
+import i18next from '../../utils/i18next';
 
-const generateChannelButton = (
+const generateChannelButton = ({
   name,
   removable,
   variant,
-  handleOpenOnCurrentElement,
+  handleOpen,
   handleSetActive,
-) => {
+}) => {
   const ChannelButton = (
     <Button onClick={handleSetActive} variant={variant} className="w-100 rounded-0 text-start text-truncate">
       <span className="me-1">#</span>
@@ -34,8 +36,8 @@ const generateChannelButton = (
       {ChannelButton}
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
       <Dropdown.Menu>
-        <Dropdown.Item onClick={handleOpenOnCurrentElement('removing')}>Удалить</Dropdown.Item>
-        <Dropdown.Item onClick={handleOpenOnCurrentElement('renaming')}>Переименовать</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpen('removing')}>{i18next.t('chat.channelsList.remove')}</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpen('renaming')}>{i18next.t('chat.channelsList.rename')}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -51,6 +53,7 @@ const renderModal = ({ type }) => {
 };
 
 const ChannelsListArea = () => {
+  const { t } = useTranslation();
   const channels = useSelector((state) => state.channels.entities);
   const modalState = useSelector((state) => state.modals);
   const activeChannelId = useSelector((state) => state.channels.ui.active);
@@ -64,7 +67,7 @@ const ChannelsListArea = () => {
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('chat.channelsList.channels')}</b>
         <Button
           type="button"
           variant="group-vertical"
@@ -88,13 +91,13 @@ const ChannelsListArea = () => {
             : () => dispatch(setActive(id));
           return (
             <Nav.Item key={id} as="li">
-              {generateChannelButton(
+              {generateChannelButton({
                 name,
                 removable,
                 variant,
-                (action) => handleOpenModal(action, id),
-                handleSetChannelActive,
-              )}
+                handleOpen: (action) => handleOpenModal(action, id),
+                handleSetActive: handleSetChannelActive,
+              })}
             </Nav.Item>
           );
         })}
