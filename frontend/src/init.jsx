@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
+import { I18nextProvider } from 'react-i18next';
 
 import AuthContext from './contexts/AuthContext';
 import ApiContext from './contexts/ApiContext';
 import App from './App';
 import store from './slices/index';
+import i18nextInstance from './utils/i18next';
 
 const ApiContextProvider = ({ children }) => {
   const eventNames = {
@@ -65,14 +67,15 @@ const AuthProvider = ({ children }) => {
 };
 
 const init = async () => (
-  <ApiContextProvider>
-    <AuthProvider>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </AuthProvider>
-  </ApiContextProvider>
-
+  <I18nextProvider i18n={i18nextInstance}>
+    <ApiContextProvider>
+      <AuthProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </AuthProvider>
+    </ApiContextProvider>
+  </I18nextProvider>
 );
 
 export default init;
