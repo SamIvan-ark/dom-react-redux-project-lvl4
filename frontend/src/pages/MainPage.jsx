@@ -27,10 +27,10 @@ const MainPage = () => {
       </Spinner>
     </div>
   ) : (
-    <div className="d-flex flex-column h-100">
+    <>
       <Navbar />
       <Chat />
-    </div>
+    </>
   );
 };
 

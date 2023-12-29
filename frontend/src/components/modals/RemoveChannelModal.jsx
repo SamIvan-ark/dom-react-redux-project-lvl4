@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
+import toasts from '../../utils/toasts';
 import useApi from '../../hooks/useApi';
 
 const RemoveChannelModal = () => {
@@ -17,6 +18,7 @@ const RemoveChannelModal = () => {
       ({ status }) => {
         if (status === 'ok') {
           handleClose();
+          toasts.success(t('modals.removeChannel.notification'));
         }
       },
     );
@@ -29,7 +31,7 @@ const RemoveChannelModal = () => {
       <Modal.Body className="modal-body">
         <p className="lead">{t('modals.removeChannel.confirm')}</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => handleClose()} variant="secondary" className="me-2">{t('modals.buttons.cancel')}</Button>
+          <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('modals.buttons.cancel')}</Button>
           <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('modals.buttons.remove')}</Button>
         </div>
       </Modal.Body>

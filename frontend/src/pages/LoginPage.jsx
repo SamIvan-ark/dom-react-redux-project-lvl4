@@ -8,7 +8,7 @@ import totaImg from '../img/Tota-with-flag.jpg';
 const LoginPage = () => {
   const { t } = useTranslation();
   return (
-    <div className="d-flex flex-column h-100">
+    <>
       <Navbar />
       <div className="container-fluid h-100">
         <div className="row justify-content-center align-content-center h-100">
@@ -30,7 +30,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

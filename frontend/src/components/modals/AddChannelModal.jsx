@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 
 import { closeModal } from '../../slices/modalsSlice';
 import { setNeedToMove } from '../../slices/channelsSlice';
+import toasts from '../../utils/toasts';
 import useApi from '../../hooks/useApi';
 
 const AddChannel = () => {
@@ -32,6 +33,7 @@ const AddChannel = () => {
           if (status === 'ok') {
             dispatch(setNeedToMove(true));
             handleClose();
+            toasts.success(t('modals.addChannel.notification'));
           }
         },
       );

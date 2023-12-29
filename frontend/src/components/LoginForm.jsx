@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth';
+import toasts from '../utils/toasts';
 import { serverRoutes } from '../utils/routes';
 import { sendData } from '../api/serverApi';
 import { setUsername } from '../slices/userSliсe';
@@ -40,6 +41,11 @@ const LoginForm = () => {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
+        }
+        if (err.isAxiosError && err.response.status === 500) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          toasts.error(t('loginForm.errors.networkError'));
         }
         throw err;
       }

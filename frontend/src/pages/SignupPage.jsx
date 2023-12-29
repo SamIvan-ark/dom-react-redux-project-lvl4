@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import totaImg from '../img/Tota-celebrating.jpg';
 
 const SignupPage = () => (
-  <div className="d-flex flex-column h-100">
+  <>
     <Navbar />
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
@@ -21,7 +21,7 @@ const SignupPage = () => (
         </div>
       </div>
     </div>
-  </div>
+  </>
 );
 
 export default SignupPage;

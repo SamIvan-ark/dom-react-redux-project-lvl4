@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
+import toasts from '../../utils/toasts';
 import useApi from '../../hooks/useApi';
 
 const RenameChannelModal = () => {
@@ -36,6 +37,7 @@ const RenameChannelModal = () => {
         ({ status }) => {
           if (status === 'ok') {
             handleClose();
+            toasts.success(t('modals.renameChannel.notification'));
           }
         },
       );

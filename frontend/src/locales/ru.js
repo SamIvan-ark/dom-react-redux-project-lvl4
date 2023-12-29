@@ -8,6 +8,7 @@ export default {
       errors: {
         emptyField: 'Не должно быть пустым',
         invalidCredentials: 'Неверные имя пользователя или пароль',
+        networkError: 'Ошибка соединения',
       },
     },
     loginPage: {
@@ -32,14 +33,17 @@ export default {
       addChannel: {
         header: 'Добавить канал',
         label: 'Имя канала',
+        notification: 'Канал создан',
       },
       renameChannel: {
         header: 'Переименовать канал',
         label: 'Новое имя канала',
+        notification: 'Канал переименован',
       },
       removeChannel: {
         header: 'Удалить канал',
         confirm: 'Уверены?',
+        notification: 'Канал удален',
       },
       errors: {
         existing: 'Канал с таким именем уже существует',
