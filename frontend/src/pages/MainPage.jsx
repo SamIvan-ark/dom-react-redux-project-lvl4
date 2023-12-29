@@ -1,26 +1,57 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Navbar from '../components/Navbar';
-import { fetchChannels } from '../slices/channelsSlice';
 import Chat from '../components/chat/Chat';
 import useApi from '../hooks/useApi';
+import useAuth from '../hooks/useAuth';
+import { fetchData } from '../api/serverApi';
+import { serverRoutes } from '../utils/routes';
+import getAuthHeader from '../utils/getAuthHeader';
+import { addChannels, setDefaultChannel, setActive } from '../slices/channelsSlice';
+import { addMessages } from '../slices/messagesSlice';
+import toasts from '../utils/toasts';
 
 const MainPage = () => {
+  const [fetchStatus, setFetchStatus] = useState(null);
+  const navigate = useNavigate();
+  const auth = useAuth();
   const { socket } = useApi();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const fetchStatus = useSelector((state) => state.channels.loadingStatus);
-  const isLoadingInProgress = fetchStatus === 'loading' || fetchStatus === undefined;
 
   useEffect(() => {
-    dispatch(fetchChannels());
+    const connectToChat = async () => {
+      try {
+        setFetchStatus('fetching');
+        const { data } = await fetchData(serverRoutes.dataPath(), { headers: getAuthHeader() });
+        const { channels, currentChannelId, messages } = data;
+        dispatch(setDefaultChannel(currentChannelId));
+        dispatch(setActive(currentChannelId));
+        dispatch(addChannels(channels));
+        dispatch(addMessages(messages));
+        setFetchStatus('idle');
+      } catch (err) {
+        setFetchStatus('failed');
+        if (err.isAxiosError && err.code === 'ERR_NETWORK') {
+          toasts.error(t('errors.networkError'));
+        }
+        if (err.isAxiosError && err.response.status === 401) {
+          toasts.info(t('errors.invalidToken'));
+          auth.logOut();
+          navigate('/login');
+        }
+        setFetchStatus('idle');
+      }
+    };
+
+    connectToChat();
     socket.connect();
   }, []);
-
-  return (isLoadingInProgress) ? (
+  return (fetchStatus !== 'idle') ? (
     <div className="d-flex justify-content-center align-items-center h-100">
       <Spinner animation="border" variant="primary">
         <span className="visually-hidden">{t('chat.loading')}</span>
