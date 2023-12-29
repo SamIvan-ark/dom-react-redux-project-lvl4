@@ -12,4 +12,5 @@ const options = {
 export default {
   success: (message) => toast.success(message, options),
   error: (message) => toast.error(message, options),
+  info: (message) => toast.info(message, options),
 };

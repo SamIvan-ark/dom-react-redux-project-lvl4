@@ -45,7 +45,7 @@ const LoginForm = () => {
         if (err.isAxiosError && err.response.status === 500) {
           setAuthFailed(true);
           inputRef.current.select();
-          toasts.error(t('loginForm.errors.networkError'));
+          toasts.error(t('errors.networkError'));
         }
         throw err;
       }
@@ -87,7 +87,7 @@ const LoginForm = () => {
         />
         <Form.Label htmlFor="password">{t('loginForm.password')}</Form.Label>
         <Form.Control.Feedback type="invalid" tooltip>
-          {t('loginForm.errors.invalidCredentials')}
+          {t('errors.invalidCredentials')}
         </Form.Control.Feedback>
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('loginForm.submit')}</Button>
