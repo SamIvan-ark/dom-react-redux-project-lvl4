@@ -1,59 +1,57 @@
 export default {
   translation: {
     errors: {
-      emptyField: 'Не должно быть пустым',
+      emptyField: 'Обязательное поле',
       invalidCredentials: 'Неверные имя пользователя или пароль',
       networkError: 'Ошибка соединения',
       invalidToken: 'Не узнал вас, войдите заново',
+      channelAlreadyExist: 'Канал с таким именем уже существует',
+      userAlreadyExist: 'Такой пользователь уже существует',
+      profanityUsername: 'У нас не матерятся',
+      lengthFromTo: 'От {{from}} до {{to}} символов',
+      minLength: 'Минимум {{length}} символов',
+      passwordsMustMatch: 'Пароли должны совпадать',
     },
-    loginForm: {
-      username: 'Ваш ник',
+    credentials: {
+      yourNick: 'Ваш ник',
+      username: 'Имя пользователя',
       password: 'Пароль',
-      submit: 'Войти',
+      confirmPassword: 'Подтвердите пароль',
       registration: 'Регистрация',
-    },
-    loginPage: {
       noAcc: 'Нет аккаунта?',
-      registration: 'Регистрация',
     },
-    chat: {
-      loading: 'Загрузка...',
-      channelsList: {
-        remove: 'Удалить',
-        rename: 'Переименовать',
+    actions: {
+      signIn: 'Войти',
+      register: 'Зарегистрироваться',
+      remove: 'Удалить',
+      rename: 'Переименовать',
+      send: 'Отправить',
+      cancel: 'Отменить',
+      addChannel: 'Добавить канал',
+      renameChannel: 'Переименовать канал',
+      removeChannel: 'Удалить канал',
+    },
+    entities: {
+      channels: {
         channels: 'Каналы',
+        channelName: 'Имя канала',
+        newChannelName: 'Новое имя канала',
       },
       messages: {
         count_one: '{{count}} сообщение',
         count_few: '{{count}} сообщения',
         count_many: '{{count}} сообщений',
       },
-      inputPlaceholder: 'Введите сообщение...',
     },
-    modals: {
-      addChannel: {
-        header: 'Добавить канал',
-        label: 'Имя канала',
-        notification: 'Канал создан',
-      },
-      renameChannel: {
-        header: 'Переименовать канал',
-        label: 'Новое имя канала',
-        notification: 'Канал переименован',
-      },
-      removeChannel: {
-        header: 'Удалить канал',
-        confirm: 'Уверены?',
-        notification: 'Канал удален',
-      },
-      errors: {
-        existing: 'Канал с таким именем уже существует',
-      },
-      buttons: {
-        submit: 'Отправить',
-        remove: 'Удалить',
-        cancel: 'Отменить',
-      },
+    processes: {
+      channelCreated: 'Канал создан',
+      channelRenamed: 'Канал переименован',
+      channelRemoved: 'Канал удален',
+      loading: 'Загрузка...',
+    },
+    userInteractions: {
+      confirm: 'Уверены?',
+      enterMessage: 'Введите сообщение...',
     },
   },
 };

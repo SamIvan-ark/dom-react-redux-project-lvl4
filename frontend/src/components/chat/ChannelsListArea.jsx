@@ -36,8 +36,8 @@ const generateChannelButton = ({
       {ChannelButton}
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
       <Dropdown.Menu>
-        <Dropdown.Item onClick={handleOpen('removing')}>{i18next.t('chat.channelsList.remove')}</Dropdown.Item>
-        <Dropdown.Item onClick={handleOpen('renaming')}>{i18next.t('chat.channelsList.rename')}</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpen('removing')}>{i18next.t('actions.remove')}</Dropdown.Item>
+        <Dropdown.Item onClick={handleOpen('renaming')}>{i18next.t('actions.rename')}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -67,7 +67,7 @@ const ChannelsListArea = () => {
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>{t('chat.channelsList.channels')}</b>
+        <b>{t('entities.channels.channels')}</b>
         <Button
           type="button"
           variant="group-vertical"

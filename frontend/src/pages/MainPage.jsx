@@ -54,7 +54,7 @@ const MainPage = () => {
   return (fetchStatus !== 'idle') ? (
     <div className="d-flex justify-content-center align-items-center h-100">
       <Spinner animation="border" variant="primary">
-        <span className="visually-hidden">{t('chat.loading')}</span>
+        <span className="visually-hidden">{t('processes.loading')}</span>
       </Spinner>
     </div>
   ) : (

@@ -22,8 +22,8 @@ const LoginPage = () => {
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span className="d-inline block me-1">{t('loginPage.noAcc')}</span>
-                  <a href="/signup">{t('loginPage.registration')}</a>
+                  <span className="d-inline block me-1">{t('credentials.noAcc')}</span>
+                  <a href="/signup">{t('credentials.registration')}</a>
                 </div>
               </div>
             </div>

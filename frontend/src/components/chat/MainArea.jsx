@@ -52,7 +52,7 @@ const MainArea = () => {
         <p className="m-0">
           <b>{`# ${currentChannelInfo.name}`}</b>
         </p>
-        <span className="text-muted">{t('chat.messages.count', { count: currentMessages.length })}</span>
+        <span className="text-muted">{t('entities.messages.count', { count: currentMessages.length })}</span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {currentMessages.map((message) => (
@@ -73,7 +73,7 @@ const MainArea = () => {
               type="text"
               name="message"
               id="message"
-              placeholder={t('chat.inputPlaceholder')}
+              placeholder={t('userInteractions.enterMessage')}
               required
               onChange={formik.handleChange}
               value={formik.values.message}

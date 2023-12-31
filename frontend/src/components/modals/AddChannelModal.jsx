@@ -36,7 +36,7 @@ const AddChannel = () => {
           if (status === 'ok') {
             dispatch(setNeedToMove(true));
             handleClose();
-            toasts.success(t('modals.addChannel.notification'));
+            toasts.success(t('processes.channelCreated'));
           }
         },
       );
@@ -52,13 +52,13 @@ const AddChannel = () => {
   return (
     <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modals.addChannel.header')}</Modal.Title>
+        <Modal.Title>{t('actions.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="form-group">
             <Form.Label className="visually-hidden" htmlFor="channelName">
-              {t('modals.addChannel.label')}
+              {t('entities.channels.channelName')}
             </Form.Label>
             <Form.Control
               ref={inputRef}
@@ -74,8 +74,8 @@ const AddChannel = () => {
             />
             {formik.errors.channelName ? <div className="text-danger">{formik.errors.channelName}</div> : null}
             <div className="d-flex justify-content-end">
-              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('modals.buttons.cancel')}</Button>
-              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('modals.buttons.submit')}</Button>
+              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
+              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('actions.send')}</Button>
             </div>
           </Form.Group>
         </Form>

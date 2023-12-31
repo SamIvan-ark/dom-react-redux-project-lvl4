@@ -18,7 +18,7 @@ const RemoveChannelModal = () => {
       ({ status }) => {
         if (status === 'ok') {
           handleClose();
-          toasts.success(t('modals.removeChannel.notification'));
+          toasts.success(t('processes.channelRemoved'));
         }
       },
     );
@@ -26,13 +26,13 @@ const RemoveChannelModal = () => {
   return (
     <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modals.removeChannel.header')}</Modal.Title>
+        <Modal.Title>{t('actions.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
-        <p className="lead">{t('modals.removeChannel.confirm')}</p>
+        <p className="lead">{t('userInteractions.confirm')}</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('modals.buttons.cancel')}</Button>
-          <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('modals.buttons.remove')}</Button>
+          <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
+          <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('actions.remove')}</Button>
         </div>
       </Modal.Body>
     </Modal>

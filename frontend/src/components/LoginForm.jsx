@@ -57,7 +57,7 @@ const LoginForm = () => {
       className="col-12 col-md-6 mt-3 mt-mb-0"
       onSubmit={formik.handleSubmit}
     >
-      <h1 className="text-center mb-4">{t('loginForm.submit')}</h1>
+      <h1 className="text-center mb-4">{t('actions.signIn')}</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control
           ref={inputRef}
@@ -66,31 +66,31 @@ const LoginForm = () => {
           autoComplete="username"
           name="username"
           id="username"
-          placeholder={t('loginForm.username')}
+          placeholder={t('credentials.yourNick')}
           required
           onChange={formik.handleChange}
           value={formik.values.username}
           isInvalid={authFailed}
         />
-        <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
+        <Form.Label htmlFor="username">{t('credentials.yourNick')}</Form.Label>
       </Form.Group>
       <Form.Group className="form-floating mb-4">
         <Form.Control
           type="password"
           name="password"
           id="password"
-          placeholder={t('loginForm.password')}
+          placeholder={t('credentials.password')}
           required
           onChange={formik.handleChange}
           value={formik.values.password}
           isInvalid={authFailed}
         />
-        <Form.Label htmlFor="password">{t('loginForm.password')}</Form.Label>
+        <Form.Label htmlFor="password">{t('credentials.password')}</Form.Label>
         <Form.Control.Feedback type="invalid" tooltip>
           {t('errors.invalidCredentials')}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('loginForm.submit')}</Button>
+      <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('actions.signIn')}</Button>
     </Form>
   );
 };

@@ -40,7 +40,7 @@ const RenameChannelModal = () => {
         ({ status }) => {
           if (status === 'ok') {
             handleClose();
-            toasts.success(t('modals.renameChannel.notification'));
+            toasts.success(t('processes.channelRenamed'));
           }
         },
       );
@@ -60,13 +60,13 @@ const RenameChannelModal = () => {
   return (
     <Modal show centered onHide={() => handleClose()}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modals.renameChannel.header')}</Modal.Title>
+        <Modal.Title>{t('actions.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="form-group">
             <Form.Label className="visually-hidden" htmlFor="newNameOfChannel">
-              {t('modals.renameChannel.label')}
+              {t('entities.newChannelName')}
             </Form.Label>
             <Form.Control
               isInvalid={formik.errors.newNameOfChannel && formik.touched.newNameOfChannel}
@@ -83,8 +83,8 @@ const RenameChannelModal = () => {
             />
             {formik.errors.newNameOfChannel ? <div className="text-danger">{formik.errors.newNameOfChannel}</div> : null}
             <div className="d-flex justify-content-end">
-              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('modals.buttons.cancel')}</Button>
-              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('modals.buttons.submit')}</Button>
+              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
+              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('actions.send')}</Button>
             </div>
           </Form.Group>
         </Form>
