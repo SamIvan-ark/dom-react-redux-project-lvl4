@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
 import useApi from '../../hooks/useApi';
+import filterProfanity from '../../utils/profanityChecker';
 
 const MainArea = () => {
   const { t } = useTranslation();
@@ -27,8 +28,9 @@ const MainArea = () => {
       const userData = localStorage.getItem('userId');
       const { username } = JSON.parse(userData);
       const { message } = values;
+      const filteredMessage = filterProfanity(message);
       newMessage({
-        text: message,
+        text: filteredMessage,
         author: username,
         channelId: currentChannelId,
       }, ({ status }) => {

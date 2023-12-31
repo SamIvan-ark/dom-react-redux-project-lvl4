@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
+import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
 import useApi from '../../hooks/useApi';
 
@@ -26,14 +27,16 @@ const RenameChannelModal = () => {
       newNameOfChannel: name,
     },
     onSubmit: ({ newNameOfChannel }) => {
-      if (takenNames.includes(newNameOfChannel)) {
-        formik.setErrors({ newNameOfChannel: t('modals.errors.existing') });
+      const censoredName = filterProfanity(newNameOfChannel);
+      if (takenNames.includes(censoredName)) {
+        formik.values.channelName = censoredName;
+        formik.setErrors({ newNameOfChannel: t('errors.channelAlreadyExist') });
         formik.setSubmitting(false);
         return;
       }
       formik.setErrors({});
       renameChannel(
-        { name: newNameOfChannel, id: invokedOn },
+        { name: censoredName, id: invokedOn },
         ({ status }) => {
           if (status === 'ok') {
             handleClose();

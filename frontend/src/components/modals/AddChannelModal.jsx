@@ -5,6 +5,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 
 import { closeModal } from '../../slices/modalsSlice';
+import filterProfanity from '../../utils/profanityChecker';
 import { setNeedToMove } from '../../slices/channelsSlice';
 import toasts from '../../utils/toasts';
 import useApi from '../../hooks/useApi';
@@ -21,14 +22,16 @@ const AddChannel = () => {
       channelName: '',
     },
     onSubmit: ({ channelName }) => {
-      if (takenNames.includes(channelName)) {
-        formik.setErrors({ channelName: t('modals.errors.existing') });
+      const censoredName = filterProfanity(channelName);
+      if (takenNames.includes(censoredName)) {
+        formik.values.channelName = censoredName;
+        formik.setErrors({ channelName: t('errors.channelAlreadyExist') });
         formik.setSubmitting(false);
         return;
       }
       formik.setErrors({});
       newChannel(
-        { name: channelName },
+        { name: censoredName },
         ({ status }) => {
           if (status === 'ok') {
             dispatch(setNeedToMove(true));
