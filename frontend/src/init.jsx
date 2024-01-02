@@ -68,7 +68,7 @@ const AuthProvider = ({ children }) => {
 };
 
 const rollbarConfig = {
-  accessToken: '1649d36432a544b5944e6e7c82ebfcdc',
+  accessToken: process.env.ROLLBAR_POST_CLIENT_TOKEN,
   environment: 'production',
   captureUncaught: true,
   captureUnhandledRejections: true,
