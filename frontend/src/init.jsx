@@ -70,6 +70,13 @@ const AuthProvider = ({ children }) => {
 const rollbarConfig = {
   accessToken: 'ROLLBAR_POST_CLIENT_TOKEN',
   environment: 'production',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+};
+
+const ErrorComponent = () => {
+  const a = null;
+  return a.hello();
 };
 
 const init = async () => (
@@ -79,6 +86,7 @@ const init = async () => (
         <ApiContextProvider>
           <AuthProvider>
             <Provider store={store}>
+              <ErrorComponent />
               <App />
             </Provider>
           </AuthProvider>
