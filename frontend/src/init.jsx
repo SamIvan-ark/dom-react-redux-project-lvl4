@@ -74,6 +74,10 @@ const rollbarConfig = {
   captureUnhandledRejections: true,
 };
 
+console.log(process.env);
+console.log(process.env.REACT_APP_ROLLBAR_POST_CLIENT_TOKEN);
+console.log(process.env.ROLLBAR_POST_CLIENT_TOKEN);
+
 const ErrorComponent = () => {
   const a = null;
   return a.hello();
