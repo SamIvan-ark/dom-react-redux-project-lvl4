@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { I18nextProvider } from 'react-i18next';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import AuthContext from './contexts/AuthContext';
 import ApiContext from './contexts/ApiContext';
@@ -66,16 +67,25 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+const rollbarConfig = {
+  accessToken: 'ROLLBAR_POST_CLIENT_TOKEN',
+  environment: 'production',
+};
+
 const init = async () => (
-  <I18nextProvider i18n={i18nextInstance}>
-    <ApiContextProvider>
-      <AuthProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </AuthProvider>
-    </ApiContextProvider>
-  </I18nextProvider>
+  <RollbarProvider config={rollbarConfig}>
+    <ErrorBoundary>
+      <I18nextProvider i18n={i18nextInstance}>
+        <ApiContextProvider>
+          <AuthProvider>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </AuthProvider>
+        </ApiContextProvider>
+      </I18nextProvider>
+    </ErrorBoundary>
+  </RollbarProvider>
 );
 
 export default init;
