@@ -74,6 +74,7 @@ const MainArea = () => {
               name="message"
               id="message"
               placeholder={t('userInteractions.enterMessage')}
+              aria-label={t('entities.messages.newMessage')}
               required
               onChange={formik.handleChange}
               value={formik.values.message}
