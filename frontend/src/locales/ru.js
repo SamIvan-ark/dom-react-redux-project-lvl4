@@ -36,6 +36,7 @@ export default {
         channels: 'Каналы',
         channelName: 'Имя канала',
         newChannelName: 'Новое имя канала',
+        channelSettings: 'Управление каналом',
       },
       messages: {
         count_one: '{{count}} сообщение',

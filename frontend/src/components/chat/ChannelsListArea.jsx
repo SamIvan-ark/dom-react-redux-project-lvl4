@@ -34,7 +34,9 @@ const generateChannelButton = ({
   return (
     <Dropdown className="d-flex dropdown btn-group" as={ButtonGroup}>
       {ChannelButton}
-      <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
+      <Dropdown.Toggle split variant="light" id="dropdown-split-basic">
+        <span className="visually-hidden">{i18next.t('entities.channels.channelSettings')}</span>
+      </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item onClick={handleOpen('removing')}>{i18next.t('actions.remove')}</Dropdown.Item>
         <Dropdown.Item onClick={handleOpen('renaming')}>{i18next.t('actions.rename')}</Dropdown.Item>
