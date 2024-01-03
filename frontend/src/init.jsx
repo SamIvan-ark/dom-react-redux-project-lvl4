@@ -74,11 +74,6 @@ const rollbarConfig = {
   captureUnhandledRejections: true,
 };
 
-const ErrorComponent = () => {
-  const a = null;
-  return a.hello();
-};
-
 const init = async () => (
   <RollbarProvider config={rollbarConfig}>
     <ErrorBoundary>
@@ -86,7 +81,6 @@ const init = async () => (
         <ApiContextProvider>
           <AuthProvider>
             <Provider store={store}>
-              <ErrorComponent />
               <App />
             </Provider>
           </AuthProvider>
