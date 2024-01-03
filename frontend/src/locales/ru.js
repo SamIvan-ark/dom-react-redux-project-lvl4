@@ -35,6 +35,7 @@ export default {
       channels: {
         channels: 'Каналы',
         channelName: 'Имя канала',
+        newChannelName: 'Новое имя канала',
         channelSettings: 'Управление каналом',
       },
       messages: {
