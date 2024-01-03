@@ -9,7 +9,7 @@ export default {
       userAlreadyExist: 'Такой пользователь уже существует',
       profanityUsername: 'У нас не матерятся',
       lengthFromTo: 'От {{from}} до {{to}} символов',
-      minLength: 'Минимум {{length}} символов',
+      minLength: 'Не менее {{length}} символов',
       passwordsMustMatch: 'Пароли должны совпадать',
     },
     credentials: {
@@ -46,7 +46,7 @@ export default {
     processes: {
       channelCreated: 'Канал создан',
       channelRenamed: 'Канал переименован',
-      channelRemoved: 'Канал удален',
+      channelRemoved: 'Канал удалён',
       loading: 'Загрузка...',
     },
     userInteractions: {
