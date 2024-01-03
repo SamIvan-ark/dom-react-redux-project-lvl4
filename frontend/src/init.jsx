@@ -68,15 +68,11 @@ const AuthProvider = ({ children }) => {
 };
 
 const rollbarConfig = {
-  accessToken: process.env.ROLLBAR_POST_CLIENT_TOKEN,
+  accessToken: process.env.REACT_APP_ROLLBAR_POST_CLIENT_TOKEN,
   environment: 'production',
   captureUncaught: true,
   captureUnhandledRejections: true,
 };
-
-console.log(process.env);
-console.log(process.env.REACT_APP_ROLLBAR_POST_CLIENT_TOKEN);
-console.log(process.env.ROLLBAR_POST_CLIENT_TOKEN);
 
 const ErrorComponent = () => {
   const a = null;
