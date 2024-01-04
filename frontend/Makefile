@@ -4,12 +4,9 @@ install:
 start:
 	npm start
 
-build-app:
+build:
 	rm -rf build
 	npm run build
-
-build:
-	npm build
 
 lint:
 	npx eslint .
