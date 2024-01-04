@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
@@ -17,10 +18,20 @@ const AddChannel = () => {
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeModal());
+
+  const validationSchema = yup.object().shape({
+    channelName: yup
+      .string()
+      .min(3, t('errors.lengthFromTo', { from: 3, to: 20 }))
+      .max(20, t('errors.lengthFromTo', { from: 3, to: 20 }))
+      .required(t('errors.emptyField')),
+  });
+
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
+    validationSchema,
     onSubmit: ({ channelName }) => {
       const censoredName = filterProfanity(channelName);
       if (takenNames.includes(censoredName)) {
