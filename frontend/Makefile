@@ -8,6 +8,9 @@ build-app:
 	rm -rf build
 	npm run build
 
+build:
+	npm build
+
 lint:
 	npx eslint .
 
