@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth';
 import { sendData } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 
-const LoginForm = () => {
+const SignupForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
@@ -142,4 +142,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

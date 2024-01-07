@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
@@ -80,9 +80,9 @@ const init = async () => (
       <I18nextProvider i18n={i18nextInstance}>
         <ApiContextProvider>
           <AuthProvider>
-            <Provider store={store}>
+            <StoreProvider store={store}>
               <App />
-            </Provider>
+            </StoreProvider>
           </AuthProvider>
         </ApiContextProvider>
       </I18nextProvider>
