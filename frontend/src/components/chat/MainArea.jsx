@@ -5,12 +5,12 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
-import useApi from '../../hooks/useApi';
+import { hooks } from '../../providers/index';
 import filterProfanity from '../../utils/profanityChecker';
 
 const MainArea = () => {
   const { t } = useTranslation();
-  const { newMessage } = useApi();
+  const { newMessage } = hooks.useApi();
   const inputRef = useRef();
   const lastItemRef = useRef();
   const messages = useSelector((state) => state.messages.entities);

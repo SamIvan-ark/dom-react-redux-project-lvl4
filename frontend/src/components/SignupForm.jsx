@@ -6,13 +6,13 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import filterProfanity from '../utils/profanityChecker';
-import useAuth from '../hooks/useAuth';
+import { hooks } from '../providers/index';
 import { sendData } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 
 const SignupForm = () => {
   const { t } = useTranslation();
-  const auth = useAuth();
+  const auth = hooks.useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const [isUsernameProfanity, setIsUsernameProfanity] = useState(false);
   const inputRef = useRef();

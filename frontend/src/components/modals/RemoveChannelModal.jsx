@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
 import toasts from '../../utils/toasts';
-import useApi from '../../hooks/useApi';
+import { hooks } from '../../providers/index';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation();
-  const { removeChannel } = useApi();
+  const { removeChannel } = hooks.useApi();
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
   const handleClose = () => dispatch(closeModal());

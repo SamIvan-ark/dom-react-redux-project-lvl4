@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
-import useAuth from '../hooks/useAuth';
+import { hooks } from '../providers/index';
 import toasts from '../utils/toasts';
 import { serverRoutes } from '../utils/routes';
 import { sendData } from '../api/serverApi';
@@ -14,7 +14,7 @@ import { setUsername } from '../slices/userSliсe';
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const auth = useAuth();
+  const auth = hooks.useAuth();
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();

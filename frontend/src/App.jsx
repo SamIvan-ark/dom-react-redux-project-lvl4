@@ -5,14 +5,14 @@ import {
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-import useAuth from './hooks/useAuth';
+import { hooks } from './providers/index';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SignupPage from './pages/SignupPage';
 
 const ConditionalRoute = ({ children, redirectWhenAuthIsExist, redirectTo }) => {
-  const auth = useAuth();
+  const auth = hooks.useAuth();
 
   return redirectWhenAuthIsExist === auth.loggedIn ? <Navigate to={redirectTo} /> : children;
 };

@@ -1,8 +1,8 @@
 import { Button } from 'react-bootstrap';
-import useAuth from '../hooks/useAuth';
+import { hooks } from '../providers/index';
 
 const Navbar = () => {
-  const auth = useAuth();
+  const auth = hooks.useAuth();
   const handleLogOut = () => {
     window.localStorage.removeItem('userId');
     auth.logOut();

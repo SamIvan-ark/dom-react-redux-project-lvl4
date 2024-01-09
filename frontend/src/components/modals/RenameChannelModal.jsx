@@ -8,11 +8,11 @@ import * as yup from 'yup';
 import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
-import useApi from '../../hooks/useApi';
+import { hooks } from '../../providers/index';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();
-  const { renameChannel } = useApi();
+  const { renameChannel } = hooks.useApi();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();

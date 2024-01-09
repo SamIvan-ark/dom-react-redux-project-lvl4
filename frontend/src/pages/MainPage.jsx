@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import Navbar from '../components/Navbar';
 import Chat from '../components/chat/Chat';
-import useApi from '../hooks/useApi';
-import useAuth from '../hooks/useAuth';
+import { hooks } from '../providers/index';
 import { fetchData } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 import getAuthHeader from '../utils/getAuthHeader';
@@ -17,6 +16,7 @@ import toasts from '../utils/toasts';
 
 const MainPage = () => {
   const [fetchStatus, setFetchStatus] = useState(null);
+  const { useAuth, useApi } = hooks;
   const navigate = useNavigate();
   const auth = useAuth();
   const { socket } = useApi();

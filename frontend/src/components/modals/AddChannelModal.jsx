@@ -9,11 +9,11 @@ import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import { setNeedToMove } from '../../slices/channelsSlice';
 import toasts from '../../utils/toasts';
-import useApi from '../../hooks/useApi';
+import { hooks } from '../../providers/index';
 
 const AddChannel = () => {
   const { t } = useTranslation();
-  const { newChannel } = useApi();
+  const { newChannel } = hooks.useApi();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
