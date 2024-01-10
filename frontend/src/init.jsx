@@ -4,9 +4,9 @@ import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import App from './App';
-import store from './slices/index';
+import store from './slices';
 import i18nextInstance from './utils/i18next';
-import { providers } from './providers/index';
+import { providers } from './providers';
 
 const { AuthProvider, ApiProvider } = providers;
 

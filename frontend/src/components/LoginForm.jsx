@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
-import { hooks } from '../providers/index';
+import { hooks } from '../providers';
 import toasts from '../utils/toasts';
 import { serverRoutes } from '../utils/routes';
 import { sendCredentials } from '../api/serverApi';

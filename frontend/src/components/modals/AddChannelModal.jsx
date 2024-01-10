@@ -9,7 +9,7 @@ import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import { setNeedToMove } from '../../slices/channelsSlice';
 import toasts from '../../utils/toasts';
-import { hooks } from '../../providers/index';
+import { hooks } from '../../providers';
 
 const AddChannel = () => {
   const { t } = useTranslation();

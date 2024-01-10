@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import filterProfanity from '../utils/profanityChecker';
-import { hooks } from '../providers/index';
+import { hooks } from '../providers';
 import { sendCredentials } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 

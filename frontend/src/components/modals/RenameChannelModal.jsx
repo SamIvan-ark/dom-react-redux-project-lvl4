@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
-import { hooks } from '../../providers/index';
+import { hooks } from '../../providers';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();

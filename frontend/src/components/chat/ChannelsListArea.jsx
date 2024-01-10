@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 
 import { openModal } from '../../slices/modalsSlice';
-import getModal from '../modals/index';
+import getModal from '../modals';
 import { setActive } from '../../slices/channelsSlice';
 import i18next from '../../utils/i18next';
 

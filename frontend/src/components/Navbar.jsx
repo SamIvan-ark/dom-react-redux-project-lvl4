@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import { hooks } from '../providers/index';
+import { hooks } from '../providers';
 
 const Navbar = () => {
   const auth = hooks.useAuth();

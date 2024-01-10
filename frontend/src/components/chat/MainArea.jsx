@@ -5,7 +5,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
-import { hooks } from '../../providers/index';
+import { hooks } from '../../providers';
 import filterProfanity from '../../utils/profanityChecker';
 
 const MainArea = () => {

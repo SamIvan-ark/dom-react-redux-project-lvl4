@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { hooks } from './providers/index';
+import { hooks } from './providers';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';

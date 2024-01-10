@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
 import toasts from '../../utils/toasts';
-import { hooks } from '../../providers/index';
+import { hooks } from '../../providers';
 
 const RemoveChannelModal = () => {
   const { t } = useTranslation();

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
-import { hooks } from '../../providers/index';
+import { hooks } from '../../providers';
 import { addMessage } from '../../slices/messagesSlice';
 import {
   addChannel,

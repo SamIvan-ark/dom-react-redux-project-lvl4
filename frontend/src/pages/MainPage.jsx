@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import Navbar from '../components/Navbar';
 import Chat from '../components/chat/Chat';
-import { hooks } from '../providers/index';
+import { hooks } from '../providers';
 import { fetchChatData } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 import getAuthHeader from '../utils/getAuthHeader';
