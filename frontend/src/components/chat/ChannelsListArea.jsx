@@ -13,27 +13,23 @@ import getModal from '../modals';
 import { setActive } from '../../slices/channelsSlice';
 import i18next from '../../utils/i18next';
 
-const generateChannelButton = ({
+const ChannelButton = ({
   name,
   removable,
   variant,
   handleOpen,
   handleSetActive,
 }) => {
-  const ChannelButton = (
+  const renderBtn = () => (
     <Button onClick={handleSetActive} variant={variant} className="w-100 rounded-0 text-start text-truncate">
       <span className="me-1">#</span>
       {name}
     </Button>
   );
 
-  if (!removable) {
-    return ChannelButton;
-  }
-
-  return (
+  const renderDropdown = () => (
     <Dropdown className="d-flex dropdown btn-group" as={ButtonGroup}>
-      {ChannelButton}
+      {renderBtn()}
       <Dropdown.Toggle split variant="light" id="dropdown-split-basic">
         <span className="visually-hidden">{i18next.t('entities.channels.channelSettings')}</span>
       </Dropdown.Toggle>
@@ -43,6 +39,8 @@ const generateChannelButton = ({
       </Dropdown.Menu>
     </Dropdown>
   );
+
+  return removable ? renderDropdown() : renderBtn();
 };
 
 const renderModal = ({ type }) => {
@@ -56,9 +54,13 @@ const renderModal = ({ type }) => {
 
 const ChannelsListArea = () => {
   const { t } = useTranslation();
-  const channels = useSelector((state) => state.channels.entities);
+  const {
+    entities: channels,
+    ui: {
+      active: activeChannelId,
+    },
+  } = useSelector((state) => state.channels);
   const modalState = useSelector((state) => state.modals);
-  const activeChannelId = useSelector((state) => state.channels.ui.active);
   const dispatch = useDispatch();
   const handleOpenModal = (type, invokedOn = null) => () => dispatch(
     openModal(
@@ -93,13 +95,13 @@ const ChannelsListArea = () => {
             : () => dispatch(setActive(id));
           return (
             <Nav.Item key={id} as="li">
-              {generateChannelButton({
-                name,
-                removable,
-                variant,
-                handleOpen: (action) => handleOpenModal(action, id),
-                handleSetActive: handleSetChannelActive,
-              })}
+              <ChannelButton
+                name={name}
+                removable={removable}
+                variant={variant}
+                handleOpen={(action) => handleOpenModal(action, id)}
+                handleSetActive={handleSetChannelActive}
+              />
             </Nav.Item>
           );
         })}
