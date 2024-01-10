@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { hooks } from '../providers/index';
 import toasts from '../utils/toasts';
 import { serverRoutes } from '../utils/routes';
-import { sendData } from '../api/serverApi';
+import { sendCredentials } from '../api/serverApi';
 import { setUsername } from '../slices/userSliсe';
 
 const LoginForm = () => {
@@ -31,7 +31,7 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const { data } = await sendData(serverRoutes.loginPath(), values);
+        const { data } = await sendCredentials(serverRoutes.loginPath(), values);
         dispatch(setUsername(data.username));
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();

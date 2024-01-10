@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 import filterProfanity from '../utils/profanityChecker';
 import { hooks } from '../providers/index';
-import { sendData } from '../api/serverApi';
+import { sendCredentials } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 
 const SignupForm = () => {
@@ -48,7 +48,7 @@ const SignupForm = () => {
         return;
       }
       try {
-        const { data } = await sendData(serverRoutes.signupPath(), values);
+        const { data } = await sendCredentials(serverRoutes.signupPath(), values);
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
         navigate('/');

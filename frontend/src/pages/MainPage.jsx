@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
 import Chat from '../components/chat/Chat';
 import { hooks } from '../providers/index';
-import { fetchData } from '../api/serverApi';
+import { fetchChatData } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
 import getAuthHeader from '../utils/getAuthHeader';
 import { addChannels, setDefaultChannel, setActive } from '../slices/channelsSlice';
@@ -27,7 +27,7 @@ const MainPage = () => {
     const connectToChat = async () => {
       try {
         setFetchStatus('fetching');
-        const { data } = await fetchData(serverRoutes.dataPath(), { headers: getAuthHeader() });
+        const { data } = await fetchChatData(serverRoutes.dataPath(), { headers: getAuthHeader() });
         const { channels, currentChannelId, messages } = data;
         dispatch(setDefaultChannel(currentChannelId));
         dispatch(setActive(currentChannelId));
