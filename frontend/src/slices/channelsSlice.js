@@ -6,7 +6,6 @@ const channelsAdapter = createEntityAdapter();
 const initialState = channelsAdapter.getInitialState({
   ui: {
     active: null,
-    needToMove: false,
     defaultChannel: null,
   },
 });
@@ -22,9 +21,6 @@ const channelsSlice = createSlice({
     setActive: (state, action) => {
       state.ui.active = action.payload;
     },
-    setNeedToMove: (state, action) => {
-      state.ui.needToMove = action.payload;
-    },
     setDefaultChannel: (state, action) => {
       state.ui.defaultChannel = action.payload;
     },
@@ -37,7 +33,6 @@ export const {
   removeChannel,
   renameChannel,
   setActive,
-  setNeedToMove,
   setDefaultChannel,
 } = channelsSlice.actions;
 

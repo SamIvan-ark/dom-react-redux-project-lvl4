@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext({});
@@ -11,9 +12,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
   };
+  const getUsername = () => JSON.parse(localStorage.getItem('userId')).username;
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={{
+      loggedIn,
+      logIn,
+      logOut,
+      getUsername,
+    }}
+    >
       {children}
     </AuthContext.Provider>
   );

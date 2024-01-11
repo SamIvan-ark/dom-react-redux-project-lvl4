@@ -9,17 +9,23 @@ import {
   addChannel,
   removeChannel,
   renameChannel,
-  setNeedToMove,
   setActive,
 } from '../../slices/channelsSlice';
 
 const Chat = () => {
   const { socket } = hooks.useApi();
+  const { getUsername } = hooks.useAuth();
   const dispatch = useDispatch();
-  const needToMoveOnNewChannel = useSelector((state) => state.channels.ui.needToMove);
   const { active: activeChannelId, defaultChannel } = useSelector((state) => state.channels.ui);
 
   useEffect(() => {
+    const onNewChannel = ({ author, ...newChannel }) => {
+      const username = getUsername();
+      if (username === author) {
+        dispatch(setActive(newChannel.id));
+      }
+      dispatch(addChannel(newChannel));
+    };
     const onNewMessage = (message) => dispatch(addMessage(message));
     const onRenamingChannel = ({ id, name }) => {
       dispatch(renameChannel({
@@ -29,9 +35,11 @@ const Chat = () => {
         },
       }));
     };
+    socket.on('newChannel', onNewChannel);
     socket.on('newMessage', onNewMessage);
     socket.on('renameChannel', onRenamingChannel);
     return () => {
+      socket.off('newChannel', onNewChannel);
       socket.off('newMessage', onNewMessage);
       socket.off('renameChannel', onRenamingChannel);
     };
@@ -49,20 +57,6 @@ const Chat = () => {
       socket.off('removeChannel', onRemovingChannel);
     };
   }, [activeChannelId]);
-
-  useEffect(() => {
-    const onNewChannel = (newChannel) => {
-      if (needToMoveOnNewChannel) {
-        dispatch(setActive(newChannel.id));
-        dispatch(setNeedToMove(false));
-      }
-      dispatch(addChannel(newChannel));
-    };
-    socket.on('newChannel', onNewChannel);
-    return () => {
-      socket.off('newChannel', onNewChannel);
-    };
-  }, [needToMoveOnNewChannel]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

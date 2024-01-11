@@ -7,13 +7,13 @@ import * as yup from 'yup';
 
 import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
-import { setNeedToMove } from '../../slices/channelsSlice';
 import toasts from '../../utils/toasts';
 import { hooks } from '../../providers';
 
 const AddChannel = () => {
   const { t } = useTranslation();
   const { newChannel } = hooks.useApi();
+  const { getUsername } = hooks.useAuth();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
@@ -41,11 +41,11 @@ const AddChannel = () => {
         return;
       }
       formik.setErrors({});
+      const username = getUsername();
       newChannel(
-        { name: censoredName },
+        { name: censoredName, author: username },
         ({ status }) => {
           if (status === 'ok') {
-            dispatch(setNeedToMove(true));
             handleClose();
             toasts.success(t('processes.channelCreated'));
           }

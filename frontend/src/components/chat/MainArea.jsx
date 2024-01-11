@@ -11,6 +11,7 @@ import filterProfanity from '../../utils/profanityChecker';
 const MainArea = () => {
   const { t } = useTranslation();
   const { newMessage } = hooks.useApi();
+  const { getUsername } = hooks.useAuth();
   const inputRef = useRef();
   const lastItemRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
@@ -25,8 +26,7 @@ const MainArea = () => {
       message: '',
     },
     onSubmit: (values) => {
-      const userData = localStorage.getItem('userId');
-      const { username } = JSON.parse(userData);
+      const username = getUsername();
       const { message } = values;
       const filteredMessage = filterProfanity(message);
       newMessage({

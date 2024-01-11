@@ -7,6 +7,7 @@ const options = {
   closeOnClick: true,
   draggable: true,
   theme: 'light',
+  pauseOnHover: false,
 };
 
 export default {
