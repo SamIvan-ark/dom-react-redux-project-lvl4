@@ -50,7 +50,7 @@ const MainPage = () => {
 
     connectToChat();
     socket.connect();
-  }, []);
+  }, [auth, dispatch, navigate, socket, t]);
   return (fetchStatus !== 'idle') ? (
     <div className="d-flex justify-content-center align-items-center h-100">
       <Spinner animation="border" variant="primary">

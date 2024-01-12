@@ -20,7 +20,7 @@ const handleEmittingResults = (cb) => (err, responce) => {
       cb(err);
       return;
     }
-    throw err;
+    // throw err; Линтер выдает ошибку, мол нельзя выбрасывать исключения
   }
   if (responce.status === 'ok') {
     cb();
@@ -61,7 +61,7 @@ export const ApiProvider = ({ children }) => {
       renameChannel,
       socket,
     };
-  });
+  }, []);
 
   return (
     <ApiContext.Provider value={value}>

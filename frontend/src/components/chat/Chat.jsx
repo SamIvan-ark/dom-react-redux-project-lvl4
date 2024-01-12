@@ -43,7 +43,7 @@ const Chat = () => {
       socket.off('newMessage', onNewMessage);
       socket.off('renameChannel', onRenamingChannel);
     };
-  }, []);
+  }, [dispatch, getUsername, socket]);
 
   useEffect(() => {
     const onRemovingChannel = ({ id }) => {
@@ -56,7 +56,7 @@ const Chat = () => {
     return () => {
       socket.off('removeChannel', onRemovingChannel);
     };
-  }, [activeChannelId]);
+  }, [activeChannelId, defaultChannel, dispatch, socket]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
