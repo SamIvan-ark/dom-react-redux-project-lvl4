@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
 import { hooks } from '../../providers';
+import toasts from '../../utils/toasts';
 import filterProfanity from '../../utils/profanityChecker';
 
 const MainArea = () => {
@@ -33,10 +34,13 @@ const MainArea = () => {
         text: filteredMessage,
         author: username,
         channelId: currentChannelId,
-      }, ({ status }) => {
-        if (status === 'ok') {
-          formik.resetForm();
+      }, (err) => {
+        if (err) {
+          toasts.error(t('errors.networkError'));
+          formik.setSubmitting(false);
+          return;
         }
+        formik.resetForm();
       });
     },
   });

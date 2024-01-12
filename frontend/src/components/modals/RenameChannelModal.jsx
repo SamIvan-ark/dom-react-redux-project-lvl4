@@ -47,11 +47,14 @@ const RenameChannelModal = () => {
       formik.setErrors({});
       renameChannel(
         { name: censoredName, id: invokedOn },
-        ({ status }) => {
-          if (status === 'ok') {
-            handleClose();
-            toasts.success(t('processes.channelRenamed'));
+        (err) => {
+          if (err) {
+            toasts.error(t('errors.networkError'));
+            formik.setSubmitting(false);
+            return;
           }
+          handleClose();
+          toasts.success(t('processes.channelRenamed'));
         },
       );
     },

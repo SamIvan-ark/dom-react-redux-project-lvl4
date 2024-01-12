@@ -15,11 +15,13 @@ const RemoveChannelModal = () => {
   const handleChannelRemove = (id) => {
     removeChannel(
       { id },
-      ({ status }) => {
-        if (status === 'ok') {
-          handleClose();
-          toasts.success(t('processes.channelRemoved'));
+      (err) => {
+        if (err) {
+          toasts.error(t('errors.networkError'));
+          return;
         }
+        handleClose();
+        toasts.success(t('processes.channelRemoved'));
       },
     );
   };

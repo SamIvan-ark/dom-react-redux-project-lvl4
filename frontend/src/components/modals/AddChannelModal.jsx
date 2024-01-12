@@ -44,11 +44,14 @@ const AddChannel = () => {
       const username = getUsername();
       newChannel(
         { name: censoredName, author: username },
-        ({ status }) => {
-          if (status === 'ok') {
-            handleClose();
-            toasts.success(t('processes.channelCreated'));
+        (err) => {
+          if (err) {
+            toasts.error(t('errors.networkError'));
+            formik.setSubmitting(false);
+            return;
           }
+          handleClose();
+          toasts.success(t('processes.channelCreated'));
         },
       );
     },
