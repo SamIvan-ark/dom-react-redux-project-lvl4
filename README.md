@@ -8,7 +8,7 @@
 ### Description
 In progress..
 
-### Deployed app: [click me](https://hexlet-chat2-x9ij.onrender.com/login)
+### Deployed app: [click me](https://chat-ivan-samozhenov.onrender.com)
 
 ### System requirements
 * node >= 18
