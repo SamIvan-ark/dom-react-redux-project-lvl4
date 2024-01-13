@@ -34,6 +34,7 @@ const MainPage = () => {
         dispatch(addChannels(channels));
         dispatch(addMessages(messages));
         setFetchStatus('idle');
+        socket.connect();
       } catch (err) {
         setFetchStatus('failed');
         if (err.isAxiosError && err.code === 'ERR_NETWORK') {
@@ -49,7 +50,6 @@ const MainPage = () => {
     };
 
     connectToChat();
-    socket.connect();
   }, [auth, dispatch, navigate, socket, t]);
   return (fetchStatus !== 'idle') ? (
     <div className="d-flex justify-content-center align-items-center h-100">
