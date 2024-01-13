@@ -24,7 +24,9 @@ const AddChannel = () => {
       .string()
       .min(3, t('errors.lengthFromTo', { from: 3, to: 20 }))
       .max(20, t('errors.lengthFromTo', { from: 3, to: 20 }))
-      .required(t('errors.emptyField')),
+      .required(t('errors.emptyField'))
+      .transform((value) => filterProfanity(value))
+      .test('unique', t('errors.channelAlreadyExist'), (value) => !takenNames.includes(value)),
   });
 
   const formik = useFormik({
@@ -34,13 +36,6 @@ const AddChannel = () => {
     validationSchema,
     onSubmit: ({ channelName }) => {
       const censoredName = filterProfanity(channelName);
-      if (takenNames.includes(censoredName)) {
-        formik.values.channelName = censoredName;
-        formik.setErrors({ channelName: t('errors.channelAlreadyExist') });
-        formik.setSubmitting(false);
-        return;
-      }
-      formik.setErrors({});
       const username = getUsername();
       newChannel(
         { name: censoredName, author: username },

@@ -28,7 +28,9 @@ const RenameChannelModal = () => {
       .string()
       .min(3, t('errors.lengthFromTo', { from: 3, to: 20 }))
       .max(20, t('errors.lengthFromTo', { from: 3, to: 20 }))
-      .required(t('errors.emptyField')),
+      .required(t('errors.emptyField'))
+      .transform((value) => filterProfanity(value))
+      .test('unique', t('errors.channelAlreadyExist'), (value) => !takenNames.includes(value)),
   });
 
   const formik = useFormik({
@@ -38,13 +40,6 @@ const RenameChannelModal = () => {
     validationSchema,
     onSubmit: ({ newNameOfChannel }) => {
       const censoredName = filterProfanity(newNameOfChannel);
-      if (takenNames.includes(censoredName)) {
-        formik.values.channelName = censoredName;
-        formik.setErrors({ newNameOfChannel: t('errors.channelAlreadyExist') });
-        formik.setSubmitting(false);
-        return;
-      }
-      formik.setErrors({});
       renameChannel(
         { name: censoredName, id: invokedOn },
         (err) => {
