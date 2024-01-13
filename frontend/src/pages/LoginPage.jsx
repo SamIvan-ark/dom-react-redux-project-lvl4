@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Image } from 'react-bootstrap';
+
 import LoginForm from '../components/LoginForm';
 import Navbar from '../components/Navbar';
-import totaImg from '../img/Tota-with-flag.jpg';
+import totaImg from '../assets/img/Tota-with-flag.jpg';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -23,7 +25,7 @@ const LoginPage = () => {
               <div className="card-footer p-4">
                 <div className="text-center">
                   <span className="d-inline block me-1">{t('credentials.noAcc')}</span>
-                  <a href="/signup">{t('credentials.registration')}</a>
+                  <Link to="/signup">{t('credentials.registration')}</Link>
                 </div>
               </div>
             </div>

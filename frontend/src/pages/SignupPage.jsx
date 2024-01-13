@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-bootstrap';
 import SignupForm from '../components/SignupForm';
 import Navbar from '../components/Navbar';
-import totaImg from '../img/Tota-celebrating.jpg';
+import totaImg from '../assets/img/Tota-celebrating.jpg';
 
 const SignupPage = () => (
   <>
