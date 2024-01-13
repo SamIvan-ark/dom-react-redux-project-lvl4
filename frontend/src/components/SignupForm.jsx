@@ -48,9 +48,8 @@ const SignupForm = () => {
         return;
       }
       try {
-        const { data } = await sendCredentials(serverRoutes.signupPath(), values);
-        localStorage.setItem('userId', JSON.stringify(data));
-        auth.logIn();
+        const { data: authData } = await sendCredentials(serverRoutes.signupPath(), values);
+        auth.logIn(authData);
         navigate('/');
       } catch (err) {
         formik.setSubmitting(false);
@@ -109,7 +108,6 @@ const SignupForm = () => {
       <Form.Group className="form-floating mb-4">
         <Form.Control
           disabled={formik.isSubmitting}
-          autoFocus
           type="password"
           autoComplete="username"
           name="passwordConfirmation"
