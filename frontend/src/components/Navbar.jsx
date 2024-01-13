@@ -4,7 +4,6 @@ import { hooks } from '../providers';
 const Navbar = () => {
   const auth = hooks.useAuth();
   const handleLogOut = () => {
-    window.localStorage.removeItem('userId');
     auth.logOut();
   };
   return (

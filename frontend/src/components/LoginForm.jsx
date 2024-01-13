@@ -31,10 +31,9 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const { data } = await sendCredentials(serverRoutes.loginPath(), values);
-        dispatch(setUsername(data.username));
-        localStorage.setItem('userId', JSON.stringify(data));
-        auth.logIn();
+        const { data: authData } = await sendCredentials(serverRoutes.loginPath(), values);
+        dispatch(setUsername(authData.username));
+        auth.logIn(authData);
         navigate('/');
       } catch (err) {
         formik.setSubmitting(false);
