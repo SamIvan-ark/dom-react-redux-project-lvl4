@@ -14,7 +14,6 @@ const SignupForm = () => {
   const { t } = useTranslation();
   const auth = hooks.useAuth();
   const [authFailed, setAuthFailed] = useState(false);
-  const [isUsernameProfanity, setIsUsernameProfanity] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
 
@@ -23,7 +22,8 @@ const SignupForm = () => {
       .string()
       .min(3, t('errors.lengthFromTo', { from: 3, to: 20 }))
       .max(20, t('errors.lengthFromTo', { from: 3, to: 20 }))
-      .required(t('errors.emptyField')),
+      .required(t('errors.emptyField'))
+      .test('not profanity', t('errors.profanityUsername'), (value) => value === filterProfanity(value)),
     password: yup
       .string()
       .min(6, t('errors.minLength', { length: 6 }))
@@ -39,14 +39,6 @@ const SignupForm = () => {
     validationSchema,
     onSubmit: async (values) => {
       setAuthFailed(false);
-      setIsUsernameProfanity(false);
-      if (values.username !== filterProfanity(values.username)) {
-        setIsUsernameProfanity(true);
-        formik.setErrors({ username: t('errors.profanityUsername') });
-        inputRef.current.select();
-        formik.setSubmitting(false);
-        return;
-      }
       try {
         const { data: authData } = await sendCredentials(serverRoutes.signupPath(), values);
         auth.logIn(authData);
@@ -81,10 +73,10 @@ const SignupForm = () => {
           placeholder={t('credentials.username')}
           onChange={formik.handleChange}
           value={formik.values.username}
-          isInvalid={(!!formik.errors.username && formik.touched.username) || isUsernameProfanity}
+          isInvalid={(!!formik.errors.username && formik.touched.username)}
         />
         <Form.Label htmlFor="username">{t('credentials.username')}</Form.Label>
-        {(formik.errors.username && formik.touched.username) || isUsernameProfanity
+        {(formik.errors.username && formik.touched.username)
           ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
           : null}
       </Form.Group>
