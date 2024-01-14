@@ -1,4 +1,11 @@
-export { default as LoginPage } from './LoginPage';
-export { default as MainPage } from './MainPage';
-export { default as NotFoundPage } from './NotFoundPage';
-export { default as SignupPage } from './SignupPage';
+import LoginPage from './LoginPage';
+import MainPage from './MainPage';
+import NotFoundPage from './NotFoundPage';
+import SignupPage from './SignupPage';
+
+export default {
+  loginPage: () => LoginPage,
+  mainPage: () => MainPage,
+  notFoundPage: () => NotFoundPage,
+  signupPage: () => SignupPage,
+};

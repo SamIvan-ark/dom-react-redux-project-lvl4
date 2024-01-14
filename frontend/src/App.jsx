@@ -6,17 +6,13 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 
 import { hooks } from './providers';
-import {
-  MainPage,
-  LoginPage,
-  NotFoundPage,
-  SignupPage,
-} from './pages';
+import config from './app-config';
+import pages from './pages';
 
-const ConditionalRoute = ({ children, redirectWhenAuthIsExist, redirectTo }) => {
+const PrivateRoute = ({ children, redirectTo }) => {
   const auth = hooks.useAuth();
 
-  return redirectWhenAuthIsExist === auth.loggedIn ? <Navigate to={redirectTo} /> : children;
+  return auth.loggedIn ? children : <Navigate to={redirectTo} />;
 };
 
 const App = () => (
@@ -24,24 +20,27 @@ const App = () => (
     <div className="d-flex flex-column h-100">
       <Router>
         <Routes>
-          <Route path="*" element={<NotFoundPage />} />
-          <Route
-            path="/"
-            element={(
-              <ConditionalRoute redirectWhenAuthIsExist={false} redirectTo="/login">
-                <MainPage />
-              </ConditionalRoute>
-            )}
-          />
-          <Route
-            path="/login"
-            element={(
-              <ConditionalRoute redirectWhenAuthIsExist redirectTo="/">
-                <LoginPage />
-              </ConditionalRoute>
-            )}
-          />
-          <Route path="/signup" element={<SignupPage />} />
+          {Object
+            .values(config.pages)
+            .map(({
+              id,
+              route,
+              isPrivate,
+              component,
+            }) => {
+              const Component = pages[component]();
+              return (
+                <Route
+                  key={id}
+                  path={route}
+                  element={isPrivate ? (
+                    <PrivateRoute redirectTo="/login">
+                      <Component />
+                    </PrivateRoute>
+                  ) : <Component />}
+                />
+              );
+            })}
         </Routes>
       </Router>
       <ToastContainer />
