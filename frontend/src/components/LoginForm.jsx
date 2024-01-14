@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -10,12 +9,10 @@ import { hooks } from '../providers';
 import toasts from '../utils/toasts';
 import { serverRoutes } from '../utils/routes';
 import { sendCredentials } from '../api/serverApi';
-import { setUsername } from '../slices/userSliсe';
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const auth = hooks.useAuth();
-  const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -32,7 +29,6 @@ const LoginForm = () => {
       setAuthFailed(false);
       try {
         const { data: authData } = await sendCredentials(serverRoutes.loginPath(), values);
-        dispatch(setUsername(authData.username));
         auth.logIn(authData);
         navigate('/');
       } catch (err) {
