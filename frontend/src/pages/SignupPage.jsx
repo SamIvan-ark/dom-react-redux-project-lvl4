@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
-import SignupForm from '../components/SignupForm';
-import Navbar from '../components/Navbar';
+
+import { SignupForm, Navbar } from '../components';
 import totaImg from '../assets/img/Tota-celebrating.jpg';
 
 const SignupPage = () => (

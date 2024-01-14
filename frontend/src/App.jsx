@@ -6,10 +6,12 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 
 import { hooks } from './providers';
-import MainPage from './pages/MainPage';
-import LoginPage from './pages/LoginPage';
-import NotFoundPage from './pages/NotFoundPage';
-import SignupPage from './pages/SignupPage';
+import {
+  MainPage,
+  LoginPage,
+  NotFoundPage,
+  SignupPage,
+} from './pages';
 
 const ConditionalRoute = ({ children, redirectWhenAuthIsExist, redirectTo }) => {
   const auth = hooks.useAuth();

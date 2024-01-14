@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Image } from 'react-bootstrap';
 
-import LoginForm from '../components/LoginForm';
-import Navbar from '../components/Navbar';
+import { LoginForm, Navbar } from '../components';
 import totaImg from '../assets/img/Tota-with-flag.jpg';
 
 const LoginPage = () => {

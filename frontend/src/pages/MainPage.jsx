@@ -4,8 +4,7 @@ import { Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import Navbar from '../components/Navbar';
-import Chat from '../components/chat/Chat';
+import { Navbar, Chat } from '../components';
 import { hooks } from '../providers';
 import { fetchChatData } from '../api/serverApi';
 import { serverRoutes } from '../utils/routes';
