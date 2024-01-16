@@ -37,6 +37,8 @@ const SignupForm = () => {
   const formik = useFormik({
     initialValues: { username: '', password: '', passwordConfirmation: '' },
     validationSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
