@@ -1,26 +1,29 @@
+import { lazy } from 'react';
+
 const pages = {
   notFoundPage: {
     id: 0,
     route: '*',
-    component: 'notFoundPage',
+    Component: lazy(() => import('./pages/NotFoundPage')),
     isPrivate: false,
   },
   mainPage: {
     id: 1,
     route: '/',
-    component: 'mainPage',
+    redirectTo: '/login',
+    Component: lazy(() => import('./pages/MainPage')),
     isPrivate: true,
   },
   loginPage: {
     id: 2,
     route: '/login',
-    component: 'loginPage',
+    Component: lazy(() => import('./pages/LoginPage')),
     isPrivate: false,
   },
   signupPage: {
     id: 3,
     route: '/signup',
-    component: 'signupPage',
+    Component: lazy(() => import('./pages/SignupPage')),
     isPrivate: false,
   },
 };

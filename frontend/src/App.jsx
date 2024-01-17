@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
+import CenteredSpinner from './components/CenteredSpinner';
+import config from './app.config';
 import { hooks } from './providers';
-import config from './app-config';
-import pages from './pages';
 
 const PrivateRoute = ({ children, redirectTo }) => {
   const auth = hooks.useAuth();
 
   return auth.loggedIn ? children : <Navigate to={redirectTo} />;
 };
+const WrappedRouteComponent = ({ children, isPrivate, redirectTo }) => (
+  <Suspense fallback={<CenteredSpinner />}>
+    {isPrivate ? (
+      <PrivateRoute redirectTo={redirectTo}>
+        {children}
+      </PrivateRoute>
+    ) : children}
+  </Suspense>
+);
+
+const { pages } = config;
 
 const App = () => (
   <div className="h-100" id="chat">
@@ -21,26 +32,24 @@ const App = () => (
       <Router>
         <Routes>
           {Object
-            .values(config.pages)
+            .values(pages)
             .map(({
               id,
               route,
               isPrivate,
-              component,
-            }) => {
-              const Component = pages[component]();
-              return (
-                <Route
-                  key={id}
-                  path={route}
-                  element={isPrivate ? (
-                    <PrivateRoute redirectTo="/login">
-                      <Component />
-                    </PrivateRoute>
-                  ) : <Component />}
-                />
-              );
-            })}
+              Component,
+              redirectTo,
+            }) => (
+              <Route
+                key={id}
+                path={route}
+                element={(
+                  <WrappedRouteComponent isPrivate={isPrivate} redirectTo={redirectTo}>
+                    <Component />
+                  </WrappedRouteComponent>
+                )}
+              />
+            ))}
         </Routes>
       </Router>
       <ToastContainer />
