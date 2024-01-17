@@ -9,13 +9,15 @@ const rollbarConfig = {
 
 const ConditionalRollbarProvider = ({ children }) => {
   const isDev = process.env.NODE_ENV === 'development';
-  return isDev ? (
-    <RollbarProvider config={rollbarConfig}>
-      <ErrorBoundary>
-        {children}
-      </ErrorBoundary>
-    </RollbarProvider>
-  ) : children;
+  return isDev
+    ? children
+    : (
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
+      </RollbarProvider>
+    );
 };
 
 export default ConditionalRollbarProvider;
