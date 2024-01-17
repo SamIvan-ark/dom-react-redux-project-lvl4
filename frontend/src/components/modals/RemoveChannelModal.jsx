@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,17 +8,19 @@ import toasts from '../../utils/toasts';
 import { hooks } from '../../providers';
 
 const RemoveChannelModal = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useTranslation();
   const { removeChannel } = hooks.useApi();
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.modals);
   const handleClose = () => dispatch(closeModal());
   const handleChannelRemove = (id) => {
+    setIsSubmitting(true);
     removeChannel(
       { id },
       (err) => {
+        setIsSubmitting(false);
         if (err) {
-          toasts.error(t('errors.networkError'));
           return;
         }
         handleClose();
@@ -34,7 +37,7 @@ const RemoveChannelModal = () => {
         <p className="lead">{t('userInteractions.confirm')}</p>
         <div className="d-flex justify-content-end">
           <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
-          <Button onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('actions.remove')}</Button>
+          <Button disabled={isSubmitting} onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('actions.remove')}</Button>
         </div>
       </Modal.Body>
     </Modal>

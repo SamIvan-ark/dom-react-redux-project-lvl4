@@ -46,7 +46,6 @@ const RenameChannelModal = () => {
         { name: censoredName, id: invokedOn },
         (err) => {
           if (err) {
-            toasts.error(t('errors.networkError'));
             formik.setSubmitting(false);
             return;
           }

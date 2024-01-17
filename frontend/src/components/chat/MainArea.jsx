@@ -6,7 +6,6 @@ import { useFormik } from 'formik';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 
 import { hooks } from '../../providers';
-import toasts from '../../utils/toasts';
 import filterProfanity from '../../utils/profanityChecker';
 
 const MainArea = () => {
@@ -36,7 +35,6 @@ const MainArea = () => {
         channelId: currentChannelId,
       }, (err) => {
         if (err) {
-          toasts.error(t('errors.networkError'));
           formik.setSubmitting(false);
           return;
         }

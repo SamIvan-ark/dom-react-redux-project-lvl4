@@ -43,7 +43,6 @@ const AddChannel = () => {
         { name: censoredName, author: username },
         (err) => {
           if (err) {
-            toasts.error(t('errors.networkError'));
             formik.setSubmitting(false);
             return;
           }
