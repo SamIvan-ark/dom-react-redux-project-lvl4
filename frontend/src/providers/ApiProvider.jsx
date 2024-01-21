@@ -27,7 +27,9 @@ const handleEmittingResults = (cb, t) => (err, response) => {
 };
 
 export const ApiProvider = ({ children }) => {
-  const socket = io();
+  const socket = io({
+    autoConnect: false,
+  });
   const { t } = useTranslation();
   const value = useMemo(() => {
     const newMessage = (data, cb) => {
