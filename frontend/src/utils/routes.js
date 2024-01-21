@@ -1,9 +1,8 @@
-const apiPath = '/api/v1';
-
-export const serverRoutes = {
-  loginPath: () => [apiPath, 'login'].join('/'),
-  dataPath: () => [apiPath, 'data'].join('/'),
-  signupPath: () => [apiPath, 'signup'].join('/'),
+const serverRoutes = {
+  BASE_URL: '/api/v1',
+  LOGIN: '/login',
+  GET_DATA: '/data',
+  SIGNUP: '/signup',
 };
 
-export const lala = 'jopa';
+export default serverRoutes;

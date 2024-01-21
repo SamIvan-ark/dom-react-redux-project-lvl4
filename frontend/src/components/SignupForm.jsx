@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
@@ -7,13 +7,13 @@ import * as yup from 'yup';
 
 import filterProfanity from '../utils/profanityChecker';
 import { hooks } from '../providers';
-import { sendCredentials } from '../api/serverApi';
-import { serverRoutes } from '../utils/routes';
+import toasts from '../utils/toasts';
+import { useSignupUserMutation } from '../services/apiSlice';
 
 const SignupForm = () => {
+  const [signup, { isError, error }] = useSignupUserMutation();
   const { t } = useTranslation();
   const auth = hooks.useAuth();
-  const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
 
@@ -40,22 +40,27 @@ const SignupForm = () => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values) => {
-      setAuthFailed(false);
-      try {
-        const { data: authData } = await sendCredentials(serverRoutes.signupPath(), values);
+      const { data: authData } = await signup(values);
+      if (authData) {
         auth.logIn(authData);
         navigate('/');
-      } catch (err) {
-        formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 409) {
-          setAuthFailed(true);
-          inputRef.current.select();
-          return;
-        }
-        throw err;
       }
     },
   });
+
+  const isUsernameCollision = isError && error.status === 409;
+
+  useEffect(() => {
+    if (isError) {
+      if (isUsernameCollision) {
+        inputRef.current.select();
+      } else if (error.status === 'FETCH_ERROR') {
+        toasts.error(t('errors.networkError'));
+      } else {
+        throw error;
+      }
+    }
+  }, [isError]);
 
   return (
     <Form
@@ -66,8 +71,8 @@ const SignupForm = () => {
       <Form.Group className="form-floating mb-3">
         <Form.Control
           disabled={formik.isSubmitting}
-          ref={inputRef}
           autoFocus
+          ref={inputRef}
           type="text"
           autoComplete="username"
           name="username"
@@ -75,11 +80,17 @@ const SignupForm = () => {
           placeholder={t('credentials.username')}
           onChange={formik.handleChange}
           value={formik.values.username}
-          isInvalid={(!!formik.errors.username && formik.touched.username)}
+          isInvalid={(
+            !!formik.errors.username
+            && formik.touched.username)
+            || isUsernameCollision}
         />
         <Form.Label htmlFor="username">{t('credentials.username')}</Form.Label>
         {(formik.errors.username && formik.touched.username)
           ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
+          : null}
+        {isUsernameCollision
+          ? <Form.Control.Feedback type="invalid" tooltip>{t('errors.userAlreadyExist')}</Form.Control.Feedback>
           : null}
       </Form.Group>
       <Form.Group className="form-floating mb-3">
@@ -92,7 +103,10 @@ const SignupForm = () => {
           autoComplete="new-password"
           onChange={formik.handleChange}
           value={formik.values.password}
-          isInvalid={!!formik.errors.password && formik.touched.password}
+          isInvalid={
+            !!formik.errors.password
+            && formik.touched.password
+          }
         />
         <Form.Label htmlFor="password">{t('credentials.password')}</Form.Label>
         {formik.errors.password && formik.touched.password
@@ -109,17 +123,14 @@ const SignupForm = () => {
           placeholder={t('credentials.confirmPassword')}
           onChange={formik.handleChange}
           value={formik.values.passwordConfirmation}
-          isInvalid={(
+          isInvalid={
             !!formik.errors.passwordConfirmation
-            && formik.touched.passwordConfirmation)
-            || authFailed}
+            && formik.touched.passwordConfirmation
+          }
         />
         <Form.Label htmlFor="passwordConfirmation">{t('credentials.confirmPassword')}</Form.Label>
         {formik.errors.passwordConfirmation && formik.touched.passwordConfirmation
           ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.passwordConfirmation}</Form.Control.Feedback>
-          : null}
-        {authFailed
-          ? <Form.Control.Feedback type="invalid" tooltip>{t('errors.userAlreadyExist')}</Form.Control.Feedback>
           : null}
       </Form.Group>
       <Button
