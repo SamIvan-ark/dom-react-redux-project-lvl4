@@ -51,7 +51,7 @@ const MainArea = () => {
       inputRef.current.focus();
       lastItemRef.current.scrollIntoView();
     }
-  }, [currentMessages]);
+  }, [isLoading]);
 
   return (isLoading)
     ? <CenteredSpinner />

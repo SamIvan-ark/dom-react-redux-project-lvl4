@@ -43,7 +43,7 @@ const MainPage = () => {
       dispatch(addMessages(messages));
       socket.connect();
     }
-  }, [isLoading]);
+  }, [isLoading, data, dispatch, isSuccess, socket]);
 
   if (isError) {
     if (error.status === 401) {
@@ -52,8 +52,6 @@ const MainPage = () => {
       navigate('/login');
     } else if (error.status === 'FETCH_ERROR') {
       toasts.error(t('errors.networkError'));
-    } else {
-      throw error;
     }
   }
   return (isLoading || !isSuccess) ? (

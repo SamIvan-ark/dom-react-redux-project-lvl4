@@ -63,7 +63,7 @@ export const ApiProvider = ({ children }) => {
       renameChannel,
       socket,
     };
-  }, [socket]);
+  }, [socket, t]);
 
   return (
     <ApiContext.Provider value={value}>

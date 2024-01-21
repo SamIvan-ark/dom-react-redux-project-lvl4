@@ -56,11 +56,9 @@ const SignupForm = () => {
         inputRef.current.select();
       } else if (error.status === 'FETCH_ERROR') {
         toasts.error(t('errors.networkError'));
-      } else {
-        throw error;
       }
     }
-  }, [isError]);
+  }, [isError, error, isUsernameCollision, t]);
 
   return (
     <Form

@@ -43,12 +43,9 @@ const LoginForm = () => {
         inputRef.current.select();
       } else if (error.status === 'FETCH_ERROR') {
         toasts.error(t('errors.networkError'));
-      } else {
-        throw error;
       }
     }
-  }, [isError]);
-
+  }, [isError, error, isAuthFailed, t]);
   return (
     <Form
       className="col-12 col-md-6 mt-3 mt-mb-0"
