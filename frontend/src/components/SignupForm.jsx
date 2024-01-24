@@ -8,10 +8,10 @@ import * as yup from 'yup';
 import filterProfanity from '../utils/profanityChecker';
 import { hooks } from '../providers';
 import toasts from '../utils/toasts';
-import { useSignupUserMutation } from '../services/apiSlice';
+import { useSignupMutation } from '../api/userApi';
 
 const SignupForm = () => {
-  const [signup, { isError, error }] = useSignupUserMutation();
+  const [signup, { isError, error }] = useSignupMutation();
   const { t } = useTranslation();
   const auth = hooks.useAuth();
   const inputRef = useRef();

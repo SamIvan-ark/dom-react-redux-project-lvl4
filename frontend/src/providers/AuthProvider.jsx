@@ -6,16 +6,16 @@ const AuthContext = createContext({});
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(() => !!localStorage.getItem('userId'));
+  const [loggedIn, setLoggedIn] = useState(() => !!localStorage.getItem('user'));
   const logIn = (authData) => {
-    localStorage.setItem('userId', JSON.stringify(authData));
+    localStorage.setItem('user', JSON.stringify(authData));
     setLoggedIn(true);
   };
   const logOut = () => {
-    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     setLoggedIn(false);
   };
-  const getUsername = () => JSON.parse(localStorage.getItem('userId')).username;
+  const getUsername = () => JSON.parse(localStorage.getItem('user')).username;
   return (
     <AuthContext.Provider value={{
       loggedIn,

@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 
 import { hooks } from '../providers';
 import toasts from '../utils/toasts';
-import { useLoginUserMutation } from '../services/apiSlice';
+import { useLoginMutation } from '../api/userApi';
 
 const LoginForm = () => {
-  const [login, { isLoading, isError, error }] = useLoginUserMutation();
+  const [login, { isLoading, isError, error }] = useLoginMutation();
   const { t } = useTranslation();
   const auth = hooks.useAuth();
   const inputRef = useRef();
