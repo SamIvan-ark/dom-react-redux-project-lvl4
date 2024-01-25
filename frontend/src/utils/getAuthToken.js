@@ -1,1 +1,1 @@
-export default () => JSON.parse(localStorage.getItem('user')).token;
+export default () => JSON.parse(localStorage.getItem('user'))?.token;

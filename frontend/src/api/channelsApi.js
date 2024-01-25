@@ -4,7 +4,7 @@ import serverRoutes from '../utils/routes';
 import baseQueryWithHeaders from './baseQuery';
 
 export const channels = createApi({
-  reducerPath: 'channels',
+  reducerPath: 'channelsApi',
   baseQuery: baseQueryWithHeaders(),
   tagTypes: ['Channels'],
   endpoints: (builder) => ({
