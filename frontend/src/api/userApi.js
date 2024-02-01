@@ -4,7 +4,7 @@ import serverRoutes from '../utils/routes';
 import baseQueryWithHeaders from './baseQuery';
 
 export const user = createApi({
-  reducerPath: 'user',
+  reducerPath: 'userApi',
   baseQuery: baseQueryWithHeaders(),
   endpoints: (builder) => ({
     login: builder.mutation({

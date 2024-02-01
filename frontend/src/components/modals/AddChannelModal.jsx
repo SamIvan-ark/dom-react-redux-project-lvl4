@@ -9,15 +9,19 @@ import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
 import { hooks } from '../../providers';
+import { useAddChannelMutation } from '../../api/channelsApi';
 
 const AddChannel = () => {
   const { t } = useTranslation();
-  const { newChannel } = hooks.useApi();
   const { getUsername } = hooks.useAuth();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeModal());
+  const [sendNewChannel, {
+    isLoading,
+    isSuccess,
+  }] = useAddChannelMutation();
 
   const validationSchema = yup.object().shape({
     channelName: yup
@@ -39,19 +43,18 @@ const AddChannel = () => {
     onSubmit: ({ channelName }) => {
       const censoredName = filterProfanity(channelName);
       const username = getUsername();
-      newChannel(
+      sendNewChannel(
         { name: censoredName, author: username },
-        (err) => {
-          if (err) {
-            formik.setSubmitting(false);
-            return;
-          }
-          handleClose();
-          toasts.success(t('processes.channelCreated'));
-        },
       );
     },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      handleClose();
+      toasts.success(t('processes.channelCreated'));
+    }
+  }, [isSuccess, t]);
 
   const inputRef = useRef();
 
@@ -85,7 +88,7 @@ const AddChannel = () => {
             {formik.errors.channelName ? <div className="text-danger">{formik.errors.channelName}</div> : null}
             <div className="d-flex justify-content-end">
               <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
-              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('actions.send')}</Button>
+              <Button disabled={isLoading} variant="primary" type="submit">{t('actions.send')}</Button>
             </div>
           </Form.Group>
         </Form>

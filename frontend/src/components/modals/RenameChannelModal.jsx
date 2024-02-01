@@ -8,11 +8,14 @@ import * as yup from 'yup';
 import { closeModal } from '../../slices/modalsSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
-import { hooks } from '../../providers';
+import { useEditChannelMutation } from '../../api/channelsApi';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();
-  const { renameChannel } = hooks.useApi();
+  const [renameChannel, {
+    isLoading,
+    isSuccess,
+  }] = useEditChannelMutation();
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
@@ -43,15 +46,7 @@ const RenameChannelModal = () => {
     onSubmit: ({ newNameOfChannel }) => {
       const censoredName = filterProfanity(newNameOfChannel);
       renameChannel(
-        { name: censoredName, id: invokedOn },
-        (err) => {
-          if (err) {
-            formik.setSubmitting(false);
-            return;
-          }
-          handleClose();
-          toasts.success(t('processes.channelRenamed'));
-        },
+        { data: { name: censoredName }, id: invokedOn },
       );
     },
   });
@@ -65,6 +60,13 @@ const RenameChannelModal = () => {
   useEffect(() => {
     inputRef.current.focus();
   }, [formik.errors.newNameOfChannel]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      handleClose();
+      toasts.success(t('processes.channelRenamed'));
+    }
+  }, [isSuccess, t]);
 
   return (
     <Modal show centered onHide={() => handleClose()}>
@@ -93,7 +95,7 @@ const RenameChannelModal = () => {
             {formik.errors.newNameOfChannel ? <div className="text-danger">{formik.errors.newNameOfChannel}</div> : null}
             <div className="d-flex justify-content-end">
               <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
-              <Button disabled={formik.isSubmitting} variant="primary" type="submit">{t('actions.send')}</Button>
+              <Button disabled={isLoading} variant="primary" type="submit">{t('actions.send')}</Button>
             </div>
           </Form.Group>
         </Form>

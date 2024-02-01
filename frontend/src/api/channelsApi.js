@@ -10,14 +10,41 @@ export const channels = createApi({
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => ({
-        url: serverRoutes.GET_CHANNELS,
+        url: serverRoutes.CHANNELS,
       }),
+      providesTags: ['Channels'],
+    }),
+    addChannel: builder.mutation({
+      query: (data) => ({
+        url: serverRoutes.CHANNELS,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Channels'],
+    }),
+    editChannel: builder.mutation({
+      query: ({ data, id }) => ({
+        url: [serverRoutes.CHANNELS, id].join('/'),
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Channels'],
+    }),
+    removeChannel: builder.mutation({
+      query: ({ id }) => ({
+        url: [serverRoutes.CHANNELS, id].join('/'),
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Channels'],
     }),
   }),
 });
 
 export const {
   useGetChannelsQuery,
+  useAddChannelMutation,
+  useEditChannelMutation,
+  useRemoveChannelMutation,
 } = channels;
 
 export default channels;

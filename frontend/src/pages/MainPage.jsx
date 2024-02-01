@@ -33,7 +33,7 @@ const MainPage = () => {
       dispatch(setActive(currentChannelId));
       dispatch(addChannels(channels));
       // dispatch(addMessages(messages));
-      socket.connect();
+      // socket.connect();
     }
   }, [
     isChannelsLoading,
