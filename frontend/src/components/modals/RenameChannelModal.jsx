@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
-import { closeModal } from '../../slices/modalsSlice';
+import { closeModal } from '../../slices/uiSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
 import { useEditChannelMutation } from '../../api/channelsApi';
@@ -19,7 +19,7 @@ const RenameChannelModal = () => {
   const allChannels = useSelector((state) => state.channels.entities);
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
-  const { invokedOn } = useSelector((state) => state.modals);
+  const { invokedOn } = useSelector((state) => state.ui.modal);
   const { name } = useSelector((state) => state
     .channels
     .entities[invokedOn]);

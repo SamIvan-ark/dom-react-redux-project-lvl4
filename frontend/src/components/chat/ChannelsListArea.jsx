@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 
-import { openModal } from '../../slices/modalsSlice';
+import { openModal } from '../../slices/uiSlice';
 import getModal from '../modals';
 import { setActive } from '../../slices/channelsSlice';
 import i18next from '../../utils/i18next';
@@ -60,7 +60,7 @@ const ChannelsListArea = () => {
       active: activeChannelId,
     },
   } = useSelector((state) => state.channels);
-  const modalState = useSelector((state) => state.modals);
+  const modalState = useSelector((state) => state.ui.modal);
   const dispatch = useDispatch();
   const handleOpenModal = (type, invokedOn = null) => () => dispatch(
     openModal(

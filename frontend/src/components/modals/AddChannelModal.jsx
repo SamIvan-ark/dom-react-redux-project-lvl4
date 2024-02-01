@@ -5,7 +5,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { closeModal } from '../../slices/modalsSlice';
+import { closeModal } from '../../slices/uiSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
 import { hooks } from '../../providers';

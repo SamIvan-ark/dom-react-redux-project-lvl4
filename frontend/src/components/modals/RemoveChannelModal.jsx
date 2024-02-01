@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { closeModal } from '../../slices/modalsSlice';
+import { closeModal } from '../../slices/uiSlice';
 import toasts from '../../utils/toasts';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 
@@ -14,7 +14,7 @@ const RemoveChannelModal = () => {
   }] = useRemoveChannelMutation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { invokedOn } = useSelector((state) => state.modals);
+  const { invokedOn } = useSelector((state) => state.ui.modal);
   const handleClose = () => dispatch(closeModal());
   const handleChannelRemove = (id) => {
     removeChannel({ id });
@@ -22,8 +22,8 @@ const RemoveChannelModal = () => {
 
   useEffect(() => {
     if (isSuccess) {
-        handleClose();
-        toasts.success(t('processes.channelRemoved'));
+      handleClose();
+      toasts.success(t('processes.channelRemoved'));
     }
   }, [isSuccess, t]);
 
