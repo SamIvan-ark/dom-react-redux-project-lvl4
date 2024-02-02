@@ -3,7 +3,7 @@ import messagesSlice from './messagesSlice';
 import channelsApi from '../api/channelsApi';
 import userApi from '../api/userApi';
 import uiSlice from './uiSlice';
-// import * as messages from '../api/messagesApi';
+import messagesApi from '../api/messagesApi';
 
 export default configureStore({
   reducer: {
@@ -11,8 +11,8 @@ export default configureStore({
     messages: messagesSlice,
     [channelsApi.reducerPath]: channelsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
-    // [messages.reducerPath]: messages.reducer,
+    [messagesApi.reducerPath]: messagesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-    .concat([userApi.middleware, channelsApi.middleware]),
+    .concat([userApi.middleware, channelsApi.middleware, messagesApi.middleware]),
 });
