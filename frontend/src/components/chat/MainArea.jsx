@@ -16,11 +16,10 @@ const MainArea = () => {
   const inputRef = useRef();
   const lastItemRef = useRef();
   const messages = useSelector((state) => state.messages.entities);
-  const currentChannelId = useSelector((state) => state.channels.ui.active);
-  const currentChannelInfo = useSelector((state) => state.channels.entities[currentChannelId]);
+  const currentChannel = useSelector((state) => state.ui.channels.activeChannel);
   const currentMessages = Object
     .values(messages)
-    .filter((message) => message.channelId === currentChannelId);
+    .filter((message) => message.channelId === currentChannel.id);
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +32,7 @@ const MainArea = () => {
       newMessage({
         text: filteredMessage,
         author: username,
-        channelId: currentChannelId,
+        channelId: currentChannel.id,
       }, (err) => {
         if (err) {
           formik.setSubmitting(false);
@@ -44,7 +43,7 @@ const MainArea = () => {
     },
   });
 
-  const isLoading = !messages || !currentChannelId || !currentChannelInfo;
+  const isLoading = !messages || !currentChannel;
 
   useEffect(() => {
     if (!isLoading) {
@@ -59,7 +58,7 @@ const MainArea = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b>{`# ${currentChannelInfo.name}`}</b>
+            <b>{`# ${currentChannel.name}`}</b>
           </p>
           <span className="text-muted">{t('entities.messages.count', { count: currentMessages.length })}</span>
         </div>

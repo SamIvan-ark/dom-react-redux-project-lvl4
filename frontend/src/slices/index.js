@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import channelsSlice from './channelsSlice';
 import messagesSlice from './messagesSlice';
 import channelsApi from '../api/channelsApi';
 import userApi from '../api/userApi';
@@ -8,7 +7,6 @@ import uiSlice from './uiSlice';
 
 export default configureStore({
   reducer: {
-    channels: channelsSlice,
     ui: uiSlice,
     messages: messagesSlice,
     [channelsApi.reducerPath]: channelsApi.reducer,

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import CenteredSpinner from '../components/CenteredSpinner';
 import { Chat, Navbar } from '../components';
 import { hooks } from '../providers';
-import { addChannels, setDefaultChannel, setActive } from '../slices/channelsSlice';
+import { setDefaultChannel, setActive } from '../slices/uiSlice';
 // import { addMessages } from '../slices/messagesSlice';
 import toasts from '../utils/toasts';
 import { useGetChannelsQuery } from '../api/channelsApi';
@@ -19,28 +19,24 @@ const MainPage = () => {
     isError: isChannelsLoadingError,
     error: channelsLoadingError,
   } = useGetChannelsQuery();
-  const { useApi, useAuth } = hooks;
+  const { useAuth } = hooks;
   const navigate = useNavigate();
   const auth = useAuth();
-  const { socket } = useApi();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const isStoreFullfilled = useSelector(
+    (state) => state.ui.channels.activeChannel && state.ui.channels.defaultChannel,
+  ); // сомнительно
 
   useEffect(() => {
     if (isChannelsLoadingSuccess) {
-      const currentChannelId = channels[0].id;
-      dispatch(setDefaultChannel(currentChannelId));
-      dispatch(setActive(currentChannelId));
-      dispatch(addChannels(channels));
-      // dispatch(addMessages(messages));
-      // socket.connect();
+      const currentChannel = channels[0];
+      dispatch(setDefaultChannel(currentChannel));
+      dispatch(setActive(currentChannel));
     }
   }, [
-    isChannelsLoading,
-    channels,
     dispatch,
     isChannelsLoadingSuccess,
-    socket,
   ]);
 
   if (isChannelsLoadingError) {
@@ -53,12 +49,12 @@ const MainPage = () => {
     }
   }
 
-  return (isChannelsLoading || !isChannelsLoadingSuccess) ? (
+  return (!isStoreFullfilled || isChannelsLoading || !isChannelsLoadingSuccess) ? (
     <CenteredSpinner />
   ) : (
     <>
       <Navbar />
-      <Chat />
+      <Chat channels={channels} />
     </>
   );
 };

@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { closeModal } from '../../slices/uiSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
-import { useEditChannelMutation } from '../../api/channelsApi';
+import { useGetChannelsQuery, useEditChannelMutation } from '../../api/channelsApi';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();
@@ -16,13 +16,11 @@ const RenameChannelModal = () => {
     isLoading,
     isSuccess,
   }] = useEditChannelMutation();
-  const allChannels = useSelector((state) => state.channels.entities);
+  const { data: allChannels } = useGetChannelsQuery();
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
   const { invokedOn } = useSelector((state) => state.ui.modal);
-  const { name } = useSelector((state) => state
-    .channels
-    .entities[invokedOn]);
+  const { name } = invokedOn;
 
   const handleClose = () => dispatch(closeModal());
 
@@ -46,7 +44,7 @@ const RenameChannelModal = () => {
     onSubmit: ({ newNameOfChannel }) => {
       const censoredName = filterProfanity(newNameOfChannel);
       renameChannel(
-        { data: { name: censoredName }, id: invokedOn },
+        { data: { name: censoredName }, id: invokedOn.id },
       );
     },
   });

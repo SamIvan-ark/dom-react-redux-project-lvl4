@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -9,12 +9,12 @@ import { closeModal } from '../../slices/uiSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
 import { hooks } from '../../providers';
-import { useAddChannelMutation } from '../../api/channelsApi';
+import { useGetChannelsQuery, useAddChannelMutation } from '../../api/channelsApi';
 
 const AddChannel = () => {
   const { t } = useTranslation();
   const { getUsername } = hooks.useAuth();
-  const allChannels = useSelector((state) => state.channels.entities);
+  const { data: allChannels } = useGetChannelsQuery();
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeModal());

@@ -14,10 +14,10 @@ const RemoveChannelModal = () => {
   }] = useRemoveChannelMutation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { invokedOn } = useSelector((state) => state.ui.modal);
+  const { invokedOn: { id } } = useSelector((state) => state.ui.modal);
   const handleClose = () => dispatch(closeModal());
-  const handleChannelRemove = (id) => {
-    removeChannel({ id });
+  const handleChannelRemove = (channelId) => {
+    removeChannel({ id: channelId });
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const RemoveChannelModal = () => {
         <p className="lead">{t('userInteractions.confirm')}</p>
         <div className="d-flex justify-content-end">
           <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
-          <Button disabled={isLoading} onClick={() => handleChannelRemove(invokedOn)} variant="danger">{t('actions.remove')}</Button>
+          <Button disabled={isLoading} onClick={() => handleChannelRemove(id)} variant="danger">{t('actions.remove')}</Button>
         </div>
       </Modal.Body>
     </Modal>

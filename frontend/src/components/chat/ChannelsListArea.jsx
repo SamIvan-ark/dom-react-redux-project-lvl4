@@ -8,9 +8,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 
-import { openModal } from '../../slices/uiSlice';
+import { openModal, setActive } from '../../slices/uiSlice';
 import getModal from '../modals';
-import { setActive } from '../../slices/channelsSlice';
 import i18next from '../../utils/i18next';
 
 const ChannelButton = ({
@@ -52,14 +51,9 @@ const renderModal = ({ type }) => {
   return <CurrentModal />;
 };
 
-const ChannelsListArea = () => {
+const ChannelsListArea = ({ channels }) => {
   const { t } = useTranslation();
-  const {
-    entities: channels,
-    ui: {
-      active: activeChannelId,
-    },
-  } = useSelector((state) => state.channels);
+  const { activeChannel } = useSelector((state) => state.ui.channels);
   const modalState = useSelector((state) => state.ui.modal);
   const dispatch = useDispatch();
   const handleOpenModal = (type, invokedOn = null) => () => dispatch(
@@ -83,23 +77,20 @@ const ChannelsListArea = () => {
         </Button>
       </div>
       <Nav as="ul" className="flex-column nav-pills px-2 mb-3 overflow-auto h-100 d-block" fill defaultActiveKey="1">
-        {Object.values(channels).map(({
-          id,
-          name,
-          removable,
-        }) => {
-          const isCurrentChannelActive = id === activeChannelId;
+        {Object.values(channels).map((channel) => {
+          const { id, name, removable } = channel;
+          const isCurrentChannelActive = id === activeChannel.id;
           const variant = isCurrentChannelActive ? 'secondary' : 'light';
           const handleSetChannelActive = isCurrentChannelActive
             ? () => null
-            : () => dispatch(setActive(id));
+            : () => dispatch(setActive(channel));
           return (
             <Nav.Item key={id} as="li">
               <ChannelButton
                 name={name}
                 removable={removable}
                 variant={variant}
-                handleOpen={(action) => handleOpenModal(action, id)}
+                handleOpen={(action) => handleOpenModal(action, channel)}
                 handleSetActive={handleSetChannelActive}
               />
             </Nav.Item>
