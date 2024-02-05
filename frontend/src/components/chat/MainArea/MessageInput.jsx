@@ -13,7 +13,7 @@ const MessageInput = () => {
   const { t } = useTranslation();
   const { getUsername } = hooks.useAuth();
   const inputRef = useRef();
-  const [newMessage, { isSuccess, isLoading }] = useAddMessageMutation();
+  const [sendNewMessage, { isSuccess, isLoading }] = useAddMessageMutation();
   const currentChannel = useSelector((state) => state.ui.channels.activeChannel);
 
   const formik = useFormik({
@@ -24,7 +24,7 @@ const MessageInput = () => {
       const username = getUsername();
       const { message } = values;
       const filteredMessage = filterProfanity(message);
-      newMessage({
+      sendNewMessage({
         text: filteredMessage,
         author: username,
         channelId: currentChannel.id,
