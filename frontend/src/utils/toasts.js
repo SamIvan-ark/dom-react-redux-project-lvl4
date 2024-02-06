@@ -8,6 +8,8 @@ const options = {
   draggable: true,
   theme: 'light',
   pauseOnHover: false,
+  pauseOnFocusLoss: false,
+  draggablePercent: 25,
 };
 
 export default {

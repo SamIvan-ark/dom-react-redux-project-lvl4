@@ -35,10 +35,7 @@ const MainPage = () => {
       dispatch(setActive(currentChannel));
       socket.connect();
     }
-  }, [
-    dispatch,
-    isChannelsLoadingSuccess,
-  ]);
+  }, [dispatch, isChannelsLoadingSuccess]);
 
   if (isChannelsLoadingError) {
     if (channelsLoadingError.status === 401) {
