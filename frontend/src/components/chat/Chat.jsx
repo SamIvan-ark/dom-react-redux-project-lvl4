@@ -4,58 +4,66 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChannelsListArea from './ChannelsListArea';
 import MainArea from './MainArea';
 import { hooks } from '../../providers';
-import { addMessage } from '../../slices/messagesSlice';
 import { setActive } from '../../slices/uiSlice';
+import messagesApi from '../../api/messagesApi';
+import channelsApi from '../../api/channelsApi';
 
-const Chat = ({ channels }) => {
+const Chat = () => {
   const { socket } = hooks.useApi();
   const { getUsername } = hooks.useAuth();
-  const dispatch = useDispatch();
+  const username = getUsername();
   const { activeChannel, defaultChannel } = useSelector((state) => state.ui.channels);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const onNewChannel = ({ author, ...newChannel }) => {
-      const username = getUsername();
-      if (username === author) {
+    const onNewChannel = (newChannel) => {
+      if (username === newChannel.author) {
         dispatch(setActive(newChannel));
       }
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+        draft.push(newChannel);
+      }));
     };
-    const onNewMessage = (message) => dispatch(addMessage(message));
-    // const onRenamingChannel = ({ id, name }) => {
-    //   dispatch(renameChannel({
-    //     id,
-    //     changes: {
-    //       name,
-    //     },
-    //   }));
-    // };
-    socket.on('newChannel', onNewChannel);
-    socket.on('newMessage', onNewMessage);
-    // socket.on('renameChannel', onRenamingChannel);
-    return () => {
-      socket.off('newChannel', onNewChannel);
-      socket.off('newMessage', onNewMessage);
-      // socket.off('renameChannel', onRenamingChannel);
+    const onNewMessage = (message) => {
+      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+        draft.push(message);
+      }));
     };
-  }, [dispatch, getUsername, socket]);
-
-  useEffect(() => {
+    const onRenamingChannel = (channel) => {
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+        const updatedDraft = draft.map((oldChannel) => (
+          oldChannel.id === channel.id
+            ? channel
+            : oldChannel
+        ));
+        return updatedDraft;
+      }));
+    };
     const onRemovingChannel = ({ id }) => {
       if (activeChannel.id === id) {
         dispatch(setActive(defaultChannel));
       }
-      // dispatch(removeChannel(id));
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+        const updatedDraft = draft.filter((oldChannel) => oldChannel.id !== id);
+        return updatedDraft;
+      }));
     };
+    socket.on('newChannel', onNewChannel);
+    socket.on('newMessage', onNewMessage);
+    socket.on('renameChannel', onRenamingChannel);
     socket.on('removeChannel', onRemovingChannel);
     return () => {
+      socket.off('newChannel', onNewChannel);
+      socket.off('newMessage', onNewMessage);
+      socket.off('renameChannel', onRenamingChannel);
       socket.off('removeChannel', onRemovingChannel);
     };
-  }, [activeChannel, defaultChannel, dispatch, socket]);
+  }, [dispatch, getUsername, socket, activeChannel]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
-          <ChannelsListArea channels={channels} />
+          <ChannelsListArea />
         </div>
         <div className="col p-0 h-100">
           <MainArea />

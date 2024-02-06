@@ -19,7 +19,8 @@ const MainPage = () => {
     isError: isChannelsLoadingError,
     error: channelsLoadingError,
   } = useGetChannelsQuery();
-  const { useAuth } = hooks;
+  const { useAuth, useApi } = hooks;
+  const { socket } = useApi();
   const navigate = useNavigate();
   const auth = useAuth();
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ const MainPage = () => {
       const currentChannel = channels[0];
       dispatch(setDefaultChannel(currentChannel));
       dispatch(setActive(currentChannel));
+      socket.connect();
     }
   }, [
     dispatch,
