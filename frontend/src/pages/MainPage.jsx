@@ -7,7 +7,6 @@ import CenteredSpinner from '../components/CenteredSpinner';
 import { Chat, Navbar } from '../components';
 import { hooks } from '../providers';
 import { setDefaultChannel, setActive } from '../slices/uiSlice';
-// import { addMessages } from '../slices/messagesSlice';
 import toasts from '../utils/toasts';
 import { useGetChannelsQuery } from '../api/channelsApi';
 
@@ -56,7 +55,7 @@ const MainPage = () => {
   ) : (
     <>
       <Navbar />
-      <Chat channels={channels} />
+      <Chat />
     </>
   );
 };

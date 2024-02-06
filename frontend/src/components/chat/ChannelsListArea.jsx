@@ -11,6 +11,7 @@ import { PlusSquare } from 'react-bootstrap-icons';
 import { openModal, setActive } from '../../slices/uiSlice';
 import getModal from '../modals';
 import i18next from '../../utils/i18next';
+import { useGetChannelsQuery } from '../../api/channelsApi';
 
 const ChannelButton = ({
   name,
@@ -51,7 +52,10 @@ const renderModal = ({ type }) => {
   return <CurrentModal />;
 };
 
-const ChannelsListArea = ({ channels }) => {
+const ChannelsListArea = () => {
+  const {
+    data: channels,
+  } = useGetChannelsQuery();
   const { t } = useTranslation();
   const { activeChannel } = useSelector((state) => state.ui.channels);
   const modalState = useSelector((state) => state.ui.modal);
