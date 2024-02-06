@@ -12,7 +12,7 @@ export const messages = createApi({
       query: () => ({
         url: serverRoutes.MESSAGES,
       }),
-      providesTags: ['Messages'],
+      providesTags: ['Messages'], // сомнительно, потому что не сработало
     }),
     addMessage: builder.mutation({
       query: (data) => ({

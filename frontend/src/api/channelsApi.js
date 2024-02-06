@@ -6,7 +6,7 @@ import baseQueryWithHeaders from './baseQuery';
 export const channels = createApi({
   reducerPath: 'channelsApi',
   baseQuery: baseQueryWithHeaders(),
-  tagTypes: ['Channels'],
+  tagTypes: ['Channels', 'Messages'],
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => ({
@@ -35,7 +35,7 @@ export const channels = createApi({
         url: [serverRoutes.CHANNELS, id].join('/'),
         method: 'DELETE',
       }),
-      invalidatesTags: ['Channels'],
+      invalidatesTags: ['Channels', 'Messages'],
     }),
   }),
 });
