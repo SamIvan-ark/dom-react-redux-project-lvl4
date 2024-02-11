@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useEffect, useRef } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
-import filterProfanity from '../utils/profanityChecker';
-import { hooks } from '../providers';
-import toasts from '../utils/toasts';
 import { useSignupMutation } from '../api/userApi';
+import { hooks } from '../providers';
+import filterProfanity from '../utils/profanityChecker';
+import toasts from '../utils/toasts';
 
 const SignupForm = () => {
   const [signup, { isError, error }] = useSignupMutation();
@@ -68,74 +68,74 @@ const SignupForm = () => {
       <h1 className="text-center mb-4">{t('credentials.registration')}</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control
-          disabled={formik.isSubmitting}
-          autoFocus
-          ref={inputRef}
-          type="text"
           autoComplete="username"
-          name="username"
+          autoFocus
+          disabled={formik.isSubmitting}
           id="username"
-          placeholder={t('credentials.username')}
-          onChange={formik.handleChange}
-          value={formik.values.username}
           isInvalid={(
             !!formik.errors.username
             && formik.touched.username)
             || isUsernameCollision}
+          name="username"
+          onChange={formik.handleChange}
+          placeholder={t('credentials.username')}
+          ref={inputRef}
+          type="text"
+          value={formik.values.username}
         />
         <Form.Label htmlFor="username">{t('credentials.username')}</Form.Label>
         {(formik.errors.username && formik.touched.username)
-          ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
+          ? <Form.Control.Feedback tooltip type="invalid">{formik.errors.username}</Form.Control.Feedback>
           : null}
         {isUsernameCollision
-          ? <Form.Control.Feedback type="invalid" tooltip>{t('errors.userAlreadyExist')}</Form.Control.Feedback>
+          ? <Form.Control.Feedback tooltip type="invalid">{t('errors.userAlreadyExist')}</Form.Control.Feedback>
           : null}
       </Form.Group>
       <Form.Group className="form-floating mb-3">
         <Form.Control
-          disabled={formik.isSubmitting}
-          type="password"
-          name="password"
-          id="password"
-          placeholder={t('credentials.password')}
           autoComplete="new-password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
+          disabled={formik.isSubmitting}
+          id="password"
           isInvalid={
             !!formik.errors.password
             && formik.touched.password
           }
+          name="password"
+          onChange={formik.handleChange}
+          placeholder={t('credentials.password')}
+          type="password"
+          value={formik.values.password}
         />
         <Form.Label htmlFor="password">{t('credentials.password')}</Form.Label>
         {formik.errors.password && formik.touched.password
-          ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.password}</Form.Control.Feedback>
+          ? <Form.Control.Feedback tooltip type="invalid">{formik.errors.password}</Form.Control.Feedback>
           : null}
       </Form.Group>
       <Form.Group className="form-floating mb-4">
         <Form.Control
-          disabled={formik.isSubmitting}
-          type="password"
           autoComplete="username"
-          name="passwordConfirmation"
+          disabled={formik.isSubmitting}
           id="passwordConfirmation"
-          placeholder={t('credentials.confirmPassword')}
-          onChange={formik.handleChange}
-          value={formik.values.passwordConfirmation}
           isInvalid={
             !!formik.errors.passwordConfirmation
             && formik.touched.passwordConfirmation
           }
+          name="passwordConfirmation"
+          onChange={formik.handleChange}
+          placeholder={t('credentials.confirmPassword')}
+          type="password"
+          value={formik.values.passwordConfirmation}
         />
         <Form.Label htmlFor="passwordConfirmation">{t('credentials.confirmPassword')}</Form.Label>
         {formik.errors.passwordConfirmation && formik.touched.passwordConfirmation
-          ? <Form.Control.Feedback type="invalid" tooltip>{formik.errors.passwordConfirmation}</Form.Control.Feedback>
+          ? <Form.Control.Feedback tooltip type="invalid">{formik.errors.passwordConfirmation}</Form.Control.Feedback>
           : null}
       </Form.Group>
       <Button
+        className="w-100 mb-3"
         disabled={formik.isSubmitting}
         type="submit"
         variant="outline-primary"
-        className="w-100 mb-3"
       >
         {t('actions.register')}
       </Button>

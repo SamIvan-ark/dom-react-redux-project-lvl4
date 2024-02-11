@@ -1,15 +1,15 @@
-import { useRef, useEffect } from 'react';
+import { useFormik } from 'formik';
+import { useEffect, useRef } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Modal, Form, Button } from 'react-bootstrap';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { useAddChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
+import { hooks } from '../../providers';
 import { closeModal } from '../../slices/uiSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
-import { hooks } from '../../providers';
-import { useGetChannelsQuery, useAddChannelMutation } from '../../api/channelsApi';
 
 const AddChannel = () => {
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ const AddChannel = () => {
   }, [formik.errors.channelName]);
 
   return (
-    <Modal show centered onHide={() => handleClose()}>
+    <Modal centered onHide={() => handleClose()} show>
       <Modal.Header closeButton>
         <Modal.Title>{t('actions.addChannel')}</Modal.Title>
       </Modal.Header>
@@ -74,21 +74,21 @@ const AddChannel = () => {
               {t('entities.channels.channelName')}
             </Form.Label>
             <Form.Control
-              ref={inputRef}
-              isInvalid={formik.errors.channelName && formik.touched.channelName}
-              disabled={formik.isSubmitting}
               className="mb-2"
-              required
+              disabled={formik.isSubmitting}
               id="channelName"
+              isInvalid={formik.errors.channelName && formik.touched.channelName}
               name="channelName"
-              type="text"
               onChange={formik.handleChange}
+              ref={inputRef}
+              required
+              type="text"
               value={formik.values.channelName}
             />
             {formik.errors.channelName ? <div className="text-danger">{formik.errors.channelName}</div> : null}
             <div className="d-flex justify-content-end">
-              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
-              <Button disabled={isLoading} variant="primary" type="submit">{t('actions.send')}</Button>
+              <Button className="me-2" onClick={() => handleClose()} type="button" variant="secondary">{t('actions.cancel')}</Button>
+              <Button disabled={isLoading} type="submit" variant="primary">{t('actions.send')}</Button>
             </div>
           </Form.Group>
         </Form>

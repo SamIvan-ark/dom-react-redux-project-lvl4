@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo } from 'react';
-import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
+import { io } from 'socket.io-client';
 
 const ApiContext = createContext({});
 

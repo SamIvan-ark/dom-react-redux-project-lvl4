@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const MessagesArea = ({ messages, channel }) => {
@@ -17,9 +17,9 @@ const MessagesArea = ({ messages, channel }) => {
         </p>
         <span className="text-muted">{t('entities.messages.count', { count: messages.length })}</span>
       </div>
-      <div id="messages-box" className="chat-messages overflow-auto px-5">
+      <div className="chat-messages overflow-auto px-5" id="messages-box">
         {messages.map((message) => (
-          <div key={message.id} className="text-break mb-2">
+          <div className="text-break mb-2" key={message.id}>
             <b>{message.author}</b>
             {`: ${message.text}`}
           </div>

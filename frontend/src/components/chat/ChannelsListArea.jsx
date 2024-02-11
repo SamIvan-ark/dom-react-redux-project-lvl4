@@ -1,17 +1,17 @@
-import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
   ButtonGroup,
-  Nav,
   Dropdown,
+  Nav,
 } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { openModal, setActive } from '../../slices/uiSlice';
-import getModal from '../modals';
-import i18next from '../../utils/i18next';
 import { useGetChannelsQuery } from '../../api/channelsApi';
+import { openModal, setActive } from '../../slices/uiSlice';
+import i18next from '../../utils/i18next';
+import getModal from '../modals';
 
 const ChannelButton = ({
   name,
@@ -21,16 +21,16 @@ const ChannelButton = ({
   handleSetActive,
 }) => {
   const renderBtn = () => (
-    <Button onClick={handleSetActive} variant={variant} className="w-100 rounded-0 text-start text-truncate">
+    <Button className="w-100 rounded-0 text-start text-truncate" onClick={handleSetActive} variant={variant}>
       <span className="me-1">#</span>
       {name}
     </Button>
   );
 
   const renderDropdown = () => (
-    <Dropdown className="d-flex dropdown btn-group" as={ButtonGroup}>
+    <Dropdown as={ButtonGroup} className="d-flex dropdown btn-group">
       {renderBtn()}
-      <Dropdown.Toggle split variant="light" id="dropdown-split-basic">
+      <Dropdown.Toggle id="dropdown-split-basic" split variant="light">
         <span className="visually-hidden">{i18next.t('entities.channels.channelSettings')}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu>
@@ -71,16 +71,16 @@ const ChannelsListArea = () => {
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('entities.channels.channels')}</b>
         <Button
-          type="button"
-          variant="group-vertical"
           className="p-0 text-primary"
           onClick={handleOpenModal('adding')}
+          type="button"
+          variant="group-vertical"
         >
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <Nav as="ul" className="flex-column nav-pills px-2 mb-3 overflow-auto h-100 d-block" fill defaultActiveKey="1">
+      <Nav as="ul" className="flex-column nav-pills px-2 mb-3 overflow-auto h-100 d-block" defaultActiveKey="1" fill>
         {Object.values(channels).map((channel) => {
           const { id, name, removable } = channel;
           const isCurrentChannelActive = id === activeChannel.id;
@@ -89,13 +89,13 @@ const ChannelsListArea = () => {
             ? () => null
             : () => dispatch(setActive(channel));
           return (
-            <Nav.Item key={id} as="li">
+            <Nav.Item as="li" key={id}>
               <ChannelButton
+                handleOpen={(action) => handleOpenModal(action, channel)}
+                handleSetActive={handleSetChannelActive}
                 name={name}
                 removable={removable}
                 variant={variant}
-                handleOpen={(action) => handleOpenModal(action, channel)}
-                handleSetActive={handleSetChannelActive}
               />
             </Nav.Item>
           );

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { closeModal } from '../../slices/uiSlice';
 import toasts from '../../utils/toasts';
-import { useRemoveChannelMutation } from '../../api/channelsApi';
 
 const RemoveChannelModal = () => {
   const [removeChannel, {
@@ -28,14 +28,14 @@ const RemoveChannelModal = () => {
   }, [isSuccess, t]);
 
   return (
-    <Modal show centered onHide={() => handleClose()}>
+    <Modal centered onHide={() => handleClose()} show>
       <Modal.Header closeButton>
         <Modal.Title>{t('actions.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
         <p className="lead">{t('userInteractions.confirm')}</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
+          <Button className="me-2" onClick={() => handleClose()} type="button" variant="secondary">{t('actions.cancel')}</Button>
           <Button disabled={isLoading} onClick={() => handleChannelRemove(id)} variant="danger">{t('actions.remove')}</Button>
         </div>
       </Modal.Body>

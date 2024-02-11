@@ -1,5 +1,5 @@
-import * as Auth from './AuthProvider';
 import * as Api from './ApiProvider';
+import * as Auth from './AuthProvider';
 import ConditionalRollbarProvider from './ConditionalRollbarProvider';
 
 export const hooks = {

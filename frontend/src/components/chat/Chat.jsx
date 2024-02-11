@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ChannelsListArea from './ChannelsListArea';
-import MainArea from './MainArea';
+import channelsApi from '../../api/channelsApi';
+import messagesApi from '../../api/messagesApi';
 import { hooks } from '../../providers';
 import { setActive } from '../../slices/uiSlice';
-import messagesApi from '../../api/messagesApi';
-import channelsApi from '../../api/channelsApi';
+import ChannelsListArea from './ChannelsListArea';
+import MainArea from './MainArea';
 
 const Chat = () => {
   const { socket } = hooks.useApi();

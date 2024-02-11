@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <Link to="/" className="navbar-brand">Hexlet Chat</Link>
+        <Link className="navbar-brand" to="/">Hexlet Chat</Link>
         {auth.loggedIn ? <Button onClick={handleLogOut} variant="btn btn-primary">Выйти</Button> : null}
       </div>
     </nav>

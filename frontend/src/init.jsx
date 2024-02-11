@@ -1,11 +1,11 @@
 import React from 'react';
-import { Provider as StoreProvider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import { Provider as StoreProvider } from 'react-redux';
 
 import App from './App';
+import { providers } from './providers';
 import store from './slices';
 import i18nextInstance from './utils/i18next';
-import { providers } from './providers';
 
 const { AuthProvider, ApiProvider, ConditionalRollbarProvider } = providers;
 

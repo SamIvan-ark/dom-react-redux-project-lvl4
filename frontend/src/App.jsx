@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
-import { ToastContainer } from 'react-toastify';
 import {
-  BrowserRouter as Router, Routes, Route, Navigate,
+  Navigate, Route, BrowserRouter as Router, Routes,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import CenteredSpinner from './components/CenteredSpinner';
 import config from './app.config';
+import CenteredSpinner from './components/CenteredSpinner';
 import { hooks } from './providers';
 
 const PrivateRoute = ({ children, redirectTo }) => {
@@ -41,13 +41,13 @@ const App = () => (
               redirectTo,
             }) => (
               <Route
-                key={id}
-                path={route}
                 element={(
                   <WrappedRouteComponent isPrivate={isPrivate} redirectTo={redirectTo}>
                     <Component />
                   </WrappedRouteComponent>
                 )}
+                key={id}
+                path={route}
               />
             ))}
         </Routes>

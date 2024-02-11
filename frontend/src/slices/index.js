@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import channelsApi from '../api/channelsApi';
+import messagesApi from '../api/messagesApi';
 import userApi from '../api/userApi';
 import uiSlice from './uiSlice';
-import messagesApi from '../api/messagesApi';
 
 export default configureStore({
   reducer: {

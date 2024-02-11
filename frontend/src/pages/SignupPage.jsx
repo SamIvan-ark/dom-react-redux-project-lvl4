@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
 
-import { SignupForm, Navbar } from '../components';
 import totaImg from '../assets/img/Tota-celebrating.jpg';
+import { Navbar, SignupForm } from '../components';
 
 const SignupPage = () => (
   <>
@@ -13,7 +13,7 @@ const SignupPage = () => (
           <div className="card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
-                <Image src={totaImg} alt="Mascot tota celebrates new user" roundedCircle />
+                <Image alt="Mascot tota celebrates new user" roundedCircle src={totaImg} />
               </div>
               <SignupForm />
             </div>

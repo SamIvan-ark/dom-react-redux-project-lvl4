@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import CenteredSpinner from '../components/CenteredSpinner';
-import { Chat, Navbar } from '../components';
-import { hooks } from '../providers';
-import { setDefaultChannel, setActive } from '../slices/uiSlice';
-import toasts from '../utils/toasts';
 import { useGetChannelsQuery } from '../api/channelsApi';
+import { Chat, Navbar } from '../components';
+import CenteredSpinner from '../components/CenteredSpinner';
+import { hooks } from '../providers';
+import { setActive, setDefaultChannel } from '../slices/uiSlice';
+import toasts from '../utils/toasts';
 
 const MainPage = () => {
   const {

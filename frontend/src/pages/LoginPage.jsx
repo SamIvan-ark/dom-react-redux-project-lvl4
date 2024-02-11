@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Image } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-import { LoginForm, Navbar } from '../components';
 import totaImg from '../assets/img/Tota-with-flag.jpg';
+import { LoginForm, Navbar } from '../components';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -17,7 +17,7 @@ const LoginPage = () => {
             <div className="card shadow-sm">
               <div className="card-body row p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                  <Image src={totaImg} alt="Tota on top holds flag" roundedCircle />
+                  <Image alt="Tota on top holds flag" roundedCircle src={totaImg} />
                 </div>
                 <LoginForm />
               </div>

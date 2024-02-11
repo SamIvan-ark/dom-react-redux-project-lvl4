@@ -3,6 +3,7 @@ env:
   es2021: true
 extends:
   - plugin:react/recommended
+  - plugin:perfectionist/recommended-natural
   - airbnb
 overrides: [
   {
@@ -17,6 +18,7 @@ parserOptions:
   }
 plugins:
   - react
+  - perfectionist
 rules:
   import/extensions: 0
   import/no-unresolved: 0
@@ -27,3 +29,6 @@ rules:
   react/function-component-definition: [2, { "namedComponents": "arrow-function" }]
   testing-library/no-debug: 0
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
+  perfectionist/sort-interfaces: "error"
+  perfectionist/sort-array-includes: 0
+  perfectionist/sort-objects: 0

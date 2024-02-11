@@ -1,4 +1,4 @@
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_POST_CLIENT_TOKEN,

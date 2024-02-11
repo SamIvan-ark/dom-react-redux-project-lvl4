@@ -1,13 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useEffect, useRef } from 'react';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
+import { useAddMessageMutation } from '../../../api/messagesApi';
 import { hooks } from '../../../providers';
 import filterProfanity from '../../../utils/profanityChecker';
-import { useAddMessageMutation } from '../../../api/messagesApi';
 
 const MessageInput = () => {
   const { t } = useTranslation();
@@ -41,19 +41,19 @@ const MessageInput = () => {
 
   return (
     <div className="mt-auto px-5 py-3">
-      <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
+      <Form className="py-1 border rounded-2" onSubmit={formik.handleSubmit}>
         <InputGroup hasValidation>
           <Form.Control
-            className="border-0 p-0 ps-2"
-            ref={inputRef}
-            disabled={isLoading}
-            type="text"
-            name="message"
-            id="message"
-            placeholder={t('userInteractions.enterMessage')}
             aria-label={t('entities.messages.newMessage')}
-            required
+            className="border-0 p-0 ps-2"
+            disabled={isLoading}
+            id="message"
+            name="message"
             onChange={formik.handleChange}
+            placeholder={t('userInteractions.enterMessage')}
+            ref={inputRef}
+            required
+            type="text"
             value={formik.values.message}
           />
           <Button

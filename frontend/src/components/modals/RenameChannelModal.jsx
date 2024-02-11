@@ -1,14 +1,14 @@
-import { useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useEffect, useRef } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
+import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
 import { closeModal } from '../../slices/uiSlice';
 import filterProfanity from '../../utils/profanityChecker';
 import toasts from '../../utils/toasts';
-import { useGetChannelsQuery, useEditChannelMutation } from '../../api/channelsApi';
 
 const RenameChannelModal = () => {
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ const RenameChannelModal = () => {
   }, [isSuccess, t]);
 
   return (
-    <Modal show centered onHide={() => handleClose()}>
+    <Modal centered onHide={() => handleClose()} show>
       <Modal.Header closeButton>
         <Modal.Title>{t('actions.renameChannel')}</Modal.Title>
       </Modal.Header>
@@ -78,22 +78,22 @@ const RenameChannelModal = () => {
               {t('entities.channels.channelName')}
             </Form.Label>
             <Form.Control
-              isInvalid={formik.errors.newNameOfChannel && formik.touched.newNameOfChannel}
-              disabled={formik.isSubmitting}
-              ref={inputRef}
               className="mb-2"
-              selected
-              required
+              disabled={formik.isSubmitting}
               id="newNameOfChannel"
+              isInvalid={formik.errors.newNameOfChannel && formik.touched.newNameOfChannel}
               name="newNameOfChannel"
-              type="text"
               onChange={formik.handleChange}
+              ref={inputRef}
+              required
+              selected
+              type="text"
               value={formik.values.newNameOfChannel}
             />
             {formik.errors.newNameOfChannel ? <div className="text-danger">{formik.errors.newNameOfChannel}</div> : null}
             <div className="d-flex justify-content-end">
-              <Button onClick={() => handleClose()} variant="secondary" className="me-2" type="button">{t('actions.cancel')}</Button>
-              <Button disabled={isLoading} variant="primary" type="submit">{t('actions.send')}</Button>
+              <Button className="me-2" onClick={() => handleClose()} type="button" variant="secondary">{t('actions.cancel')}</Button>
+              <Button disabled={isLoading} type="submit" variant="primary">{t('actions.send')}</Button>
             </div>
           </Form.Group>
         </Form>

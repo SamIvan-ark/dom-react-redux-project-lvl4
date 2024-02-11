@@ -1,15 +1,15 @@
 import { useSelector } from 'react-redux';
 
-import CenteredSpinner from '../../CenteredSpinner';
-import MessagesArea from './MessagesArea';
-import MessageInput from './MessageInput';
 import { useGetMessagesQuery } from '../../../api/messagesApi';
+import CenteredSpinner from '../../CenteredSpinner';
+import MessageInput from './MessageInput';
+import MessagesArea from './MessagesArea';
 
 const MainArea = () => {
   const currentChannel = useSelector((state) => state.ui.channels.activeChannel);
   const { data: messages } = useGetMessagesQuery();
-  const currentMessages = !messages ? [] : messages // сомнительно
-    .filter((message) => message.channelId === currentChannel.id);
+  const currentMessages = messages
+    ?.filter((message) => message.channelId === currentChannel.id) ?? [];
 
   const isLoading = !messages || !currentChannel;
 
@@ -17,7 +17,7 @@ const MainArea = () => {
     <div className="d-flex flex-column h-100">
       {isLoading
         ? <CenteredSpinner />
-        : <MessagesArea messages={currentMessages} channel={currentChannel} />}
+        : <MessagesArea channel={currentChannel} messages={currentMessages} />}
       <MessageInput />
     </div>
   );

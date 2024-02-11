@@ -1,13 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { useEffect, useRef } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
 
+import { useLoginMutation } from '../api/userApi';
 import { hooks } from '../providers';
 import toasts from '../utils/toasts';
-import { useLoginMutation } from '../api/userApi';
 
 const LoginForm = () => {
   const [login, { isLoading, isError, error }] = useLoginMutation();
@@ -54,43 +54,43 @@ const LoginForm = () => {
       <h1 className="text-center mb-4">{t('actions.signIn')}</h1>
       <Form.Group className="form-floating mb-3">
         <Form.Control
-          ref={inputRef}
-          autoFocus
-          type="text"
           autoComplete="username"
-          name="username"
+          autoFocus
           id="username"
-          placeholder={t('credentials.yourNick')}
-          required
-          onChange={formik.handleChange}
-          value={formik.values.username}
           isInvalid={isAuthFailed}
+          name="username"
+          onChange={formik.handleChange}
+          placeholder={t('credentials.yourNick')}
+          ref={inputRef}
+          required
+          type="text"
+          value={formik.values.username}
         />
         <Form.Label htmlFor="username">{t('credentials.yourNick')}</Form.Label>
       </Form.Group>
       <Form.Group className="form-floating mb-4">
         <Form.Control
-          type="password"
-          name="password"
           id="password"
+          isInvalid={isAuthFailed}
+          name="password"
+          onChange={formik.handleChange}
           placeholder={t('credentials.password')}
           required
-          onChange={formik.handleChange}
+          type="password"
           value={formik.values.password}
-          isInvalid={isAuthFailed}
         />
         <div>{isLoading}</div>
         <div>{isError}</div>
         <Form.Label htmlFor="password">{t('credentials.password')}</Form.Label>
-        <Form.Control.Feedback type="invalid" tooltip>
+        <Form.Control.Feedback tooltip type="invalid">
           {t('errors.invalidCredentials')}
         </Form.Control.Feedback>
       </Form.Group>
       <Button
+        className="w-100 mb-3"
         disabled={isLoading}
         type="submit"
         variant="outline-primary"
-        className="w-100 mb-3"
       >
         {t('actions.signIn')}
       </Button>
