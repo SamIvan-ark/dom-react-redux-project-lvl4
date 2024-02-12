@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { closeModal } from '../../slices/uiSlice';
@@ -14,7 +14,7 @@ const RemoveChannelModal = () => {
   }] = useRemoveChannelMutation();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { invokedOn: { id } } = useSelector((state) => state.ui.modal);
+  const { invokedOn: { id } } = useSelector((state) => state.ui.modal, shallowEqual);
   const handleClose = () => dispatch(closeModal());
   const handleChannelRemove = (channelId) => {
     removeChannel({ id: channelId });

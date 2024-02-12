@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 
 import { useGetMessagesQuery } from '../../../api/messagesApi';
 import CenteredSpinner from '../../CenteredSpinner';
@@ -6,7 +6,7 @@ import MessageInput from './MessageInput';
 import MessagesArea from './MessagesArea';
 
 const MainArea = () => {
-  const currentChannel = useSelector((state) => state.ui.channels.activeChannel);
+  const currentChannel = useSelector((state) => state.ui.channels.activeChannel, shallowEqual);
   const { data: messages } = useGetMessagesQuery();
   const currentMessages = messages
     ?.filter((message) => message.channelId === currentChannel.id) ?? [];

@@ -12,7 +12,7 @@ export const messages = createApi({
       query: () => ({
         url: serverRoutes.MESSAGES,
       }),
-      providesTags: ['Messages'], // сомнительно, потому что не сработало
+      providesTags: ['Messages'],
     }),
     addMessage: builder.mutation({
       query: (data) => ({
@@ -20,18 +20,6 @@ export const messages = createApi({
         method: 'POST',
         body: data,
       }),
-      // async onQueryStarted(message, { dispatch, queryFulfilled }) {
-      //   const patchResult = dispatch(
-      //     messages.util.updateQueryData('getMessages', undefined, (draft) => {
-      //       draft.push(message);
-      //     }),
-      //   );
-      //   try {
-      //     await queryFulfilled;
-      //   } catch {
-      //     patchResult.undo();
-      //   }
-      // },
     }),
     // editMessage: builder.mutation({
     //   query: ({ data, id }) => ({

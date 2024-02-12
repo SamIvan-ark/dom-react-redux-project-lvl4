@@ -26,7 +26,8 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const isStoreFullfilled = useSelector(
     (state) => state.ui.channels.activeChannel && state.ui.channels.defaultChannel,
-  ); // сомнительно
+    shallowEqual,
+  );
 
   useEffect(() => {
     if (isChannelsLoadingSuccess) {

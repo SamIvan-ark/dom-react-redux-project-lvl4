@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import channelsApi from '../../api/channelsApi';
 import messagesApi from '../../api/messagesApi';
@@ -12,7 +12,7 @@ const Chat = () => {
   const { socket } = hooks.useApi();
   const { getUsername } = hooks.useAuth();
   const username = getUsername();
-  const { activeChannel, defaultChannel } = useSelector((state) => state.ui.channels);
+  const { activeChannel, defaultChannel } = useSelector((state) => state.ui.channels, shallowEqual);
   const dispatch = useDispatch();
   useEffect(() => {
     const onNewChannel = (newChannel) => {
@@ -57,7 +57,7 @@ const Chat = () => {
       socket.off('renameChannel', onRenamingChannel);
       socket.off('removeChannel', onRemovingChannel);
     };
-  }, [dispatch, getUsername, socket, activeChannel]);
+  }, [activeChannel]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

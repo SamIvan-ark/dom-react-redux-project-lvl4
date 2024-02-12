@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { openModal, setActive } from '../../slices/uiSlice';
@@ -57,8 +57,8 @@ const ChannelsListArea = () => {
     data: channels,
   } = useGetChannelsQuery();
   const { t } = useTranslation();
-  const { activeChannel } = useSelector((state) => state.ui.channels);
-  const modalState = useSelector((state) => state.ui.modal);
+  const { activeChannel } = useSelector((state) => state.ui.channels, shallowEqual);
+  const modalState = useSelector((state) => state.ui.modal, shallowEqual);
   const dispatch = useDispatch();
   const handleOpenModal = (type, invokedOn = null) => () => dispatch(
     openModal(

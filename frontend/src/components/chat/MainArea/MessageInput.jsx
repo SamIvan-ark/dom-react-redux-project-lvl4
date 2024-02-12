@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 
 import { useAddMessageMutation } from '../../../api/messagesApi';
 import { hooks } from '../../../providers';
@@ -14,17 +14,17 @@ const MessageInput = () => {
   const { getUsername } = hooks.useAuth();
   const inputRef = useRef();
   const [sendNewMessage, { isSuccess, isLoading }] = useAddMessageMutation();
-  const currentChannel = useSelector((state) => state.ui.channels.activeChannel);
+  const currentChannel = useSelector((state) => state.ui.channels.activeChannel, shallowEqual);
 
   const formik = useFormik({
     initialValues: {
       message: '',
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const username = getUsername();
       const { message } = values;
       const filteredMessage = filterProfanity(message);
-      sendNewMessage({
+      await sendNewMessage({
         text: filteredMessage,
         author: username,
         channelId: currentChannel.id,

@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
@@ -19,7 +19,7 @@ const RenameChannelModal = () => {
   const { data: allChannels } = useGetChannelsQuery();
   const takenNames = Object.values(allChannels).map(({ name }) => name);
   const dispatch = useDispatch();
-  const { invokedOn } = useSelector((state) => state.ui.modal);
+  const { invokedOn } = useSelector((state) => state.ui.modal, shallowEqual);
   const { name } = invokedOn;
 
   const handleClose = () => dispatch(closeModal());
