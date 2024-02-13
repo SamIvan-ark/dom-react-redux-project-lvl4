@@ -4,13 +4,13 @@ export default {
       emptyField: 'Обязательное поле',
       invalidCredentials: 'Неверные имя пользователя или пароль',
       networkError: 'Ошибка соединения',
-      invalidToken: 'Не узнал вас, войдите заново',
       channelAlreadyExist: 'Канал с таким именем уже существует',
       userAlreadyExist: 'Такой пользователь уже существует',
       profanityUsername: 'У нас не матерятся',
       lengthFromTo: 'От {{from}} до {{to}} символов',
       minLength: 'Не менее {{length}} символов',
       passwordsMustMatch: 'Пароли должны совпадать',
+      pageNotExist: 'Ой, а такой страницы нет',
     },
     credentials: {
       yourNick: 'Ваш ник',
@@ -30,6 +30,8 @@ export default {
       addChannel: 'Добавить канал',
       renameChannel: 'Переименовать канал',
       removeChannel: 'Удалить канал',
+      returnToMain: 'Вернуться на главную',
+      quit: 'Выйти',
     },
     entities: {
       channels: {
@@ -43,6 +45,7 @@ export default {
         count_many: '{{count}} сообщений',
         newMessage: 'Новое сообщение',
       },
+      appName: 'Hexlet chat',
     },
     processes: {
       channelCreated: 'Канал создан',
