@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import config from './app.config';
+import { Navbar } from './components';
 import CenteredSpinner from './components/CenteredSpinner';
 import { hooks } from './providers';
 
@@ -30,6 +31,7 @@ const App = () => (
   <div className="h-100" id="chat">
     <div className="d-flex flex-column h-100">
       <Router>
+        <Navbar />
         <Routes>
           {Object
             .values(pages)
