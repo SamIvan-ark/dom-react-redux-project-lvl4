@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { useGetChannelsQuery } from '../api/channelsApi';
@@ -7,7 +6,6 @@ import { Chat } from '../components';
 import CenteredSpinner from '../components/CenteredSpinner';
 import { hooks } from '../providers';
 import { setActive, setDefaultChannel } from '../slices/uiSlice';
-import toasts from '../utils/toasts';
 
 const MainPage = () => {
   const {
@@ -20,7 +18,6 @@ const MainPage = () => {
   const { useAuth, useApi } = hooks;
   const { socket } = useApi();
   const auth = useAuth();
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isStoreFullfilled = useSelector(
     (state) => state.ui.channels.activeChannel && state.ui.channels.defaultChannel,
@@ -37,8 +34,6 @@ const MainPage = () => {
       if (channelsLoadingError.status === 401) {
         auth.logOut();
         document.location = '/login';
-      } else if (channelsLoadingError.status === 'FETCH_ERROR') {
-        toasts.error(t('errors.networkError'));
       }
     }
   }, [isChannelsLoadingSuccess, isChannelsLoadingError]);

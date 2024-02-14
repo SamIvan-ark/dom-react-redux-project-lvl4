@@ -7,7 +7,6 @@ import * as yup from 'yup';
 
 import { useLoginMutation } from '../api/userApi';
 import { hooks } from '../providers';
-import toasts from '../utils/toasts';
 
 const LoginForm = () => {
   const [login, { isLoading, isError, error }] = useLoginMutation();
@@ -41,8 +40,6 @@ const LoginForm = () => {
     if (isError) {
       if (isAuthFailed) {
         inputRef.current.select();
-      } else if (error.status === 'FETCH_ERROR') {
-        toasts.error(t('errors.networkError'));
       }
     }
   }, [isError, error, isAuthFailed, t]);

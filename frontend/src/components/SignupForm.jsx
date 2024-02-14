@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { useSignupMutation } from '../api/userApi';
 import { hooks } from '../providers';
 import filterProfanity from '../utils/profanityChecker';
-import toasts from '../utils/toasts';
 
 const SignupForm = () => {
   const [signup, { isError, error }] = useSignupMutation();
@@ -54,8 +53,6 @@ const SignupForm = () => {
     if (isError) {
       if (isUsernameCollision) {
         inputRef.current.select();
-      } else if (error.status === 'FETCH_ERROR') {
-        toasts.error(t('errors.networkError'));
       }
     }
   }, [isError, error, isUsernameCollision, t]);

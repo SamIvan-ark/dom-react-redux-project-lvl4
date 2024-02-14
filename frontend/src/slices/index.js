@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import channelsApi from '../api/channelsApi';
+import errorHandlerMiddleware from '../api/errorHandlerMiddleware';
 import messagesApi from '../api/messagesApi';
 import userApi from '../api/userApi';
 import uiSlice from './uiSlice';
@@ -13,5 +14,10 @@ export default configureStore({
     [messagesApi.reducerPath]: messagesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-    .concat([userApi.middleware, channelsApi.middleware, messagesApi.middleware]),
+    .concat([
+      userApi.middleware,
+      channelsApi.middleware,
+      messagesApi.middleware,
+      errorHandlerMiddleware,
+    ]),
 });
