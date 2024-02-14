@@ -29,12 +29,12 @@ const MessageInput = () => {
         author: username,
         channelId: currentChannel.id,
       });
-      formik.resetForm();
     },
   });
 
   useEffect(() => {
     if (isSuccess) {
+      formik.resetForm();
       inputRef.current.focus();
     }
   }, [isSuccess]);

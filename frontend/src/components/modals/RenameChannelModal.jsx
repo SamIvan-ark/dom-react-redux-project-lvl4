@@ -79,7 +79,7 @@ const RenameChannelModal = () => {
             </Form.Label>
             <Form.Control
               className="mb-2"
-              disabled={formik.isSubmitting}
+              disabled={isLoading}
               id="newNameOfChannel"
               isInvalid={formik.errors.newNameOfChannel && formik.touched.newNameOfChannel}
               name="newNameOfChannel"

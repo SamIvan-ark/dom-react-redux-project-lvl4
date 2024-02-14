@@ -75,7 +75,7 @@ const AddChannel = () => {
             </Form.Label>
             <Form.Control
               className="mb-2"
-              disabled={formik.isSubmitting}
+              disabled={isLoading}
               id="channelName"
               isInvalid={formik.errors.channelName && formik.touched.channelName}
               name="channelName"
