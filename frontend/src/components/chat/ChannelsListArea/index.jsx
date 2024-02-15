@@ -1,16 +1,16 @@
 import {
   Button,
-  ButtonGroup,
-  Dropdown,
   Nav,
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import { useGetChannelsQuery } from '../../api/channelsApi';
-import { openModal, setActive } from '../../slices/uiSlice';
-import getModal from '../modals';
+import { useGetChannelsQuery } from '../../../api/channelsApi';
+import { openModal, setActive } from '../../../slices/uiSlice';
+import getModal from '../../modals';
+import ButtonWithoutDropdown from './ButtonWithoutDropdown';
+import ButtonWithDropdown from './Dropdown';
 
 const ChannelButton = ({
   name,
@@ -18,31 +18,13 @@ const ChannelButton = ({
   variant,
   handleOpen,
   handleSetActive,
-}) => {
-  const renderBtn = () => (
-    <Button className="w-100 rounded-0 text-start text-truncate" onClick={handleSetActive} variant={variant}>
-      <span className="me-1">#</span>
-      {name}
-    </Button>
-  );
-  const renderDropdown = () => {
-    const { t } = useTranslation();
-    return (
-      <Dropdown as={ButtonGroup} className="d-flex dropdown btn-group">
-        {renderBtn()}
-        <Dropdown.Toggle id="dropdown-split-basic" split variant="light">
-          <span className="visually-hidden">{t('entities.channels.channelSettings')}</span>
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={handleOpen('removing')}>{t('actions.remove')}</Dropdown.Item>
-          <Dropdown.Item onClick={handleOpen('renaming')}>{t('actions.rename')}</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-  };
-
-  return removable ? renderDropdown() : renderBtn();
-};
+}) => (removable
+  ? (
+    <ButtonWithDropdown handleOpen={handleOpen}>
+      <ButtonWithoutDropdown handleSetActive={handleSetActive} name={name} variant={variant} />
+    </ButtonWithDropdown>
+  )
+  : <ButtonWithoutDropdown handleSetActive={handleSetActive} name={name} variant={variant} />);
 
 const renderModal = ({ type }) => {
   if (!type) {
