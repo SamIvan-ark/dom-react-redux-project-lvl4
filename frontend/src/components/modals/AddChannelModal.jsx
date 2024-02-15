@@ -54,7 +54,7 @@ const AddChannel = () => {
       handleClose();
       toasts.success(t('processes.channelCreated'));
     }
-  }, [isSuccess, t]);
+  }, [isSuccess]);
 
   const inputRef = useRef();
 

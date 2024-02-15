@@ -55,7 +55,7 @@ const SignupForm = () => {
         inputRef.current.select();
       }
     }
-  }, [isError, error, isUsernameCollision, t]);
+  }, [isError, isUsernameCollision]);
 
   return (
     <Form

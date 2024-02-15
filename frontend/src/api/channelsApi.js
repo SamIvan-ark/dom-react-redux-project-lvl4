@@ -33,8 +33,12 @@ export const channels = createApi({
         method: 'DELETE',
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        await queryFulfilled;
-        dispatch(messagesApi.util.invalidateTags(['Messages']));
+        try {
+          await queryFulfilled;
+          dispatch(messagesApi.util.invalidateTags(['Messages']));
+        } catch (err) {
+          console.log(err);
+        }
       },
     }),
   }),

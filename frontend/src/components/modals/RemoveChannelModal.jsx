@@ -25,7 +25,7 @@ const RemoveChannelModal = () => {
       handleClose();
       toasts.success(t('processes.channelRemoved'));
     }
-  }, [isSuccess, t]);
+  }, [isSuccess]);
 
   return (
     <Modal centered onHide={() => handleClose()} show>

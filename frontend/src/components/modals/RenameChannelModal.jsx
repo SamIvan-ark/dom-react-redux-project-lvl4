@@ -64,7 +64,7 @@ const RenameChannelModal = () => {
       handleClose();
       toasts.success(t('processes.channelRenamed'));
     }
-  }, [isSuccess, t]);
+  }, [isSuccess]);
 
   return (
     <Modal centered onHide={() => handleClose()} show>

@@ -10,7 +10,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { openModal, setActive } from '../../slices/uiSlice';
-import i18next from '../../utils/i18next';
 import getModal from '../modals';
 
 const ChannelButton = ({
@@ -26,19 +25,21 @@ const ChannelButton = ({
       {name}
     </Button>
   );
-
-  const renderDropdown = () => (
-    <Dropdown as={ButtonGroup} className="d-flex dropdown btn-group">
-      {renderBtn()}
-      <Dropdown.Toggle id="dropdown-split-basic" split variant="light">
-        <span className="visually-hidden">{i18next.t('entities.channels.channelSettings')}</span>
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={handleOpen('removing')}>{i18next.t('actions.remove')}</Dropdown.Item>
-        <Dropdown.Item onClick={handleOpen('renaming')}>{i18next.t('actions.rename')}</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
+  const renderDropdown = () => {
+    const { t } = useTranslation();
+    return (
+      <Dropdown as={ButtonGroup} className="d-flex dropdown btn-group">
+        {renderBtn()}
+        <Dropdown.Toggle id="dropdown-split-basic" split variant="light">
+          <span className="visually-hidden">{t('entities.channels.channelSettings')}</span>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={handleOpen('removing')}>{t('actions.remove')}</Dropdown.Item>
+          <Dropdown.Item onClick={handleOpen('renaming')}>{t('actions.rename')}</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
 
   return removable ? renderDropdown() : renderBtn();
 };

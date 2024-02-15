@@ -42,7 +42,7 @@ const LoginForm = () => {
         inputRef.current.select();
       }
     }
-  }, [isError, error, isAuthFailed, t]);
+  }, [isError, isAuthFailed]);
   return (
     <Form
       className="col-12 col-md-6 mt-3 mt-mb-0"
