@@ -9,8 +9,8 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useGetChannelsQuery } from '../../../api/channelsApi';
 import { openModal, setActive } from '../../../slices/uiSlice';
 import getModal from '../../modals';
+import ButtonWithDropdown from './ButtonWithDropdown';
 import ButtonWithoutDropdown from './ButtonWithoutDropdown';
-import ButtonWithDropdown from './Dropdown';
 
 const ChannelButton = ({
   name,
